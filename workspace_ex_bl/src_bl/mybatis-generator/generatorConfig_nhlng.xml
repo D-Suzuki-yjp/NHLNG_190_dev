@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC
+  "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<classPathEntry location="C:/EX/UI/wildfly-16.0.0.Final/standalone/deployments/common_module/postgresql-42.2.5.jar" />
+	<context id="AccessControlTables" targetRuntime="MyBatis3">
+		<!-- 生成ファイルに出力されるコメント設定 -->
+		<commentGenerator>
+			<!-- suppressDate::  日付・時刻をコメントに、  true: 入れない、  false: 入れる -->
+			<property name="suppressDate" value="true" />
+			<property name="dateFormat" value="yyyy-MM-dd" />
+			<!-- <property name="dateFormat" value="yyyy-MM-dd'T'HH:mm:ss.SSSXXX" /> -->
+		</commentGenerator>
+
+		<!-- JDBC -->
+		<jdbcConnection driverClass="org.postgresql.Driver"
+		                connectionURL="jdbc:postgresql://localhost:5432/looponex_core"
+		                userId="postgres"
+		                password="lng">
+		</jdbcConnection>
+
+		<!-- 生成ファイル設定（パッケージ・ファイルパス） -->
+		<!-- <TableName>.java, <TableName>Example.java -->
+		<javaModelGenerator  targetPackage="job.mybaits.entity" targetProject="../WEB-INF/src" />
+		<!-- <TableName>Mapper.xml -->
+		<sqlMapGenerator     targetPackage="job.mybaits.mapper" targetProject="../WEB-INF/src" />
+		<!-- <TableName>Mapper.java -->
+		<javaClientGenerator targetPackage="job.mybaits.mapper" targetProject="../WEB-INF/src" type="XMLMAPPER" />
+
+		<!-- DB・テーブル -->
+		<!--
+		<table schema="access_control" tableName="%" />
+		-->
+		<table schema="public" tableName="m_communication" />
+		<table schema="public" tableName="m_looponex_settings" />
+		<table schema="public" tableName="m_subsystem" />
+		<table schema="public" tableName="m_subsystem_opc" />
+		<table schema="public" tableName="slg_algo_master" />
+		<table schema="public" tableName="slg_algorism_kind_group_master" />
+		<table schema="public" tableName="slg_algorism_kind_master" />
+		<table schema="public" tableName="slg_collect_group_master" />
+		<table schema="public" tableName="slg_current_data" />
+		<table schema="public" tableName="slg_current_trend" />
+		<table schema="public" tableName="slg_day_history" />
+		<table schema="public" tableName="slg_history_group_master" />
+		<table schema="public" tableName="slg_hour_history" />
+		<table schema="public" tableName="slg_latest_data_entry_info" />
+		<table schema="public" tableName="slg_logging_kind_master" />
+		<table schema="public" tableName="slg_minute_history" />
+		<table schema="public" tableName="slg_month_history" />
+		<table schema="public" tableName="slg_restoration_current_data" />
+		<table schema="public" tableName="slg_tag_master" />
+		<table schema="public" tableName="slg_year_history" />
+		<table schema="public" tableName="system_specific_data" />
+		<!--<table schema="public" tableName="cmm_auto_print" />
+		<table schema="public" tableName="cmm_burn_spd" />
+		<table schema="public" tableName="cmm_calc" />
+		<table schema="public" tableName="cmm_gpa_const" />
+		<table schema="public" tableName="cmm_input" />
+		<table schema="public" tableName="cmm_item" />
+		<table schema="public" tableName="cmm_jis_const" />-->
+		<!--<table schema="public" tableName="cmm_message_cat" />
+		<table schema="public" tableName="cmm_message_def" />
+		<table schema="public" tableName="cmm_message_tag" />-->
+		<!--<table schema="public" tableName="cmm_screen" />
+		<table schema="public" tableName="cmm_screen_name" />
+		<table schema="public" tableName="cmt_ap_stat" />
+		<table schema="public" tableName="cmt_close_day" />
+		<table schema="public" tableName="cmt_close_hour" />
+		<table schema="public" tableName="cmt_close_mon" />
+		<table schema="public" tableName="cmt_com_stat" />-->
+		<!--<table schema="public" tableName="cmt_message" />-->
+		<!--<table schema="public" tableName="cmt_sync_info" />
+		<table schema="public" tableName="cmt_system_stat" />
+		<table schema="public" tableName="cmt_tag_val" />
+		<table schema="public" tableName="exm_ext_com" />
+		<table schema="public" tableName="stm_dens_corr" />
+		<table schema="public" tableName="stm_tank" />-->
+	</context>
+</generatorConfiguration>

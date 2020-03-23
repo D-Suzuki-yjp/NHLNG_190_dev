@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- 参考：http://www.mybatis.org/mybatis-3/ja/configuration.html -->
+<configuration>
+	<environments default="document_builder">
+		
+		<!-- アクセスコントロールのマスタ -->
+		<environment id="access_control">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<!-- フレームワークデフォルト -->
+				<property name="driver" value="biz.grandsight.ex.ui.jdbc.sqlite.JDBC"/>
+				<property name="url" value="mst/access_control.db3"/>
+				
+				<!-- SQLiteへの任意のファイルパスでの接続の例 -->
+				<!--   url: 先頭に"jdbc:sqlite:"を付け、ファイルパスを続ける。 -->
+				<!--
+				<property name="driver" value="org.sqlite.JDBC"/>
+				<property name="url" value="jdbc:sqlite:C:/EX/UI/wildfly-10.1.0.Final/standalone/deployments/UI.war/mst/access_control.db3"/>
+				-->
+				
+				<!-- 他DBへのJDBC接続の例 -->
+				<!--   以下の例はMySQLでの場合 -->
+				<!--
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/access_control"/>
+				<property name="username" value="xxxxx"/>
+				<property name="password" value="xxxxxxxxxx"/>
+				-->
+			</dataSource>
+			
+			<!-- データソースでの接続の例 -->
+			<!--
+			<dataSource type="JNDI">
+				<property name="data_source" value="java:jboss/datasources/ExampleDS"/>
+			</dataSource>
+			-->
+		</environment>
+		
+		<!-- ファイルアップロードのアクセスコントロールのマスタ -->
+		<environment id="file_upload">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<!-- フレームワークデフォルト -->
+				<property name="driver" value="biz.grandsight.ex.ui.jdbc.sqlite.JDBC"/>
+				<property name="url" value="mst/file_upload.db3"/>
+			</dataSource>
+		</environment>
+		
+		<!-- 画面ビルダのマスタ -->
+		<environment id="document_builder">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="org.postgresql.Driver"/>
+				<property name="url" value="mst/fw_mst.db3"/>
+			</dataSource>
+		</environment>
+		
+		<!-- ポスグレおためし -->
+		<environment id="nhlng_dbaccess">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="org.postgresql.Driver"/>
+				<property name="url" value="jdbc:postgresql://localhost:5432/looponex_core"/>
+				<property name="user" value="postgres"/>
+				<property name="password" value="lng"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- マッピングXMLの所在 -->
+	<mappers>
+		<package name="biz.grandsight.ex.ui.ac.io.mybatis"/>
+		<package name="biz.grandsight.ex.ui.bl.io.mybatis"/>
+		<package name="biz.grandsight.ex.ui.fileupload.io.mybatis"/>
+	</mappers>
+</configuration>
