@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="src_bl">
+    <property environment="env"/>
+    <property name="TOMCAT_HOME" value="../../pleiades/tomcat/7"/>
+    <property name="ECLIPSE_HOME" value="../../pleiades/eclipse/"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="src_bl.classpath">
+        <pathelement location="WEB-INF/classes"/>
+        <pathelement location="ant/lib_additional/cdi-api-1.2.jar"/>
+        <pathelement location="${TOMCAT_HOME}/lib/annotations-api.jar"/>
+        <pathelement location="${TOMCAT_HOME}/lib/el-api.jar"/>
+        <pathelement location="${TOMCAT_HOME}/lib/jasper.jar"/>
+        <pathelement location="${TOMCAT_HOME}/lib/jsp-api.jar"/>
+        <pathelement location="${TOMCAT_HOME}/lib/servlet-api.jar"/>
+        <pathelement location="WEB-INF/lib/castor-0.9.7-xml.jar"/>
+        <pathelement location="WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
+        <pathelement location="WEB-INF/lib/commons-codec-1.10.jar"/>
+        <pathelement location="WEB-INF/lib/commons-collections4-4.1.jar"/>
+        <pathelement location="WEB-INF/lib/commons-dbutils-1.7.jar"/>
+        <pathelement location="WEB-INF/lib/commons-fileupload-1.3.3.jar"/>
+        <pathelement location="WEB-INF/lib/commons-io-2.5.jar"/>
+        <pathelement location="WEB-INF/lib/commons-lang-2.6.jar"/>
+        <pathelement location="WEB-INF/lib/commons-lang3-3.5.jar"/>
+        <pathelement location="WEB-INF/lib/commons-logging-1.2.jar"/>
+        <pathelement location="WEB-INF/lib/curvesapi-1.04.jar"/>
+        <pathelement location="WEB-INF/lib/freesia_ui_common.jar"/>
+        <pathelement location="WEB-INF/lib/fw_audittrail_api.jar"/>
+        <pathelement location="WEB-INF/lib/fw_audittrail_cdi.jar"/>
+        <pathelement location="WEB-INF/lib/gb_msr.jar"/>
+        <pathelement location="WEB-INF/lib/gb_rsr.jar"/>
+        <pathelement location="WEB-INF/lib/gb_sfr.jar"/>
+        <pathelement location="WEB-INF/lib/gb_util.jar"/>
+        <pathelement location="WEB-INF/lib/gb-opc-3.02.jar"/>
+        <pathelement location="WEB-INF/lib/isv_if.jar"/>
+        <pathelement location="WEB-INF/lib/jsonic-1.3.10.jar"/>
+        <pathelement location="WEB-INF/lib/jsoup-1.11.2.jar"/>
+        <pathelement location="WEB-INF/lib/log4j-1.2.17.jar"/>
+        <pathelement location="WEB-INF/lib/mybatis-3.4.2.jar"/>
+        <pathelement location="WEB-INF/lib/poi-3.17.jar"/>
+        <pathelement location="WEB-INF/lib/poi-ooxml-3.17.jar"/>
+        <pathelement location="WEB-INF/lib/poi-ooxml-schemas-3.17.jar"/>
+        <pathelement location="WEB-INF/lib/poi-scratchpad-3.17.jar"/>
+        <pathelement location="WEB-INF/lib/shiro-core-1.3.2.jar"/>
+        <pathelement location="WEB-INF/lib/shiro-web-1.3.2.jar"/>
+        <pathelement location="WEB-INF/lib/slf4j-api-1.7.25.jar"/>
+        <pathelement location="WEB-INF/lib/slf4j-log4j12-1.7.25.jar"/>
+        <pathelement location="WEB-INF/lib/sqlite-jdbc-3.16.1.jar"/>
+        <pathelement location="WEB-INF/lib/xercesImpl-2.11.0.SP5.jar"/>
+        <pathelement location="WEB-INF/lib/xmlbeans-2.6.0.jar"/>
+        <pathelement location="WEB-INF/lib/xtpd.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="WEB-INF/classes"/>
+        <copy includeemptydirs="false" todir="WEB-INF/classes">
+            <fileset dir="WEB-INF/src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="WEB-INF/classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="WEB-INF/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="WEB-INF/src"/>
+            <classpath refid="src_bl.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+</project>
