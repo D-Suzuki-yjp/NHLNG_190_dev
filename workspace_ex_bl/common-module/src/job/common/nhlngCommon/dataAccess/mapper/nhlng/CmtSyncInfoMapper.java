@@ -1,9 +1,11 @@
 package job.common.nhlngCommon.dataAccess.mapper.nhlng;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import job.common.nhlngCommon.dataAccess.entity.nhlng.CmtSyncInfo;
 import job.common.nhlngCommon.dataAccess.entity.nhlng.CmtSyncInfoExample;
-import org.apache.ibatis.annotations.Param;
 
 public interface CmtSyncInfoMapper {
     /**
@@ -61,4 +63,32 @@ public interface CmtSyncInfoMapper {
      * @mbg.generated
      */
     int updateByExample(@Param("record") CmtSyncInfo record, @Param("example") CmtSyncInfoExample example);
+
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param tableName  テーブル名
+	 * @return CmtSyncInfo 等値化情報
+	 */
+    CmtSyncInfo selectByPrimaryKey(@Param("tableName") String tableName);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * updateByPrimaryKeySelective
+	 * @param record  等値化情報
+	 * @return int update件数
+	 */
+	int updateByPrimaryKeySelective(CmtSyncInfo record);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param tableName  テーブル名
+	 * @return int delete件数
+	 */
+	int deleteByPrimaryKey(String tableName);
 }

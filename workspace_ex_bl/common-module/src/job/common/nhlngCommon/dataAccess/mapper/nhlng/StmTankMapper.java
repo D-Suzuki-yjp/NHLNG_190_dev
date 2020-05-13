@@ -1,9 +1,12 @@
 package job.common.nhlngCommon.dataAccess.mapper.nhlng;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import job.common.nhlngCommon.dataAccess.entity.nhlng.StmTank;
 import job.common.nhlngCommon.dataAccess.entity.nhlng.StmTankExample;
-import org.apache.ibatis.annotations.Param;
 
 public interface StmTankMapper {
     /**
@@ -61,4 +64,33 @@ public interface StmTankMapper {
      * @mbg.generated
      */
     int updateByExample(@Param("record") StmTank record, @Param("example") StmTankExample example);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param tankNo  タンクNO
+	 * @param lvlGaugeFrom  液面FROM
+	 * @return StmTank タンクマスタ
+	 */
+    StmTank selectByPrimaryKey(@Param("tankNo") int tankNo,@Param("lvlGaugeFrom") BigDecimal lvlGaugeFrom);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * updateByPrimaryKeySelective
+	 * @param record  タンクマスタ
+	 * @return int update件数
+	 */
+	int updateByPrimaryKeySelective(StmTank record);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param tankNo  タンクNO
+	 * @param lvlGaugeFrom  液面FROM
+	 * @return int delete件数
+	 */
+	int deleteByPrimaryKey(int tankNo, BigDecimal lvlGaugeFrom);
 }

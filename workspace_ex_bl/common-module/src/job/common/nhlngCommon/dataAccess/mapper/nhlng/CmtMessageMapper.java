@@ -84,7 +84,7 @@ public interface CmtMessageMapper {
 	 * @param msgCat  メッセージカテゴリ
 	 * @return CmtMessage メッセージデータ
 	 */
-	CmtMessage selectByPrimaryKey(String msgId, String msgCat);
+	CmtMessage selectByPrimaryKey(@Param("seqNo") Integer seqNo, @Param("msgCat") String msgCat);
 
 	/**
 	 * @author D.Suzuki
@@ -94,7 +94,7 @@ public interface CmtMessageMapper {
 	 * @param msgCat  メッセージカテゴリ
 	 * @return CmtMessage メッセージデータ
 	 */
-	CmtMessage selectByPrimaryKeyBetweenDB(String msgId, String msgCat);
+	CmtMessage selectByPrimaryKeyBetweenDB(@Param("seqNo") Integer seqNo,@Param("msgCat") String msgCat);
 
 	/**
 	 * @author D.Suzuki
@@ -122,7 +122,7 @@ public interface CmtMessageMapper {
 	 * @param msgCat  メッセージカテゴリ
 	 * @return int delete件数
 	 */
-	int deleteByPrimaryKey(String msgCat);
+	int deleteByPrimaryKey(@Param("seqNo") Integer seqNo, @Param("msgCat") String msgCat);
 
 	/**
 	 * @author D.Suzuki
@@ -131,6 +131,6 @@ public interface CmtMessageMapper {
 	 * @param record  メッセージタグ出力マスタ
 	 * @return int update件数
 	 */
-	int updateByPrimaryKeySelective(CmtMessage record);
+	int updateByPrimaryKeySelective(@Param("record") CmtMessage record);
 
 }

@@ -1,9 +1,12 @@
 package job.common.nhlngCommon.dataAccess.mapper.nhlng;
 
+import java.math.BigDecimal;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import job.common.nhlngCommon.dataAccess.entity.nhlng.StmDensCorr;
 import job.common.nhlngCommon.dataAccess.entity.nhlng.StmDensCorrExample;
-import org.apache.ibatis.annotations.Param;
 
 public interface StmDensCorrMapper {
     /**
@@ -61,4 +64,31 @@ public interface StmDensCorrMapper {
      * @mbg.generated
      */
     int updateByExample(@Param("record") StmDensCorr record, @Param("example") StmDensCorrExample example);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param densFrom  液密度FROM
+	 * @return StmDensCorr 液密度補正量マスタ
+	 */
+    StmDensCorr selectByPrimaryKey(@Param("densFrom") BigDecimal densFrom);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * updateByPrimaryKeySelective
+	 * @param record  液密度補正量マスタ
+	 * @return int update件数
+	 */
+	int updateByPrimaryKeySelective(StmDensCorr record);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param densFrom  液密度FROM
+	 * @return int delete件数
+	 */
+	int deleteByPrimaryKey(BigDecimal densFrom);
 }

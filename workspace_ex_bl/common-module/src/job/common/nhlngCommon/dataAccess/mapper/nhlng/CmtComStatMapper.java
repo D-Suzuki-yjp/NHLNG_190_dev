@@ -1,9 +1,11 @@
 package job.common.nhlngCommon.dataAccess.mapper.nhlng;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import job.common.nhlngCommon.dataAccess.entity.nhlng.CmtComStat;
 import job.common.nhlngCommon.dataAccess.entity.nhlng.CmtComStatExample;
-import org.apache.ibatis.annotations.Param;
 
 public interface CmtComStatMapper {
     /**
@@ -61,4 +63,33 @@ public interface CmtComStatMapper {
      * @mbg.generated
      */
     int updateByExample(@Param("record") CmtComStat record, @Param("example") CmtComStatExample example);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param sccServerName  SCCサーバ名
+	 * @param comHostName  通信ホスト名
+	 * @return CmtComStat 通信状態
+	 */
+    CmtComStat selectByPrimaryKey(@Param("sccServerName") String sccServerName,@Param("comHostName") String comHostName);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * updateByPrimaryKeySelective
+	 * @param record  通信状態
+	 * @return int update件数
+	 */
+	int updateByPrimaryKeySelective(CmtComStat record);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param sccServerName  SCCサーバ名
+	 * @param comHostName  通信ホスト名
+	 * @return int delete件数
+	 */
+	int deleteByPrimaryKey(String sccServerName, String comHostName);
 }
