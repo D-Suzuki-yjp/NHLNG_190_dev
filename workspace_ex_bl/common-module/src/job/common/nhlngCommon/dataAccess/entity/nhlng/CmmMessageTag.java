@@ -65,7 +65,7 @@ public class CmmMessageTag {
      *
      * @mbg.generated
      */
-    private Short deleteFlag;
+    private Integer deleteFlag;
 
     /**
      *
@@ -228,7 +228,7 @@ public class CmmMessageTag {
      *
      * @mbg.generated
      */
-    public Short getDeleteFlag() {
+    public Integer getDeleteFlag() {
         return deleteFlag;
     }
 
@@ -240,7 +240,7 @@ public class CmmMessageTag {
      *
      * @mbg.generated
      */
-    public void setDeleteFlag(Short deleteFlag) {
+    public void setDeleteFlag(Integer deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
 

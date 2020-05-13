@@ -17,7 +17,7 @@ public class CmmInput {
      *
      * @mbg.generated
      */
-    private Short historyKind;
+    private Integer historyKind;
 
     /**
      *
@@ -35,7 +35,7 @@ public class CmmInput {
      *
      * @mbg.generated
      */
-    private Short inputType;
+    private Integer inputType;
 
     /**
      *
@@ -78,7 +78,7 @@ public class CmmInput {
      *
      * @mbg.generated
      */
-    public Short getHistoryKind() {
+    public Integer getHistoryKind() {
         return historyKind;
     }
 
@@ -90,7 +90,7 @@ public class CmmInput {
      *
      * @mbg.generated
      */
-    public void setHistoryKind(Short historyKind) {
+    public void setHistoryKind(Integer historyKind) {
         this.historyKind = historyKind;
     }
 
@@ -126,7 +126,7 @@ public class CmmInput {
      *
      * @mbg.generated
      */
-    public Short getInputType() {
+    public Integer getInputType() {
         return inputType;
     }
 
@@ -138,7 +138,7 @@ public class CmmInput {
      *
      * @mbg.generated
      */
-    public void setInputType(Short inputType) {
+    public void setInputType(Integer inputType) {
         this.inputType = inputType;
     }
 
