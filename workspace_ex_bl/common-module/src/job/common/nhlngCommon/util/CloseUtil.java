@@ -631,7 +631,7 @@ public class CloseUtil {
 	 * @return List<CurrentDataDto> <タグNo,値,収集日時>リスト
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List<NhTagDataDto> nhDayCloseInPrintRead(final List<List<String>> logicNameList, final Date date) {
+	public static List<NhTagDataDto> nhDayCloseInPrintRead(final List<String> repDivList, final Date date) {
 
 		// 処理開始ログ
 		String[] param = { new Object() {
@@ -642,7 +642,7 @@ public class CloseUtil {
 		List<NhTagDataDto> nhTagDataDtoList = new ArrayList();
 
 		// NHタグマスタテーブルをタグ論理名で検索した結果を取得
-		List<Map<CmmTagMasterVDao.COLUMNS, Object>> cmtTagValLsit = TagUtil.selectCmtTagMasterByLogicalName(logicNameList);
+		List<Map<CmmTagMasterVDao.COLUMNS, Object>> cmtTagValLsit = TagUtil.selectCmtTagMasterForPrint(repDivList);
 
 		// 取得結果からNH日締データ読込共通関数に渡すパラメータのタグNoリストを作成
 		List<String> tagList = new ArrayList();

@@ -163,6 +163,8 @@ public class LoopOnExCoreUtil {
 
 		//瞬時データ書込用パラメータ作成
 		List<TagData> tagDataList = new ArrayList();
+		Date date = new Date();
+		date = DateUtil.moldYYYYMMDDHHmm(date);
 		TagData tagData;
 		for(Map<CmtTagValDao.COLUMNS, Object> cmtTagVal : cmtTagValLsit){
 			tagData = new TagData();
@@ -177,6 +179,7 @@ public class LoopOnExCoreUtil {
 				// CALフラグ有効の場合はタグデータテーブルの定数をセット
 				tagData.setTagValue((String) cmtTagVal.get(CmtTagValDao.COLUMNS.TAG_DATA));
 			}
+			tagData.setCollectDateTime(date);
 			tagDataList.add(tagData);
 			cmtTagVal = null;
 			tagData = null;

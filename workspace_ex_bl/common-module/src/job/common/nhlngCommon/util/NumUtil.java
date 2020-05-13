@@ -1,6 +1,7 @@
 package job.common.nhlngCommon.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -375,6 +376,61 @@ public class NumUtil {
 
         return fl;
 
+    }
+
+    /**
+     * 丸め共通処理(String TO String)
+     *
+     * @param String 丸め対象値
+     * @param int dp
+     * @param int 丸め種別(0:DPで丸めて四捨五入,1:DPで偶数丸め,2:DPで小数に変換)
+     * @return String 丸め処理後の値
+     */
+    public static String RoundOnString(final String targetValue, final int dp, final int roundType) {
+    	BigDecimal val = new BigDecimal(targetValue);
+    	switch(roundType){
+    	case 0:
+    		// DPで丸めて四捨五入
+    		val = val.setScale(dp, RoundingMode.HALF_UP);
+    		break;
+    	case 1:
+    		// DPで偶数丸め
+    		val = val.setScale(dp, RoundingMode.HALF_EVEN);
+    		break;
+    	case 2:
+    		// DPで小数に変換
+    		val = val.divide(BigDecimal.valueOf(Math.pow(10, dp)),dp,RoundingMode.HALF_UP); ;
+    		break;
+    	}
+    	String resultVal = val.toString();
+        return resultVal;
+    }
+
+    /**
+     * 丸め共通処理(BigDecimal TO BigDecimal)
+     *
+     * @param String 丸め対象値
+     * @param int dp
+     * @param int 丸め種別(0:DPで丸めて四捨五入,1:DPで偶数丸め,2:DPで小数に変換)
+     * @return String 丸め処理後の値
+     */
+    public static BigDecimal RoundOnNumeric(final BigDecimal targetValue, final int dp, final int roundType) {
+    	BigDecimal val = targetValue;
+    	switch(roundType){
+    	case 0:
+    		// DPで丸めて四捨五入
+    		val = val.setScale(dp, RoundingMode.HALF_UP);
+    		break;
+    	case 1:
+    		// DPで偶数丸め
+    		val = val.setScale(dp, RoundingMode.HALF_EVEN);
+    		break;
+    	case 2:
+    		// DPで小数に変換
+    		val = val.divide(BigDecimal.valueOf(Math.pow(10, dp)),dp,RoundingMode.HALF_UP);
+    		break;
+    	}
+        return val;
     }
 
     // // 判定する桁数は一ケタ多い

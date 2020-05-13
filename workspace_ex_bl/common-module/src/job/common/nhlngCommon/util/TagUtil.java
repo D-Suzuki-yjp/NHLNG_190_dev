@@ -92,6 +92,35 @@ public class TagUtil {
 	}
 
 	/**
+	 * 帳票区分によるNHタグマスタテーブル検索結果を返す<br>
+	 * @param repDivList 帳票区分リスト
+	 * @return List<Map<CmtTagValDao.COLUMNS, Object>>
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static List<Map<CmmTagMasterVDao.COLUMNS, Object>> selectCmtTagMasterForPrint(final List<String> repDivList) {
+
+		// 処理開始ログ
+		String[] param = { new Object() {
+		}.getClass().getEnclosingMethod().getName()};
+		OutPutLogs.outPutLogs("CMN", "001", param);
+
+		List<Map<CmmTagMasterVDao.COLUMNS, Object>> cmtTagValLsit = new ArrayList();
+
+			SqlSession session = selectDb.dbAcssece("nhlng");
+			try{
+				cmtTagValLsit = CmmTagMasterVDao.selectCmtTagMasterForPrint(session, repDivList);
+			}catch(RuntimeException e){
+				throw(e);
+			} finally {
+				session.close();
+			}
+
+		// 処理終了ログ
+		OutPutLogs.outPutLogs("CMN", "002", param);
+		return cmtTagValLsit;
+	}
+
+	/**
 	 * 複数tagNoによるタグデータテーブル検索結果を返す<br>
 	 * @param tagNoList タグNoリスト
 	 * @return List<Map<CmtTagValDao.COLUMNS, Object>>
