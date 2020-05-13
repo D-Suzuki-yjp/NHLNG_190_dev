@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Converter;
-import biz.grandsight.ex.util.Validator;
 import job.common.nhlngCommon.dataAccess.entity.nhlng.CmmMessageCat;
 import job.common.nhlngCommon.dataAccess.entity.nhlng.CmmMessageCatExample;
 import job.common.nhlngCommon.dataAccess.mapper.nhlng.CmmMessageCatMapper;
@@ -18,11 +17,11 @@ import job.common.nhlngCommon.dataAccess.mapper.nhlng.CmmMessageCatMapper;
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
  * --------------------------------------------------------------------------
- * R0.01.01 2020/02/27 30042453/D.Suzuki         初版
+ * R0.01.01 2020/03/24 30042453/D.Suzuki         初版
  * [END OF MODIFICATION HISTORY]
  * ==========================================================================
  *
- * CmtMessageDao メッセージカテゴリマスタDAO
+ * CmmMessageCatDao メッセージカテゴリマスタDAO
  * @author D.Suzuki
  */
 public class CmmMessageCatDao {
@@ -32,7 +31,7 @@ public class CmmMessageCatDao {
 	============================================*/
 
 	/** 表示順カラム名 */
-	private static final String MSGCAT_COLUMN_NAME = COLUMNS.MSGCAT.toString();
+	private static final String MSGCAT_COLUMN_NAME = COLUMNS.MSG_CAT.toString();
 
 	/** テーブル名 */
 	public static final String TABLE_NAME;
@@ -40,36 +39,9 @@ public class CmmMessageCatDao {
 	/** カラム名を表す変数 */
 	public static enum COLUMNS {
 		/** メッセージカテゴリ */
-		MSGCAT("msg_cat"),
+		MSG_CAT,
 		/** カテゴリ名 */
-		CATNAME,
-		/** 最終更新者 */
-		LASTUPDUSER,
-		/** 最終更新日時 */
-		LASTUPDDTIME,
-		/** 削除フラグ */
-		DELETEFLAG,;
-
-		private final String msg_cat;
-
-		private COLUMNS() {
-			this.msg_cat = this.name();
-		}
-
-		private COLUMNS(String msg_cat) {
-			this.msg_cat = msg_cat;
-		}
-
-
-		/**
-		 * カラム名
-		 *
-		 * @return カラム名
-		 */
-		@Override
-		public String toString() {
-			return this.msg_cat;
-		}
+		CAT_NAME;
 	}
 
 	static {
@@ -99,21 +71,21 @@ public class CmmMessageCatDao {
 	============================================*/
 
 	/*
-	private static void convertMapListToModelList(final List<Map<COLUMNS, Object>> mapList, final List<Users> objectList) throws InstantiationException, IllegalAccessException {
+	private static void convertMapListToModelList(final List<Map<COLUMNS, Object>> mapList, final List<CmmMessageCat> objectList) throws InstantiationException, IllegalAccessException {
 		if (mapList == null) { return; }
 		for (Map<COLUMNS, Object> map : mapList) {
-			Users object = new Users();
+			CmmMessageCat object = new CmmMessageCat();
 			convertMapToModel(map, object);
 			objectList.add(object);
 		}
 	}
-	*/
 
 	private static void convertMapToModel(final Map<COLUMNS, Object> map, final CmmMessageCat object) {
 		if (map == null) { return; }
-		object.setMsgCat((String) map.get(COLUMNS.MSGCAT));
-		object.setCatName((String) map.get(COLUMNS.CATNAME));
+		object.setMsgCat((String) map.get(COLUMNS.MSG_CAT));
+		object.setCatName((String) map.get(COLUMNS.CAT_NAME));
 	}
+	*/
 
 	private static void convertModelListToMapList(final List<CmmMessageCat> objectList, final List<Map<COLUMNS, Object>> mapList) {
 		if (objectList == null) { return; }
@@ -127,40 +99,40 @@ public class CmmMessageCatDao {
 	private static void convertModelToMap(final CmmMessageCat object, final Map<COLUMNS, Object> data) {
 		if (object == null) { return; }
 		if (object.getMsgCat() != null) {
-			data.put(COLUMNS.MSGCAT, object.getMsgCat());
+			data.put(COLUMNS.MSG_CAT, object.getMsgCat());
 		}
 		if (object.getCatName() != null) {
-			data.put(COLUMNS.CATNAME, object.getCatName());
+			data.put(COLUMNS.CAT_NAME, object.getCatName());
 		}
 	}
 
-	private static CmmMessageCatExample makeEqualToMatchingExample(final Map<COLUMNS, String> searchingOption) {
+	private static CmmMessageCatExample makeEqualToMatchingExample(final Map<COLUMNS, Object> searchingOption) {
 		// WHERE clause
 		CmmMessageCatExample example = new CmmMessageCatExample();
 		if (searchingOption.size() > 0) {
-			if (searchingOption.containsKey(COLUMNS.MSGCAT)) {
-				String value = searchingOption.get(COLUMNS.MSGCAT);
+			if (searchingOption.containsKey(COLUMNS.MSG_CAT)) {
+				String value = (String) searchingOption.get(COLUMNS.MSG_CAT);
 				example.createCriteria().andMsgCatEqualTo(value);
 			}
-			if (searchingOption.containsKey(COLUMNS.CATNAME)) {
-				String value = searchingOption.get(COLUMNS.CATNAME);
+			if (searchingOption.containsKey(COLUMNS.CAT_NAME)) {
+				String value = (String) searchingOption.get(COLUMNS.CAT_NAME);
 				example.createCriteria().andCatNameEqualTo(value);
 			}
 		}
 		return example;
 	}
 
-	private static CmmMessageCatExample makePartialMatchingExample(final Map<COLUMNS, String> searchingOption) {
+	private static CmmMessageCatExample makePartialMatchingExample(final Map<COLUMNS, Object> searchingOption) {
 		// WHERE clause
 		CmmMessageCatExample example = new CmmMessageCatExample();
 		if (searchingOption.size() > 0) {
-			if (searchingOption.containsKey(COLUMNS.MSGCAT)) {
-				String value = Converter.buildPartialMatchStringInSQL(searchingOption.get(COLUMNS.MSGCAT));
-				example.createCriteria().andMsgCatLike(value);
+			if (searchingOption.containsKey(COLUMNS.MSG_CAT)) {
+				String value1 = Converter.buildPartialMatchStringInSQL((String) searchingOption.get(COLUMNS.MSG_CAT));
+				example.createCriteria().andMsgCatLike(value1);
 			}
-			if (searchingOption.containsKey(COLUMNS.CATNAME)) {
-				String value = Converter.buildPartialMatchStringInSQL(searchingOption.get(COLUMNS.CATNAME));
-				example.createCriteria().andCatNameLike(value);
+			if (searchingOption.containsKey(COLUMNS.CAT_NAME)) {
+				String value2 = Converter.buildPartialMatchStringInSQL((String) searchingOption.get(COLUMNS.CAT_NAME));
+				example.createCriteria().andCatNameLike(value2);
 			}
 		}
 		return example;
@@ -171,9 +143,9 @@ public class CmmMessageCatDao {
 	 * @param id
 	 * @return
 	 */
-	public static long countByPrimaryKey(final SqlSession session, final String id) {
+	public static long countByPrimaryKey(final SqlSession session, final String msgCat) {
 		CmmMessageCatExample example = new CmmMessageCatExample();
-		example.createCriteria().andMsgCatEqualTo(id);
+		example.createCriteria().andMsgCatEqualTo(msgCat);
 		return count(session, example);
 	}
 
@@ -182,7 +154,7 @@ public class CmmMessageCatDao {
 	 * @param id
 	 * @return
 	 */
-	public static long countEqualToMatching(final SqlSession session, final Map<COLUMNS, String> searchingOption) {
+	public static long countEqualToMatching(final SqlSession session, final Map<CmmMessageCatDao.COLUMNS, Object> searchingOption) {
 		CmmMessageCatExample example = makeEqualToMatchingExample(searchingOption);
 		return count(session, example);
 	}
@@ -192,7 +164,7 @@ public class CmmMessageCatDao {
 	 * @param searchingOption
 	 * @return
 	 */
-	public static long countPartialMatching(final SqlSession session, final Map<COLUMNS, String> searchingOption) {
+	public static long countPartialMatching(final SqlSession session, final Map<CmmMessageCatDao.COLUMNS, Object> searchingOption) {
 		CmmMessageCatExample example = makePartialMatchingExample(searchingOption);
 		return count(session, example);
 	}
@@ -216,18 +188,18 @@ public class CmmMessageCatDao {
 	 * @param id
 	 * @return
 	 */
-	public static Map<COLUMNS, Object> selectByPrimaryKey(final SqlSession session, final String cat) {
+	public static Map<CmmMessageCatDao.COLUMNS, Object> selectByPrimaryKey(final SqlSession session, final String msgCat) {
 		CmmMessageCatMapper mapper = session.getMapper(CmmMessageCatMapper.class);
-		CmmMessageCat record = mapper.selectByPrimaryKey(cat);
+		CmmMessageCat record = mapper.selectByPrimaryKey(msgCat);
 
 		Map<COLUMNS, Object> result = new HashMap<>();
 		convertModelToMap(record, result);
 		return result;
 	}
 
-	public static Map<COLUMNS, Object> selectByPrimaryKeyBetweenDB(final SqlSession session, final String cat) {
+	public static Map<CmmMessageCatDao.COLUMNS, Object> selectByPrimaryKeyBetweenDB(final SqlSession session, final String msgCat) {
 		CmmMessageCatMapper mapper = session.getMapper(CmmMessageCatMapper.class);
-		CmmMessageCat record = mapper.selectByPrimaryKeyBetweenDB(cat);
+		CmmMessageCat record = mapper.selectByPrimaryKeyBetweenDB(msgCat);
 
 		Map<COLUMNS, Object> result = new HashMap<>();
 		convertModelToMap(record, result);
@@ -239,7 +211,7 @@ public class CmmMessageCatDao {
 	 * @param searchingOption
 	 * @return
 	 */
-	public static List<Map<COLUMNS, Object>> selectEqualToMatching(final SqlSession session, final Map<COLUMNS, String> searchingOption) {
+	public static List<Map<CmmMessageCatDao.COLUMNS, Object>> selectEqualToMatching(final SqlSession session, final Map<CmmMessageCatDao.COLUMNS, Object> searchingOption) {
 		CmmMessageCatExample example = makeEqualToMatchingExample(searchingOption);
 		return select(session, example);
 	}
@@ -249,7 +221,7 @@ public class CmmMessageCatDao {
 	 * @param searchingOption
 	 * @return
 	 */
-	public static List<Map<COLUMNS, Object>> selectPartialMatching(final SqlSession session, final Map<COLUMNS, String> searchingOption) {
+	public static List<Map<CmmMessageCatDao.COLUMNS, Object>> selectPartialMatching(final SqlSession session, final Map<CmmMessageCatDao.COLUMNS, Object> searchingOption) {
 		CmmMessageCatExample example = makePartialMatchingExample(searchingOption);
 		return select(session, example);
 	}
@@ -258,12 +230,12 @@ public class CmmMessageCatDao {
 	 * @param session
 	 * @return
 	 */
-	public static List<Map<COLUMNS, Object>> selectAllRecord(final SqlSession session) {
+	public static List<Map<CmmMessageCatDao.COLUMNS, Object>> selectAllRecord(final SqlSession session) {
 		CmmMessageCatExample example = new CmmMessageCatExample();
 		return select(session, example);
 	}
 
-	private static List<Map<COLUMNS, Object>> select(final SqlSession session, final CmmMessageCatExample example) {
+	private static List<Map<CmmMessageCatDao.COLUMNS, Object>> select(final SqlSession session, final CmmMessageCatExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(MSGCAT_COLUMN_NAME);
 
@@ -276,40 +248,4 @@ public class CmmMessageCatDao {
 		convertModelListToMapList(recordList, result);
 		return result;
 	}
-
-	public static int insert(final SqlSession session, final Map<COLUMNS, Object> data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		String id = (String) data.get(COLUMNS.MSGCAT);
-		Validator.requireNonNullAndNonEmpty(id, "id");
-
-		// Make data.
-		CmmMessageCat record = new CmmMessageCat();
-		convertMapToModel(data, record);
-
-		// Insert.
-		CmmMessageCatMapper mapper = session.getMapper(CmmMessageCatMapper.class);
-		return mapper.insertSelective(record);
-	}
-
-	public static int updateByPrimaryKey(final SqlSession session, final Map<COLUMNS, Object> data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		String id = (String) data.get(COLUMNS.MSGCAT);
-		Validator.requireNonNullAndNonEmpty(id, "id");
-
-		// Make data.
-		CmmMessageCat record = new CmmMessageCat();
-		convertMapToModel(data, record);
-
-		// Update.
-		CmmMessageCatMapper mapper = session.getMapper(CmmMessageCatMapper.class);
-		return mapper.updateByPrimaryKeySelective(record);
-	}
-
-	public static int deleteByPrimaryKey(final SqlSession session, final String id) {
-		CmmMessageCatMapper mapper = session.getMapper(CmmMessageCatMapper.class);
-		return mapper.deleteByPrimaryKey(id);
-	}
-
 }

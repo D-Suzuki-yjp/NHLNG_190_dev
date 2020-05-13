@@ -1,6 +1,5 @@
 package job.common.nhlngCommon.dataAccess.dao.nhlng;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
-import biz.grandsight.ex.util.Validator;
+import biz.grandsight.ex.util.Converter;
 import job.common.nhlngCommon.dataAccess.entity.nhlng.CmmMessageTag;
 import job.common.nhlngCommon.dataAccess.entity.nhlng.CmmMessageTagExample;
 import job.common.nhlngCommon.dataAccess.mapper.nhlng.CmmMessageTagMapper;
@@ -18,7 +17,7 @@ import job.common.nhlngCommon.dataAccess.mapper.nhlng.CmmMessageTagMapper;
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
  * --------------------------------------------------------------------------
- * R0.01.01 2020/02/27 30042453/D.Suzuki         初版
+ * R0.01.01 2020/03/24 30042453/D.Suzuki         初版
  * [END OF MODIFICATION HISTORY]
  * ==========================================================================
  *
@@ -32,7 +31,7 @@ public class CmmMessageTagDao {
 	============================================*/
 
 	/** 表示順カラム名 */
-	private static final String TAGVAL_COLUMN_NAME = COLUMNS.SEQNO.toString();
+	private static final String MSGID_COLUMN_NAME = COLUMNS.MSG_ID.toString();
 
 	/** テーブル名 */
 	public static final String TABLE_NAME;
@@ -40,34 +39,13 @@ public class CmmMessageTagDao {
 	/** カラム名を表す変数 */
 	public static enum COLUMNS {
 		/** メッセージID */
-		MSGID,
+		MSG_ID,
 		/** シーケンスNO */
-		SEQNO("seq_no"),
+		SEQ_NO,
 		/** タグNO */
-		TAGNO,
+		TAG_NO,
 		/** タグ値 */
-		TAGVAL,;
-
-		private final String seq_no;
-
-		private COLUMNS() {
-			this.seq_no = this.name();
-		}
-
-		private COLUMNS(String seq_no) {
-			this.seq_no = seq_no;
-		}
-
-
-		/**
-		 * カラム名
-		 *
-		 * @return カラム名
-		 */
-		@Override
-		public String toString() {
-			return this.seq_no;
-		}
+		TAG_VAL;
 	}
 
 	static {
@@ -97,23 +75,23 @@ public class CmmMessageTagDao {
 	============================================*/
 
 	/*
-	private static void convertMapListToModelList(final List<Map<COLUMNS, Object>> mapList, final List<Users> objectList) throws InstantiationException, IllegalAccessException {
+	private static void convertMapListToModelList(final List<Map<COLUMNS, Object>> mapList, final List<CmmMessageTag> objectList) throws InstantiationException, IllegalAccessException {
 		if (mapList == null) { return; }
 		for (Map<COLUMNS, Object> map : mapList) {
-			Users object = new Users();
+			CmmMessageTag object = new CmmMessageTag();
 			convertMapToModel(map, object);
 			objectList.add(object);
 		}
 	}
-	*/
 
 	private static void convertMapToModel(final Map<COLUMNS, Object> map, final CmmMessageTag object) {
 		if (map == null) { return; }
-		object.setMsgId((String) map.get(COLUMNS.MSGID));
-		object.setSeqNo((Integer) map.get(COLUMNS.SEQNO));
-		object.setTagNo((String) map.get(COLUMNS.TAGNO));
-		object.setTagVal((BigDecimal) map.get(COLUMNS.TAGVAL));
+		object.setMsgId((String) map.get(COLUMNS.MSG_ID));
+		object.setSeqNo((Integer) map.get(COLUMNS.SEQ_NO));
+		object.setTagNo((String) map.get(COLUMNS.TAG_NO));
+		object.setTagVal((BigDecimal) map.get(COLUMNS.TAG_VAL));
 	}
+	*/
 
 	private static void convertModelListToMapList(final List<CmmMessageTag> objectList, final List<Map<COLUMNS, Object>> mapList) {
 		if (objectList == null) { return; }
@@ -127,38 +105,46 @@ public class CmmMessageTagDao {
 	private static void convertModelToMap(final CmmMessageTag object, final Map<COLUMNS, Object> data) {
 		if (object == null) { return; }
 		if (object.getMsgId() != null) {
-			data.put(COLUMNS.MSGID, object.getMsgId());
+			data.put(COLUMNS.MSG_ID, object.getMsgId());
 		}
 		if (object.getSeqNo() != null) {
-			data.put(COLUMNS.SEQNO, object.getSeqNo());
+			data.put(COLUMNS.SEQ_NO, object.getSeqNo());
 		}
 		if (object.getTagNo() != null) {
-			data.put(COLUMNS.TAGNO, object.getTagNo());
+			data.put(COLUMNS.TAG_NO, object.getTagNo());
 		}
 		if (object.getTagVal() != null) {
-			data.put(COLUMNS.TAGVAL, object.getTagVal());
+			data.put(COLUMNS.TAG_VAL, object.getTagVal());
 		}
 	}
 
-	private static CmmMessageTagExample makeEqualToMatchingExample(final Map<COLUMNS, Integer> searchingOption) {
+	private static CmmMessageTagExample makeEqualToMatchingExample(final Map<COLUMNS, Object> searchingOption) {
 		// WHERE clause
 		CmmMessageTagExample example = new CmmMessageTagExample();
 		if (searchingOption.size() > 0) {
-			if (searchingOption.containsKey(COLUMNS.SEQNO)) {
-				Integer value = searchingOption.get(COLUMNS.SEQNO);
-				example.createCriteria().andSeqNoEqualTo(value);
+			if (searchingOption.containsKey(COLUMNS.MSG_ID)) {
+				String value1 = (String) searchingOption.get(COLUMNS.MSG_ID);
+				example.createCriteria().andMsgIdEqualTo(value1);
+			}
+			if (searchingOption.containsKey(COLUMNS.SEQ_NO)) {
+				Integer value2 = (Integer) searchingOption.get(COLUMNS.SEQ_NO);
+				example.createCriteria().andSeqNoEqualTo(value2);
 			}
 		}
 		return example;
 	}
 
-	private static CmmMessageTagExample makePartialMatchingExample(final Map<COLUMNS, Integer> searchingOption) {
+	private static CmmMessageTagExample makePartialMatchingExample(final Map<COLUMNS, Object> searchingOption) {
 		// WHERE clause
 		CmmMessageTagExample example = new CmmMessageTagExample();
 		if (searchingOption.size() > 0) {
-			if (searchingOption.containsKey(COLUMNS.SEQNO)) {
-				Integer value = searchingOption.get(COLUMNS.SEQNO);
-				example.createCriteria().andSeqNoEqualTo(value);
+			if (searchingOption.containsKey(COLUMNS.MSG_ID)) {
+				String value1 = Converter.buildPartialMatchStringInSQL((String) searchingOption.get(COLUMNS.MSG_ID));
+				example.createCriteria().andMsgCatLike(value1);
+			}
+			if (searchingOption.containsKey(COLUMNS.SEQ_NO)) {
+				Integer value2 = (Integer) searchingOption.get(COLUMNS.SEQ_NO);
+				example.createCriteria().andSeqNoEqualTo(value2);
 			}
 		}
 		return example;
@@ -169,9 +155,9 @@ public class CmmMessageTagDao {
 	 * @param id
 	 * @return
 	 */
-	public static long countByPrimaryKey(final SqlSession session, final String id) {
+	public static long countByPrimaryKey(final SqlSession session, final String msgId) {
 		CmmMessageTagExample example = new CmmMessageTagExample();
-		example.createCriteria().andMsgIdEqualTo(id);
+		example.createCriteria().andMsgIdEqualTo(msgId);
 		return count(session, example);
 	}
 
@@ -180,7 +166,7 @@ public class CmmMessageTagDao {
 	 * @param id
 	 * @return
 	 */
-	public static long countEqualToMatching(final SqlSession session, final Map<COLUMNS, Integer> searchingOption) {
+	public static long countEqualToMatching(final SqlSession session, final Map<CmmMessageTagDao.COLUMNS, Object> searchingOption) {
 		CmmMessageTagExample example = makeEqualToMatchingExample(searchingOption);
 		return count(session, example);
 	}
@@ -190,7 +176,7 @@ public class CmmMessageTagDao {
 	 * @param searchingOption
 	 * @return
 	 */
-	public static long countPartialMatching(final SqlSession session, final Map<COLUMNS, Integer> searchingOption) {
+	public static long countPartialMatching(final SqlSession session, final Map<CmmMessageTagDao.COLUMNS, Object> searchingOption) {
 		CmmMessageTagExample example = makePartialMatchingExample(searchingOption);
 		return count(session, example);
 	}
@@ -214,9 +200,9 @@ public class CmmMessageTagDao {
 	 * @param id
 	 * @return
 	 */
-	public static Map<COLUMNS, Object> selectByPrimaryKey(final SqlSession session, final String id, final Integer seq, final String cat) {
+	public static Map<CmmMessageTagDao.COLUMNS, Object> selectByPrimaryKey(final SqlSession session, final String msgId, final Integer seqNo, final String msgCat) {
 		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
-		CmmMessageTag record = mapper.selectByPrimaryKey(id, seq, cat);
+		CmmMessageTag record = mapper.selectByPrimaryKey(msgId, seqNo, msgCat);
 
 		Map<COLUMNS, Object> result = new HashMap<>();
 		convertModelToMap(record, result);
@@ -228,7 +214,7 @@ public class CmmMessageTagDao {
 	 * @param id
 	 * @return
 	 */
-	public static List<Map<COLUMNS, Object>> selectByMsgId(final SqlSession session, final String msgId, final String msgCat) {
+	public static List<Map<CmmMessageTagDao.COLUMNS, Object>> selectByMsgId(final SqlSession session, final String msgId, final String msgCat) {
 		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
 		List<CmmMessageTag> recordList = mapper.selectByMsgId(msgId, msgCat);
 
@@ -237,21 +223,12 @@ public class CmmMessageTagDao {
 		return result;
 	}
 
-	public static Map<COLUMNS, Object> selectByPrimaryKeyBetweenDB(final SqlSession session, final String id, final Integer seq, final String cat) {
-		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
-		CmmMessageTag record = mapper.selectByPrimaryKeyBetweenDB(id, seq, cat);
-
-		Map<COLUMNS, Object> result = new HashMap<>();
-		convertModelToMap(record, result);
-		return result;
-	}
-
 	/**
 	 * @param session
 	 * @param searchingOption
 	 * @return
 	 */
-	public static List<Map<COLUMNS, Object>> selectEqualToMatching(final SqlSession session, final Map<COLUMNS, Integer> searchingOption) {
+	public static List<Map<CmmMessageTagDao.COLUMNS, Object>> selectEqualToMatching(final SqlSession session, final Map<CmmMessageTagDao.COLUMNS, Object> searchingOption) {
 		CmmMessageTagExample example = makeEqualToMatchingExample(searchingOption);
 		return select(session, example);
 	}
@@ -261,7 +238,7 @@ public class CmmMessageTagDao {
 	 * @param searchingOption
 	 * @return
 	 */
-	public static List<Map<COLUMNS, Object>> selectPartialMatching(final SqlSession session, final Map<COLUMNS, Integer> searchingOption) {
+	public static List<Map<CmmMessageTagDao.COLUMNS, Object>> selectPartialMatching(final SqlSession session, final Map<CmmMessageTagDao.COLUMNS, Object> searchingOption) {
 		CmmMessageTagExample example = makePartialMatchingExample(searchingOption);
 		return select(session, example);
 	}
@@ -270,14 +247,14 @@ public class CmmMessageTagDao {
 	 * @param session
 	 * @return
 	 */
-	public static List<Map<COLUMNS, Object>> selectAllRecord(final SqlSession session) {
+	public static List<Map<CmmMessageTagDao.COLUMNS, Object>> selectAllRecord(final SqlSession session) {
 		CmmMessageTagExample example = new CmmMessageTagExample();
 		return select(session, example);
 	}
 
-	private static List<Map<COLUMNS, Object>> select(final SqlSession session, final CmmMessageTagExample example) {
+	private static List<Map<CmmMessageTagDao.COLUMNS, Object>> select(final SqlSession session, final CmmMessageTagExample example) {
 		// ORDER BY clause
-		example.setOrderByClause(TAGVAL_COLUMN_NAME);
+		example.setOrderByClause(MSGID_COLUMN_NAME);
 
 		// Select.
 		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
@@ -288,40 +265,4 @@ public class CmmMessageTagDao {
 		convertModelListToMapList(recordList, result);
 		return result;
 	}
-
-	public static int insert(final SqlSession session, final Map<COLUMNS, Object> data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		String id = (String) data.get(COLUMNS.MSGID);
-		Validator.requireNonNullAndNonEmpty(id, "id");
-
-		// Make data.
-		CmmMessageTag record = new CmmMessageTag();
-		convertMapToModel(data, record);
-
-		// Insert.
-		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
-		return mapper.insertSelective(record);
-	}
-
-	public static int updateByPrimaryKey(final SqlSession session, final Map<COLUMNS, Object> data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		String id = (String) data.get(COLUMNS.MSGID);
-		Validator.requireNonNullAndNonEmpty(id, "id");
-
-		// Make data.
-		CmmMessageTag record = new CmmMessageTag();
-		convertMapToModel(data, record);
-
-		// Update.
-		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
-		return mapper.updateByPrimaryKeySelective(record);
-	}
-
-	public static int deleteByPrimaryKey(final SqlSession session, final String id) {
-		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
-		return mapper.deleteByPrimaryKey(id);
-	}
-
 }
