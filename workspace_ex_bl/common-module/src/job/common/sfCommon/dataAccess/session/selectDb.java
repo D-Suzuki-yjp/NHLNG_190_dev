@@ -1,7 +1,5 @@
 package job.common.sfCommon.dataAccess.session;
 
-import javax.enterprise.context.RequestScoped;
-
 import org.apache.ibatis.session.SqlSession;
 
 /**
@@ -22,7 +20,6 @@ public class selectDb {
 	 * @param dbName 接続先DB名
 	 * @return SqlSession
 	 */
-	@RequestScoped
 	public static SqlSession dbAcssece(String dbName) {
 
 		SqlSession session = null;

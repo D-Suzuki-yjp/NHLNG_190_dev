@@ -7,39 +7,38 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 
 import com.yse.gb.sf.frame.demand.servertask.ServerTask;
 
+import biz.grandsight.looponex.LoopOnExException;
 import biz.grandsight.looponex.user.api.TagDataManager;
+import biz.grandsight.looponex.user.api.model.TagData;
 import biz.grandsight.looponex.user.api.model.TagValue;
 import job.common.nhlngCommon.dataAccess.dao.nhlng.CmmMessageDefDao;
 import job.common.nhlngCommon.dataAccess.dao.nhlng.CmmMessageTagDao;
 import job.common.nhlngCommon.dataAccess.dao.nhlng.CmtMessageDao;
+import job.common.nhlngCommon.function.outPutLogs.OutPutLogs;
+import job.common.nhlngCommon.util.SystemUtil;
+import job.common.nhlngCommon.util.TagUtil;
 import job.common.sfCommon.dataAccess.session.selectDb;
-
 
 /**
  * ========================== MODIFICATION HISTORY ==========================
- * Release  Date       ID/Name                   Comment
+ * Release Date ID/Name Comment
  * --------------------------------------------------------------------------
- * R0.01.01 2020/02/27 30042453/D.Suzuki         初版
- * [END OF MODIFICATION HISTORY]
+ * R0.01.01 2020/02/27 30042453/D.Suzuki 初版 R0.01.02 2020/04/10
+ * 30042453/D.Suzuki DDC警報条件追加 [END OF MODIFICATION HISTORY]
  * ==========================================================================
  *
  * PutMessage メッセージ出力デマンドアプリケーション実行クラス
+ *
  * @author D.Suzuki
  * @see com.yse.gb.sf.frame.demand.servertask.ServerTask
  */
 @RequestScoped
 public class PutMessage implements ServerTask {
-
-	@Inject
-	TagDataManager TagDataManager;
-	@Inject
-	SqlSession session = selectDb.dbAcssece("nhlng");
 
 	public PutMessage() {
 
@@ -47,28 +46,30 @@ public class PutMessage implements ServerTask {
 
 	/**
 	 * メッセージ出力デマンドアプリケーション実行
-	 * @param arg0  デマンド呼出元からのparamList
+	 *
+	 * @param arg0
+	 *            デマンド呼出元からのparamList
 	 * @return null
 	 */
-	public Object execute(List arg0) throws Throwable {
+	public Object execute(@SuppressWarnings("rawtypes") List arg0) throws Throwable {
 
 		String msgId = arg0.get(0).toString();
 		String msgCat = arg0.get(1).toString();
-		String[] msgParams = {};
+		boolean absolute = (boolean) arg0.get(2);
 
-		if(3 <= arg0.size()){
-			msgParams = (arg0.get(2).toString()).split(",");
+		String[] msgParams = {};
+		if (4 <= arg0.size()) {
+			msgParams = (arg0.get(3).toString()).split(",");
 		}
 
-		PutMessageMain(msgId, msgCat, msgParams);
+		PutMessageMain(msgId, msgCat, absolute, msgParams);
 
-		session.close();
 		return null;
 	}
 
 	@Override
 	public void finalMethod() throws Throwable {
-		session.close();
+
 	}
 
 	@Override
@@ -78,39 +79,63 @@ public class PutMessage implements ServerTask {
 
 	/**
 	 * メッセージ出力メイン処理
-	 * @param MsgId  メッセージID
-	 * @param msgCat  メッセージカテゴリ
-	 * @param msgParams  埋込パラメータ
+	 *
+	 * @param MsgId
+	 *            メッセージID
+	 * @param msgCat
+	 *            メッセージカテゴリ
+	 * @param absolute
+	 *            無条件出力フラグ
+	 * @param msgParams
+	 *            埋込パラメータ
 	 * @return
 	 */
-	public void PutMessageMain(String MsgId, String msgCat, String[] msgParams) {
+	public void PutMessageMain(String msgId, String msgCat, boolean absolute, String[] msgParams) {
+
+		boolean alarmExistencs = false;
+		SqlSession session = selectDb.dbAcssece("nhlng");
 
 		// メッセージ定義取得処理呼出
-		Map<CmmMessageDefDao.COLUMNS, Object> CmmMessageDef = getMessageDef(MsgId, msgCat, msgParams);
-
-		// メッセージデータ情報書込処理呼出
-		putMessage(CmmMessageDef);
+		Map<CmmMessageDefDao.COLUMNS, Object> CmmMessageDef = getMessageDef(session, msgId, msgCat, msgParams);
 
 		// メッセージタグ出力処理
-		List<Integer> writeOPCResultCodeList = writeMessageTag(MsgId, msgCat);
+		List<Integer> writeOPCResultCodeList = writeMessageTag(session, msgId, msgCat, absolute);
+
 		for (Integer writeOPCResultCode : writeOPCResultCodeList) {
-			if (0 != writeOPCResultCode) {
+			if (666 == writeOPCResultCode) {
+				// 発報済の場合は発報済フラグをtrueにする
+				alarmExistencs = true;
+			} else if (0 != writeOPCResultCode) {
 				// メッセージタグ出力処理の戻り値が「0（正常終了）」以外の場合
-				// OPC書込異常ログ出力処理呼出
-				putMessage(outWriteOPCFailed(writeOPCResultCode, MsgId));
+				// DDC書込異常をログ出力
+				/** TODO ログIDのプロパティ化 */
+				String[] param = { msgId };
+				OutPutLogs.outPutLogs("CMN", "logId", param);
 			}
 		}
+
+		// 発報済でなければメッセージデータ情報書込処理呼出
+		if (!alarmExistencs) {
+			putMessage(session, CmmMessageDef);
+		}
+		// 最後にセッションクローズ
+		session.close();
 	}
 
 	/**
-	 * メッセージ出力メイン処理
-	 * @param MsgId  メッセージID
-	 * @param msgCat  メッセージカテゴリ
-	 * @param msgParams  埋込パラメータ
+	 * メッセージ定義取得処理
+	 *
+	 * @param session
+	 * @param MsgId
+	 *            メッセージID
+	 * @param msgCat
+	 *            メッセージカテゴリ
+	 * @param msgParams
+	 *            埋込パラメータ
 	 * @return CmmMessageDef メッセージ定義情報
 	 */
-	// メッセージ定義取得処理
-	private Map<CmmMessageDefDao.COLUMNS, Object> getMessageDef(String msgId, String msgCat, String[] msgParams) {
+	private Map<CmmMessageDefDao.COLUMNS, Object> getMessageDef(SqlSession session, String msgId, String msgCat,
+			String[] msgParams) {
 
 		// メッセージ定義情報テーブルのレコードを格納するobject
 		Map<CmmMessageDefDao.COLUMNS, Object> CmmMessageDef = new HashMap<CmmMessageDefDao.COLUMNS, Object>();
@@ -120,34 +145,118 @@ public class PutMessage implements ServerTask {
 
 			if (CmmMessageDef.isEmpty()) {
 				// テーブル検索結果が0件の場合は固定文言で警告文をセット
-				/** TODO メッセージ定義取得失敗時の固定文言はプロパティから取得 **/
-				CmmMessageDef.put(CmmMessageDefDao.COLUMNS.MSGID, "HO-GE");
-				CmmMessageDef.put(CmmMessageDefDao.COLUMNS.MSGCAT, "MSG");
-				CmmMessageDef.put(CmmMessageDefDao.COLUMNS.MSGKIND, "E");
-				CmmMessageDef.put(CmmMessageDefDao.COLUMNS.MSGTEXT, "const.hoge 存在しません：" + msgId + "," + msgCat);
+				/** TODO 検索結果0件のエラーはlog出力 **/
+
 			} else {
 				// 動的パラメータをメッセージに埋込
 				if (Objects.nonNull(msgParams)) {
-					String msgText = CmmMessageDef.get(CmmMessageDefDao.COLUMNS.MSGTEXT).toString();
+					String msgText = CmmMessageDef.get(CmmMessageDefDao.COLUMNS.MSG_TEXT).toString();
 					for (int i = 0; i < msgParams.length; i++) {
-						msgText = msgText.replace("$"+(i+1), msgParams[i]);
+						/** 置換用の"$"をプロパティ化 */
+						msgText = msgText.replace("$" + (i + 1), msgParams[i]);
 					}
-					CmmMessageDef.put(CmmMessageDefDao.COLUMNS.MSGTEXT, msgText);
-					session.commit();
+					CmmMessageDef.put(CmmMessageDefDao.COLUMNS.MSG_TEXT, msgText);
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			String[] param = { msgId };
+			/** TODO ログIDのプロパティ化 */
+			OutPutLogs.outPutLogs("CMN", "logId", param);
 		}
 		return CmmMessageDef;
 	}
 
 	/**
-	 * メッセージ出力メイン処理
-	 * @param cmmMessageDef  メッセージ定義情報
-	 * @return
+	 * メッセージタグ出力処理
+	 *
+	 * @param session
+	 * @param MsgId
+	 *            メッセージID
+	 * @param msgCat
+	 *            メッセージカテゴリ
+	 * @param absolute
+	 *            無条件出力フラグ
+	 * @return writeSubsystemOPCResultCodeList OPC書込結果コードリスト
 	 */
-	private void putMessage(Map<CmmMessageDefDao.COLUMNS, Object> cmmMessageDef) {
+	private List<Integer> writeMessageTag(SqlSession session, String msgId, String msgCat, boolean absolute) {
+		// tagNoとlcodeをマッピングしたグローバル変数を取得
+		Map<String, String> tagNoToLcodeMap = TagUtil.tagNoToLcodeMap;
+		// 書き込み結果コードを格納する変数を初期化
+		List<Integer> writeSubsystemOPCResultCodeList = new ArrayList();
+		// DBからメッセージタグ情報を取得するMapのListを初期化
+		List<Map<CmmMessageTagDao.COLUMNS, Object>> CmmMessageTagList = new ArrayList();
+		// DBからメッセージタグ情報を取得
+		try {
+			CmmMessageTagList = CmmMessageTagDao.selectByMsgId(session, msgId, msgCat);
+		} catch (Exception e) {
+			/** TODO 例外処理 **/
+		}
+		// メッセージタグ情報検索結果の件数を確認する
+		if (0 == CmmMessageTagList.size()) {
+			/** TODO APIのリターンコードはマスタを定数に持つようにする **/
+			// 検索結果0件ならばOPCタグ書き込み結果に「0（正常終了）」をセット
+			writeSubsystemOPCResultCodeList.add(0);
+		} else {
+			// 検索結果1件以上ならば全てのメッセージタグ情報をOPCタグに書込む
+			TagDataManager tagDataManager = new TagDataManager();
+			boolean alarmExistencs = false;
+			List<TagValue> tagValueList = new ArrayList();
+			TagValue tagValue;
+			for (Map<CmmMessageTagDao.COLUMNS, Object> CmmMessageTag : CmmMessageTagList) {
+				// 無条件出力フラグがtrueでなければ発報済チェック
+				TagData tagData = new TagData();
+				try {
+					/** TODO サブシステムIDをプロパティ化 */
+					tagData = tagDataManager.readCoreTagData(
+							tagNoToLcodeMap.get(((String) CmmMessageTag.get(CmmMessageTagDao.COLUMNS.TAG_NO))));
+				} catch (LoopOnExException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+				if (((CmmMessageTag.get(CmmMessageTagDao.COLUMNS.TAG_VAL)).toString()).equals(tagData.getTagValue())) {
+					alarmExistencs = true;
+				}
+				// 取得したメッセージタグ情報をLoopOnExAPIのパラメータとして送るListに詰替え
+				tagValue = new TagValue();
+				tagValue.setTagItemName(
+						tagNoToLcodeMap.get(((String) CmmMessageTag.get(CmmMessageTagDao.COLUMNS.TAG_NO))));// タグNO
+				tagValue.setValue(CmmMessageTag.get(CmmMessageTagDao.COLUMNS.TAG_VAL).toString());// タグ値
+				tagValueList.add(tagValue);
+			}
+			// OPCタグ書込(LoopOnExAPI)
+			// ステータス変動が無い場合は出力しない
+			if (alarmExistencs && !absolute) {
+				writeSubsystemOPCResultCodeList.add(666);
+			} else {
+				// 自身が主系の場合のみDDCに出力
+				/** TODO 主従状態定数のプロパティ化 */
+				if (1 == (SystemUtil.getMasterStat().getMasterStatOneself())) {
+					try {
+						/** TODO サブシステムIDをプロパティ化 */
+						// LoopOnExAPI
+						writeSubsystemOPCResultCodeList = tagDataManager.writeSubsystemTagData("STN0123", tagValueList);
+					} catch (Exception e) {
+						// API実行で例外となった場合は「-9（例外終了）」をリターン
+						/** TODO APIのリターンコード定数のプロパティ化 **/
+						writeSubsystemOPCResultCodeList.add(-9);
+					}
+				} else {
+					writeSubsystemOPCResultCodeList.add(0);
+				}
+			}
+		}
+		// OPCタグ書込み結果をmainにリターン
+		return writeSubsystemOPCResultCodeList;
+	}
+
+	/**
+	 * メッセージデータ情報書込処理
+	 *
+	 * @param session
+	 * @param cmmMessageDef
+	 *            メッセージ定義情報
+	 */
+	private void putMessage(SqlSession session, Map<CmmMessageDefDao.COLUMNS, Object> cmmMessageDef) {
 		// CMT_MESSAGEにinsertするrecordをインスタンス
 		Map<CmtMessageDao.COLUMNS, Object> record = new HashMap<CmtMessageDao.COLUMNS, Object>();
 
@@ -161,97 +270,13 @@ public class PutMessage implements ServerTask {
 			session.commit();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+
+			session.rollback();
+			String[] param = { cmmMessageDef.get(CmmMessageDefDao.COLUMNS.MSG_ID).toString() };
+			/** TODO ログIDのプロパティ化 */
+			OutPutLogs.outPutLogs("CMN", "logId", param);
+		} finally {
+			session.close();
 		}
-	}
-
-	/**
-	 * メッセージ出力メイン処理
-	 * @param MsgId  メッセージID
-	 * @param msgCat  メッセージカテゴリ
-	 * @return writeSubsystemOPCResultCodeList OPC書込結果コードリスト
-	 */
-	private List<Integer> writeMessageTag(String MsgId, String msgCat) {
-		// 書き込み結果コードを格納する変数を初期化
-		List<Integer> writeSubsystemOPCResultCodeList = new ArrayList();
-		// DBからメッセージタグ情報を取得するMapのListを初期化
-		List<Map<CmmMessageTagDao.COLUMNS, Object>> CmmMessageTagList = new ArrayList();
-		// DBからメッセージタグ情報を取得
-		try {
-			CmmMessageTagList = CmmMessageTagDao.selectByMsgId(session, MsgId, msgCat);
-		} catch (Exception e) {
-			/** TODO 例外処理 **/
-		}
-		// メッセージタグ情報検索結果の件数を確認する
-		if (0 == CmmMessageTagList.size()) {
-			/** TODO APIのリターンコードはマスタを定数に持つようにする **/
-			// 検索結果0件ならばOPCタグ書き込み結果に「0（正常終了）」をセット
-			writeSubsystemOPCResultCodeList.add(0);
-		} else {
-			// 検索結果1件以上ならば全てのメッセージタグ情報をOPCタグに書込む
-			for (Map<CmmMessageTagDao.COLUMNS, Object> CmmMessageTag : CmmMessageTagList) {
-				// 取得したメッセージタグ情報をLoopOnExAPIのパラメータとして送るListに詰替え
-				List<TagValue> tagValueList = new ArrayList();
-				TagValue tagValue = new TagValue();
-				tagValue.setTagItemName(CmmMessageTag.get(CmmMessageTagDao.COLUMNS.TAGNO).toString());// タグNO
-				tagValue.setValue(CmmMessageTag.get(CmmMessageTagDao.COLUMNS.TAGVAL).toString());// タグ値
-				tagValueList.add(tagValue);
-				// OPCタグ書込(LoopOnExAPI)
-				try {
-					writeSubsystemOPCResultCodeList = TagDataManager.writeSubsystemTagData("subSystemId",
-							tagValueList);
-				} catch (Exception e) {
-					// API実行で例外となった場合は「-9（例外終了）」をリターン
-					/** TODO APIのリターンコードはマスタを定数に持つようにする **/
-					writeSubsystemOPCResultCodeList.add(-9);
-				}
-			}
-		}
-		// OPCタグ書込み結果をmainにリターン
-		return writeSubsystemOPCResultCodeList;
-	}
-
-	/**
-	 * メッセージ出力メイン処理
-	 * @param writeOPCResultCode  OPC書込結果コード
-	 * @param MsgId メッセージID
-	 * @return writeSubsystemOPCResultCodeList OPC書込結果コードリスト
-	 */
-	private Map<CmmMessageDefDao.COLUMNS, Object> outWriteOPCFailed(int writeOPCResultCode, String MsgId) {
-		/** TODO 文言はプロパティから取得 **/
-		String messageText = null;
-		Map<CmmMessageDefDao.COLUMNS, Object> record = new HashMap<CmmMessageDefDao.COLUMNS, Object>();
-		try {
-			switch (writeOPCResultCode) {
-			// 書き込み失敗
-			case -1:
-				messageText = "const.hoge1 書き込み失敗:" + MsgId;
-				break;
-
-			// 該当タグNoなし
-			case -2:
-				messageText = "const.hoge2 該当タグNoなし:" + MsgId;
-				break;
-
-			// Exception発生
-			case -9:
-				messageText = "const.hoge3 Exception発生:" + MsgId;
-				break;
-
-			default:
-				messageText = "const.hoge1 書き込み失敗:" + MsgId;
-			}
-			/** TODO 固定メッセージ定義作成 **/
-			record.put(CmmMessageDefDao.COLUMNS.MSGID, "HO-GE");
-			record.put(CmmMessageDefDao.COLUMNS.MSGCAT, "OPC");
-			record.put(CmmMessageDefDao.COLUMNS.MSGKIND, "E");
-			record.put(CmmMessageDefDao.COLUMNS.MSGTEXT, messageText);
-
-			/** TODO ログ出力共通クラスを追加 **/
-
-			putMessage(record);
-		} catch (Exception e) {
-			record.put(CmmMessageDefDao.COLUMNS.MSGTEXT, "const.hoge");
-		}
-		return record;
 	}
 }
