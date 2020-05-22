@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- 参考：http://www.mybatis.org/mybatis-3/ja/configuration.html -->
+<!-- Reference: http://www.mybatis.org/mybatis-3/ja/configuration.html -->
+<configuration>
+
+   <typeAliases>
+        <typeAlias alias="Page"
+            type="biz.grandsight.looponex.core.domain.model.Page" />
+    </typeAliases>
+
+    <plugins>
+        <plugin
+            interceptor="biz.grandsight.looponex.core.adapter.interceptor.PageInterceptor">
+            <property name="dialect" value="sqlite" />
+            <property name="pageSqlId" value=".*pageBy.*" />
+        </plugin>
+    </plugins>
+
+	<environments default="looponex_core">
+		<!-- サブシステム定義 -->
+		<!-- Subsystem definition -->
+		<environment id="looponex_core">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="org.postgresql.Driver"/>
+				<property name="url" value="jdbc:postgresql://localhost:5432/looponex_core"/>
+				<property name="username" value="looponexcore"/>
+				<property name="password" value="looponexcore"/>
+			</dataSource>
+		</environment>
+
+		<!-- サブシステム定義 (sqliteを使用する場合) -->
+		<!-- Subsystem definition (when using sqlite) -->
+		<!--
+		<environment id="looponex_core">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="org.sqlite.JDBC" />
+				<property name="url" value="jdbc:sqlite:/EX/LoopOnEX/database/CoreDB/M_SUBSYSTEM.db?busy_timeout=30000&amp;shared_cache=true&amp;read_uncommited=true&amp;journal_mode=DELETE"/>
+			</dataSource>
+		</environment>
+		 -->
+	</environments>
+
+	<!-- マッピングXMLの所在 -->
+	<!-- Location of mapping XML -->
+	<mappers>
+		<package name="biz.grandsight.looponex.core.adapter.mybatis" />
+	</mappers>
+</configuration>
