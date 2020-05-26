@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -26,13 +26,13 @@ import job.sfcommon.function.outputlogs.OutPutLogs;
  * SystemUtil システム管理ユーティリティ共通クラス<br>
  * * @author D.Suzuki
  */
-@ApplicationScoped
+@Dependent
 public class SystemUtil {
 
 	/**
 	 * 自身のhostnameグローバル変数 TODO 現環境のホスト名を固定している
 	 */
-	public static String hostName = "SCC-ENG01";
+	private static String hostName = "SCC-ENG01";
 
 	/**
 	 * 主従状態取得共通関数
@@ -82,12 +82,11 @@ public class SystemUtil {
 	}
 
 	/**
-	 * 警告:使用禁止<br>
 	 * 自身のサーバホスト名グローバル変数作成処理
 	 *
 	 * @throws Exception
 	 */
-	public static void getHostName() throws RuntimeException{
+	public void makeHostName() throws RuntimeException{
 
 		// 自身のhost情報取得
 		try {
@@ -103,5 +102,14 @@ public class SystemUtil {
 		} catch (UnknownHostException e1) {
 			/** TODO */
 		}
+	}
+
+	/**
+	 * 自身のサーバホスト名取得
+	 *
+	 * @throws Exception
+	 */
+	public static String getHostName() throws RuntimeException{
+		return hostName;
 	}
 }

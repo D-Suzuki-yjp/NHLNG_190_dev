@@ -9,8 +9,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import javax.enterprise.context.Dependent;
-
 import org.apache.commons.lang.time.DateUtils;
 
 
@@ -28,7 +26,6 @@ import org.apache.commons.lang.time.DateUtils;
  *
  * @author kumagai.
 */
-@Dependent
 public class DateUtil {
 
 	/** YYYYMMDDhhmmss */

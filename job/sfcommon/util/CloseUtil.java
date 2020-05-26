@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.enterprise.context.Dependent;
 
+import org.apache.ibatis.session.SqlSession;
+
 import job.sfcommon.dataaccess.dao.nhlng.CmtCloseMonDao;
 import job.sfcommon.dataaccess.entity.nhlng.CmtCloseDay;
 import job.sfcommon.dataaccess.entity.nhlng.CmtCloseHour;
@@ -31,12 +33,13 @@ public class CloseUtil {
 	/**
 	 * TODO スケルトン
 	 * 時締データ読込共通関数
+	 * @param session SQLセッション
 	 * @param fromDate 検索日時From
 	 * @param toDate 検索日時To
-	 * @return List<HourHistoryDto> <タグNo,値,収集日時>リスト
+	 * @return Map<String[],List<CmtCloseHour>> マップ<タグ論理名,リスト<タグNo,値,収集日時>>
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Map<Date,List<CmtCloseHour>> nhHourCloseRead(final Date fromDate, final Date toDate) throws RuntimeException{
+	public static Map<Date,List<CmtCloseHour>> nhHourCloseRead(SqlSession session, final Date fromDate, final Date toDate) throws RuntimeException{
 
 //		// 処理開始ログ
 //		String[] param = { new Object() {
@@ -65,10 +68,11 @@ public class CloseUtil {
 	/**
 	 * NH時締めデータ書込共通関数
 	 *  TODO スケルトン
+	 * @param session SQLセッション
 	 * @param List<CmtCloseHourDto> NH時締データリスト
 	 * @return boolean 書込み結果
 	 */
-	public static boolean nhHourCloseWrite(final List<CmtCloseHour> CmtCloseHourList) throws RuntimeException{
+	public static boolean nhHourCloseWrite(SqlSession session, final List<CmtCloseHour> CmtCloseHourList) throws RuntimeException{
 
 		// 処理開始ログ
 //		String[] param = { new Object() {
@@ -93,13 +97,11 @@ public class CloseUtil {
 	/**
 	 * 日締データ読込共通関数(論理名)
 	 *  TODO スケルトン
-	 * @param logicNameList タグNoリスト(論理名)
-	 * @param fromDate 検索日時From
-	 * @param toDate 検索日時To
-	 * @return List<HourHistoryDto> <タグNo,値,収集日時>リスト
+	 * @param logicNameList タグ論理名
+	 * @return Map<String[],List<CmtCloseDay>> マップ<タグ論理名,リスト<タグNo,値,収集日時>>
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Map<String, List<CmtCloseDay>> nhDayCloseReadByLogicalName(final List<String> logicNameList) throws RuntimeException{
+	public static Map<String, List<CmtCloseDay>> nhDayCloseReadByLogicalName(SqlSession session, final List<String> logicNameList) throws RuntimeException{
 
 //		// 処理開始ログ
 //		String[] param = { new Object() {
@@ -148,10 +150,11 @@ public class CloseUtil {
 	/**
 	 * NH日締めデータ書込共通関数
 	 *  TODO スケルトン
+	 * @param session SQLセッション
 	 * @param List<CmtCloseDayDto> NH日締データリスト
 	 * @return boolean 書込み結果
 	 */
-	public static boolean nhDayCloseWrite(final List<CmtCloseDay> cmtCloseDayList) throws RuntimeException{
+	public static boolean nhDayCloseWrite(SqlSession session, final List<CmtCloseDay> cmtCloseDayList) throws RuntimeException{
 
 //		// 処理開始ログ
 //		String[] param = { new Object() {
@@ -177,11 +180,12 @@ public class CloseUtil {
 
 	/**
 	 * NH日締めデータ書込共通関数
-	 *  TODO スケルトン
+	 *  TODO 要処理仕様再考
+	 * @param session SQLセッション
 	 * @param List<CmtCloseDayDto> NH日締データリスト
 	 * @return boolean 書込み結果
 	 */
-	public static boolean nhDayCloseWriteByLogicalName(final List<CmtCloseDayDto> cmtCloseDayDtoList) throws RuntimeException{
+	public static boolean nhDayCloseWriteByLogicalName(SqlSession session, final List<CmtCloseDayDto> cmtCloseDayDtoList) throws RuntimeException{
 
 		// 処理開始ログ
 //		String[] param = { new Object() {
@@ -237,13 +241,13 @@ public class CloseUtil {
 	/**
 	 * NH月締めデータ読込共通関数
 	 *  TODO スケルトン
-	 * @param tagNoList タグNoリスト
+	 * @param session SQLセッション
 	 * @param fromDate 検索条件From日時
 	 * @param toDate 検索条件To日時
 	 * @return List<CurrentDataDto> <タグNo,値,収集日時>リスト
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Map<Date, List<CmtCloseMon>> nhMonCloseRead(final Date fromDate, final Date toDate) throws RuntimeException{
+	public static Map<Date, List<CmtCloseMon>> nhMonCloseRead(SqlSession session, final Date fromDate, final Date toDate) throws RuntimeException{
 
 		// 処理開始ログ
 //		String[] param = { new Object() {
@@ -310,13 +314,14 @@ public class CloseUtil {
 	 * TODO スタブ状態
 	 * 月締データ読込共通関数(論理名)
 	 *  TODO スケルトン
-	 * @param logicNameList タグNoリスト(論理名)
+	 * @param session SQLセッション
+	 * @param logicNameList タグ論理名
 	 * @param fromDate 検索日時From
 	 * @param toDate 検索日時To
-	 * @return List<HourHistoryDto> <タグNo,値,収集日時>リスト
+	 * @return List<CmtCloseMonDto> <タグNo,値,収集日時>リスト
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List<CmtCloseMonDto> nhMonCloseReadByLogicalName(final List<String> logicNameList, final Date fromDate, final Date toDate) throws RuntimeException{
+	public static List<CmtCloseMonDto> nhMonCloseReadByLogicalName(SqlSession session, final List<String> logicNameList, final Date fromDate, final Date toDate) throws RuntimeException{
 
 		// 処理開始ログ
 //		String[] param = { new Object() {
@@ -379,11 +384,13 @@ public class CloseUtil {
 	/**
 	 * NH月締めデータ書込共通関数
 	 *  TODO スケルトン
+	 * @param session SQLセッション
 	 * @param List<CmtCloseMonDto> NH月締データリスト
+	 * @param LastUpdUser 最終更新者
 	 * @return boolean 書込み結果
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static boolean nhMonCloseWrite(final List<CmtCloseMon> cmtCloseMonDtoList, String LastUpdUser) throws RuntimeException{
+	public static boolean nhMonCloseWrite(SqlSession session, final List<CmtCloseMon> cmtCloseMonDtoList, String LastUpdUser) throws RuntimeException{
 
 //		// 処理開始ログ
 //		String[] param = { new Object() {
@@ -408,11 +415,13 @@ public class CloseUtil {
 	/**
 	 * 日締処理
 	 *  TODO スケルトン
+	 * @param session SQLセッション
 	 * @param Date targetDate 対象日時
+	 * @param LastUpdUser 最終更新者(日締処理class名)
 	 * @return boolean 処理結果
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static boolean execDayClose(final Date targetDate, final String className) throws RuntimeException{
+	public static boolean execDayClose(SqlSession session, final Date targetDate, final String className) throws RuntimeException{
 		// 処理開始ログ
 //		String[] param = { new Object() {
 //		}.getClass().getEnclosingMethod().getName()};

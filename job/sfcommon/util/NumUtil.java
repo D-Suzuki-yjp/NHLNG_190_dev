@@ -5,14 +5,11 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import javax.enterprise.context.Dependent;
-
 /**
  *
  * @author kumagai
  *
  */
-@Dependent
 public class NumUtil {
     /**
      * 数値のフォーマット変換(#,##0).

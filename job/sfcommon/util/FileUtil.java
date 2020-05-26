@@ -17,15 +17,12 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.enterprise.context.Dependent;
-
 /**
  * ファイル関連ユーティリティ.
  *
  * @author kumagai.
  *
  */
-@Dependent
 public final class FileUtil {
 	/** コンストラクタ. */
 	private FileUtil() { }

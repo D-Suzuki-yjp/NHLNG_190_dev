@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.enterprise.context.Dependent;
 
+import org.apache.ibatis.session.SqlSession;
+
 import job.sfcommon.dto.CurrentDataDto;
 import job.sfcommon.dto.HourHistoryDto;
 
@@ -26,6 +28,7 @@ public class LoopOnExCoreUtil {
 	/**
 	  * TODO スケルトン
 	 * 瞬時データ読込共通関数
+	 * LoopOnExAPIのみ使用しているためアプリケーションでのトランザクション管理不要
 	 * @param tagNoList タグNoリスト
 	 * @return List<CurrentDataDto> <タグNo,値,収集日時>リスト
 	 */
@@ -82,11 +85,12 @@ public class LoopOnExCoreUtil {
 	/**
 	 * TODO スケルトン
 	 * 瞬時データ読込共通関数（論理名）
-	 * @param logicNameList タグNoリスト(論理名)
-	 * @return List<CurrentDataDto> <タグNo,値,収集日時>リスト
+	 * @param session SQLセッション
+	 * @param logicNameList タグ論理名
+	 * @return Map<String[],List<CurrentDataDto>> マップ<タグ論理名,リスト<タグNo,値,収集日時>>
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Map<String[],List<CurrentDataDto>> slgCurrentDataReadByLogicalName(final List<String[]> logicNameList) throws RuntimeException{
+	public static Map<String[],List<CurrentDataDto>> slgCurrentDataReadByLogicalName(SqlSession session, final List<String[]> logicNameList) throws RuntimeException{
 
 		// 処理開始ログ
 //		String[] param = { new Object() {
@@ -115,11 +119,12 @@ public class LoopOnExCoreUtil {
 	/**
 	 * TODO スケルトン
 	 * 瞬時データ書込共通関数
+	 * @param session SQLセッション
 	 * @param List<CurrentDataDto> <タグNo,値,収集日時>リスト
 	 * @return boolean 更新結果
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static boolean slgCurrentDataWrite(final List<CurrentDataDto> CurrentDataDtoList) throws RuntimeException{
+	public static boolean slgCurrentDataWrite(SqlSession session, final List<CurrentDataDto> CurrentDataDtoList) throws RuntimeException{
 
 		// 処理開始ログ
 //		String[] param = { new Object() {
@@ -193,9 +198,8 @@ public class LoopOnExCoreUtil {
 	/**
 	 * TODO スケルトン
 	 * 時締データ(CoreDb)読込共通関数
-	 * @param tagNoList タグNoリスト
-	 * @param fromDate 検索日時From
-	 * @param toDate 検索日時To
+	 * LoopOnExAPIのみ使用しているためアプリケーションでのトランザクション管理不要
+	 * @param date 検索日時
 	 * @return List<HourHistoryDto> <タグNo,値,収集日時>リスト
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })

@@ -2,15 +2,12 @@ package job.sfcommon.util;
 
 import java.io.File;
 
-import javax.enterprise.context.Dependent;
-
 
 /**
  * ファイルの最終更新日時の降順でソートに使用します.<br>
  *
  * @author kumagai.
  */
-@Dependent
 public class DateDescFileWrapper extends FileWrapper{
 
 	/**

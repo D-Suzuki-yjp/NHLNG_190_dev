@@ -2,15 +2,12 @@ package job.sfcommon.util;
 
 import java.io.File;
 
-import javax.enterprise.context.Dependent;
-
 
 /**
  * ソート機能クラスの基底クラス.<br>
  *
  * @author kumagai.
  */
-@Dependent
 public abstract class FileWrapper implements Comparable<Object>{
 
 	/** File */

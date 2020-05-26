@@ -7,14 +7,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.enterprise.context.Dependent;
-
 /**
  * 文字列に関するユーティリティクラス.
  *
  * @author kumagai.
  */
-@Dependent
 public class StringUtil {
 	public static final Pattern P_I = Pattern.compile("[0-9]+");
 	public static final Pattern P_D = Pattern.compile("[0-9\\-\\.]+");

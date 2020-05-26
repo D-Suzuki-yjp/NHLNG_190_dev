@@ -33,21 +33,22 @@ public class TagUtil {
 	/**
 	 * tagNoとlcode読み替え用マッピンググローバル変数
 	 */
-	public static Map<String, String> tagNoToLcodeMap;
+	private static Map<String, String> tagNoToLcodeMap;
 
 	/**
 	 * lcodeとtagNo読み替え用マッピンググローバル変数
 	 */
-	public static Map<String, String> lcodeToTagNoMap;
+	private static Map<String, String> lcodeToTagNoMap;
 
 	/**
 	 * TODO スケルトン
 	 * 複数tagNoによるNHタグマスタテーブル検索結果を返す<br>
+	 * @param session SQLセッション
 	 * @param tagNoList タグNoリスト
-	 * @return List<Map<CmmTagMasterVDao.COLUMNS, Object>>
+	 * @return Map<String, CmmTagMasterV>
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Map<String, CmmTagMasterV> selectCmmTagMaster(final List<String> tagNoList) throws RuntimeException{
+	public static Map<String, CmmTagMasterV> selectCmmTagMaster(SqlSession session, final List<String> tagNoList) throws RuntimeException{
 /*
 		// 処理開始ログ
 		String[] param = { new Object() {
@@ -81,11 +82,12 @@ public class TagUtil {
 	/**
 	 * TODO スケルトン
 	 * 論理名によるNHタグマスタテーブル検索結果を返す<br>
-	 * @param tagNoList タグNoリスト
-	 * @return List<Map<CmtTagValDao.COLUMNS, Object>>
+	 * @param session SQLセッション
+	 * @param List<String[]> タグ論理名リスト
+	 * @return Map<String[], List<CmmTagMasterV>>
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Map<String[], List<CmmTagMasterV>> selectCmtTagMasterByLogicalName(final List<String[]> logicNameList) throws RuntimeException{
+	public static Map<String[], List<CmmTagMasterV>> selectCmtTagMasterByLogicalName(SqlSession session, final List<String[]> logicNameList) throws RuntimeException{
 /*
 		// 処理開始ログ
 		String[] param = { new Object() {
@@ -158,11 +160,12 @@ public class TagUtil {
 
 	/**
 	 * 複数tagNoによるタグデータテーブル検索結果を返す<br>
+	 * @param session SQLセッション
 	 * @param tagNoList タグNoリスト
-	 * @return List<Map<CmtTagValDao.COLUMNS, Object>>
+	 * @return List<CmtTagVal>
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static List<CmtTagVal> selectCmtTagVal(final List<String> tagNoList) throws RuntimeException{
+	public static List<CmtTagVal> selectCmtTagVal(SqlSession session, final List<String> tagNoList) throws RuntimeException{
 /*
 		// 処理開始ログ
 		String[] param = { new Object() {
@@ -190,11 +193,12 @@ public class TagUtil {
 
 	/**
 	 * 複数タグ論理名によるタグデータテーブル検索結果を返す<br>
-	 * @param tagNoList タグNoリスト
-	 * @return List<Map<CmtTagValDao.COLUMNS, Object>>
+	 * @param session SQLセッション
+	 * @param logicNameList タグ論理名リスト
+	 * @return Map<String[],List<CmtTagVal>>
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Map<String[],List<CmtTagVal>> selectCmtTagValByLogicalName(final List<String[]> logicNameList) throws RuntimeException{
+	public static Map<String[],List<CmtTagVal>> selectCmtTagValByLogicalName(SqlSession session, final List<String[]> logicNameList) throws RuntimeException{
 /*
 		// 処理開始ログ
 		String[] param = { new Object() {
@@ -281,19 +285,18 @@ public class TagUtil {
 	}
 
 	/**
-	 * 警告:使用禁止<br>
 	 * lcodeとtagNo読み替え用マッピングのグローバル変数作成処理
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void getTagNoToLcodeMap() throws RuntimeException{
+	public void makeTagNoToLcodeMap() throws RuntimeException{
 
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
 		OutPutLogs.outPutLogs("CMN", "001", param);
 
-		lcodeToTagNoMap = new HashMap();
 		tagNoToLcodeMap = new HashMap();
+		lcodeToTagNoMap = new HashMap();
 
 		List<CmmTagMasterV> cmmTagMasterVAll = new ArrayList();
 
@@ -308,11 +311,27 @@ public class TagUtil {
 			session.close();
 		}
 		for(CmmTagMasterV cmmTagMasterV : cmmTagMasterVAll){
-			lcodeToTagNoMap.put((cmmTagMasterV.getLcode()),cmmTagMasterV.getTagNo());
 			tagNoToLcodeMap.put(cmmTagMasterV.getTagNo(), cmmTagMasterV.getLcode());
+			lcodeToTagNoMap.put((cmmTagMasterV.getLcode()),cmmTagMasterV.getTagNo());
 		}
 		cmmTagMasterVAll = null;
 		// 処理終了ログ
 		OutPutLogs.outPutLogs("CMN", "002", param);
+	}
+
+	/**
+	 * tagNoとlcode読み替え用マップ取得
+	 * @return
+	 */
+	public static Map<String, String> getTagNoToLcodeMap(){
+		return tagNoToLcodeMap;
+	}
+
+	/**
+	 * lcodeとtagNo読み替え用マップ取得
+	 * @return
+	 */
+	public static Map<String, String> getLcodeToTagNoMap(){
+		return lcodeToTagNoMap;
 	}
 }

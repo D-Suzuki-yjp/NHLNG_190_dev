@@ -1,14 +1,11 @@
 package job.sfcommon.util;
 
-import javax.enterprise.context.ApplicationScoped;
-
 /**
  * 定数保持用クラス.
  *
  * @author kumagai.
  *
  */
-@ApplicationScoped
 public class ConstUtil {
 
 	/** コンストラクタ. */
