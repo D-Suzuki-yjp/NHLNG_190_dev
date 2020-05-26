@@ -2,7 +2,7 @@ package job.sfcommon.dataaccess.dao.nhlng;
 
 import java.util.List;
 
-import javax.enterprise.context.Dependent;
+
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -22,7 +22,7 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmAutoPrintMapper;
  *
  * @author D.Suzuki
  */
-@Dependent
+
 public class CmmAutoPrintDao {
 
 	/*--------------------------------------------

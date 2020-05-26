@@ -3,7 +3,7 @@ package job.sfcommon.dataaccess.dao.nhlng;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.enterprise.context.Dependent;
+
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -24,7 +24,7 @@ import job.sfcommon.dataaccess.mapper.nhlng.StmTankMapper;
  * StmTankDao タンクマスタDAO
  * @author D.Suzuki
  */
-@Dependent
+
 public class StmTankDao {
 
 	/*--------------------------------------------

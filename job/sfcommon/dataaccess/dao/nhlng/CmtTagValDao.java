@@ -3,7 +3,7 @@ package job.sfcommon.dataaccess.dao.nhlng;
 import java.util.List;
 import java.util.Objects;
 
-import javax.enterprise.context.Dependent;
+
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -23,7 +23,7 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmtTagValMapper;
  *
  * @author D.Suzuki
  */
-@Dependent
+
 public class CmtTagValDao {
 
 	/*--------------------------------------------

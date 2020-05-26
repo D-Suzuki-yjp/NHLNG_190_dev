@@ -3,7 +3,7 @@ package job.sfcommon.dataaccess.dao.nhlng;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.enterprise.context.Dependent;
+
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -25,7 +25,7 @@ import job.sfcommon.dataaccess.mapper.nhlng.StmDensCorrMapper;
  * StmDensCorrDao 液密度補正量マスタDAO
  * @author D.Suzuki
  */
-@Dependent
+
 public class StmDensCorrDao {
 
 	/*--------------------------------------------

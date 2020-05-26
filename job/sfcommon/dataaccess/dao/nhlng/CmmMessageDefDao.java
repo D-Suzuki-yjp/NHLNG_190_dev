@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.Dependent;
+
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -27,7 +27,7 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageDefMapper;
  * CmmMessageDefDao メッセージ定義マスタDAO
  * @author D.Suzuki
  */
-@Dependent
+
 public class CmmMessageDefDao {
 
 	/*--------------------------------------------

@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import javax.enterprise.context.Dependent;
+
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -25,7 +25,7 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseMonMapper;
  * CmtCloseMonDao NH月締データDAO
  * @author D.Suzuki
  */
-@Dependent
+
 public class CmtCloseMonDao{
 
 	/*--------------------------------------------

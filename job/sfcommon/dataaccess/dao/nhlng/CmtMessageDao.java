@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.Dependent;
+
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -27,7 +27,7 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmtMessageMapper;
  * CmtMessageDao メッセージデータDAO
  * @author D.Suzuki
  */
-@Dependent
+
 public class CmtMessageDao {
 
 	/*--------------------------------------------

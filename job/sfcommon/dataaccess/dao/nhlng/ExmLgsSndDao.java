@@ -2,7 +2,7 @@ package job.sfcommon.dataaccess.dao.nhlng;
 
 import java.util.List;
 
-import javax.enterprise.context.Dependent;
+
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -23,7 +23,7 @@ import job.sfcommon.dataaccess.mapper.nhlng.ExmLgsSndMapper;
  * ExmLgsSndDao LGS送信マスタDAO
  * @author D.Suzuki
  */
-@Dependent
+
 public class ExmLgsSndDao {
 
 	/*--------------------------------------------
