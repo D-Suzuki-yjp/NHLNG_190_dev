@@ -180,7 +180,7 @@ public class PutMessage implements ServerTask {
 	 */
 	private List<Integer> writeMessageTag(SqlSession session, String msgId, String msgCat, boolean absolute) {
 		// tagNoとlcodeをマッピングしたグローバル変数を取得
-		Map<String, String> tagNoToLcodeMap = TagUtil.tagNoToLcodeMap;
+		Map<String, String> tagNoToLcodeMap = TagUtil.getTagNoToLcodeMap();
 		// 書き込み結果コードを格納する変数を初期化
 		List<Integer> writeSubsystemOPCResultCodeList = new ArrayList();
 		// DBからメッセージタグ情報を取得するMapのListを初期化
