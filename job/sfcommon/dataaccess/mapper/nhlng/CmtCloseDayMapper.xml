@@ -423,9 +423,9 @@
   </insert>
   <insert id="dayClose">
   insert into public.cmt_close_day (close_dtime, tag_no, tag_data, qlty_cd, coll_dtime, last_upd_user, last_upd_dtime,delete_flag)
-  select cmt_close_day.close_dtime + '1 days', cmt_close_day.tag_no, 0,
+  select cmt_close_day.close_dtime + '1 days', cmt_close_day.tag_no, CASE WHEN TAG_LOGIC_NAME1 = 'ZERO_VAL' THEN '0' ELSE tag_data END,
          cmt_close_day.qlty_cd, cmt_close_day.coll_dtime + '1 days', #{className,jdbcType=TIMESTAMP}, now(),cmt_close_day.delete_flag
   from cmt_close_day inner join cmm_tag_master_v on cmt_close_day.tag_no = cmm_tag_master_v.tag_no
-  where close_dtime = #{targetDate,jdbcType=TIMESTAMP} and REPO_CALC_DIV = 'M' and TAG_LOGIC_NAME1 = 'ZERO_VAL';
+  where close_dtime = #{targetDate,jdbcType=TIMESTAMP} and REPO_CALC_DIV = 'M';
   </insert>
 </mapper>
