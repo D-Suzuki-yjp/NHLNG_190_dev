@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.enterprise.context.Dependent;
+
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -27,7 +27,7 @@ import job.sfcommon.dataaccess.mapper.looponexcore.SlgCurrentTrendMapper;
  * SlgCurrentTrendDao 瞬時トレンドDAO
  * @author D.Suzuki
  */
-@Dependent
+
 public class SlgCurrentTrendDao {
 
 	/*--------------------------------------------

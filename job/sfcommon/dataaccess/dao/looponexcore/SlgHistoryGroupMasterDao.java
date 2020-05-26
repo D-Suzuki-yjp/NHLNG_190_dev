@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.Dependent;
+
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -25,7 +25,7 @@ import job.sfcommon.dataaccess.mapper.looponexcore.SlgHistoryGroupMasterMapper;
  * SlgHistoryGroupMasterDao 締切グループマスタDAO
  * @author D.Suzuki
  */
-@Dependent
+
 public class SlgHistoryGroupMasterDao {
 
 	/*--------------------------------------------
