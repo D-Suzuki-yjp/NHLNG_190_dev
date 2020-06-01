@@ -12,7 +12,6 @@ import org.apache.ibatis.session.SqlSession;
 import job.sfcommon.dataaccess.dao.nhlng.CmtSystemStatDao;
 import job.sfcommon.dataaccess.entity.nhlng.CmtSystemStat;
 import job.sfcommon.dataaccess.entity.nhlng.CmtSystemStatExample;
-import job.sfcommon.dataaccess.session.SelectDb;
 import job.sfcommon.dto.MasterStatDto;
 import job.sfcommon.function.outputlogs.OutPutLogs;
 
@@ -32,7 +31,7 @@ public class SystemUtil {
 	/**
 	 * 自身のhostnameグローバル変数 TODO 現環境のホスト名を固定している
 	 */
-	private static String hostName = "SCC-ENG01";
+	private static String hostName;
 
 	/**
 	 * 主従状態取得共通関数
@@ -46,7 +45,7 @@ public class SystemUtil {
 	 * @return List<CurrentDataDto> <タグNo,値,収集日時>リスト
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static MasterStatDto getMasterStat() throws RuntimeException{
+	public static MasterStatDto getMasterStat(SqlSession session) throws RuntimeException{
 
 		// 処理開始ログ
 		String[] param = { new Object() {
@@ -57,14 +56,11 @@ public class SystemUtil {
 		List<CmtSystemStat> results = new ArrayList();
 
 		CmtSystemStatExample example = new CmtSystemStatExample();
-		// システム状態取得
-		SqlSession session = SelectDb.dbAcssece("nhlng");
+
 		try {
 			results = CmtSystemStatDao.select(session, example);
 		} catch (Exception e) {
 			throw (e);
-		} finally {
-			session.close();
 		}
 		// return用オブジェクトにラッパー
 		for (CmtSystemStat result : results) {
