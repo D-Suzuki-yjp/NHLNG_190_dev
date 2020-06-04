@@ -2,11 +2,8 @@ package job.sfcommon.dataaccess.dao.nhlng;
 
 import java.util.List;
 
-
-
 import org.apache.ibatis.session.SqlSession;
 
-import biz.grandsight.ex.util.Validator;
 import job.sfcommon.dataaccess.entity.nhlng.ExmLgsSnd;
 import job.sfcommon.dataaccess.entity.nhlng.ExmLgsSndExample;
 import job.sfcommon.dataaccess.mapper.nhlng.ExmLgsSndMapper;
@@ -86,36 +83,4 @@ public class ExmLgsSndDao {
 		List<ExmLgsSnd> result = mapper.selectByExample(example);
 		return result;
 	}
-
-	public static int insert(final SqlSession session, final ExmLgsSnd data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		Integer confNo = data.getConfNo();
-		String writeTagNo = data.getWriteTagNo();
-		Validator.requireNonNull(confNo, "confNo");
-		Validator.requireNonNullAndNonEmpty(writeTagNo, "writeTagNo");
-
-		// Insert.
-		ExmLgsSndMapper mapper = session.getMapper(ExmLgsSndMapper.class);
-		return mapper.insertSelective(data);
-	}
-
-	public static int updateByPrimaryKey(final SqlSession session, final ExmLgsSnd data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		Integer confNo = data.getConfNo();
-		String writeTagNo = data.getWriteTagNo();
-		Validator.requireNonNull(confNo, "confNo");
-		Validator.requireNonNullAndNonEmpty(writeTagNo, "writeTagNo");
-
-		// Update.
-		ExmLgsSndMapper mapper = session.getMapper(ExmLgsSndMapper.class);
-		return mapper.updateByPrimaryKeySelective(data);
-	}
-
-	public static int deleteByPrimaryKey(final SqlSession session, final int confNo, final String writeTagNo) {
-		ExmLgsSndMapper mapper = session.getMapper(ExmLgsSndMapper.class);
-		return mapper.deleteByPrimaryKey(confNo, writeTagNo);
-	}
-
 }

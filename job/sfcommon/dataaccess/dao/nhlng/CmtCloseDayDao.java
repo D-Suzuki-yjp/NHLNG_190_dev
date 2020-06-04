@@ -3,14 +3,13 @@ package job.sfcommon.dataaccess.dao.nhlng;
 import java.util.Date;
 import java.util.List;
 
-
-
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Validator;
 import job.sfcommon.dataaccess.entity.nhlng.CmtCloseDay;
 import job.sfcommon.dataaccess.entity.nhlng.CmtCloseDayExample;
 import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseDayMapper;
+import job.sfcommon.dto.CmtCloseDayDto;
 
 
 /**
@@ -103,6 +102,11 @@ public class CmtCloseDayDao{
 		return result;
 	}
 
+	public static List<CmtCloseDay> selectClacData(final SqlSession session, final List<String> tagNoList1, final List<String> tagNoList5, final Date targetDate) {
+		CmtCloseDayMapper mapper = session.getMapper(CmtCloseDayMapper.class);
+		return mapper.selectClacData(tagNoList1, tagNoList5, targetDate);
+	}
+
 	public static int insert(final SqlSession session, final CmtCloseDay data) {
 		// Validate.
 		Validator.requireNonNull(data, "data");
@@ -116,17 +120,16 @@ public class CmtCloseDayDao{
 		return mapper.insertSelective(data);
 	}
 
-	public static int updateByPrimaryKey(final SqlSession session, final CmtCloseDay data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		Date closeDtime = data.getCloseDtime();
-		String tagNo = data.getTagNo();
-		Validator.requireNonNull(closeDtime, "closeDtime");
-		Validator.requireNonNullAndNonEmpty(tagNo, "tagNo");
-
+	public static int updateByExampleSelective(final SqlSession session, final List<CmtCloseDay> dataList, final CmtCloseDayExample example) {
 		// Update.
 		CmtCloseDayMapper mapper = session.getMapper(CmtCloseDayMapper.class);
-		return mapper.updateByPrimaryKeySelective(data);
+		int results = 0;
+		for(CmtCloseDay record:dataList){
+			example.addCriteria().andCloseDtimeEqualTo(record.getCloseDtime()).andTagNoEqualTo(record.getTagNo());
+			int result = mapper.updateByExampleSelective(record, example);
+			results = results + result;
+		}
+		return results;
 	}
 
 	public static int insertOrUpdate(final SqlSession session, final List<CmtCloseDay> dataList) {
@@ -142,6 +145,21 @@ public class CmtCloseDayDao{
 		// Update.
 		CmtCloseDayMapper mapper = session.getMapper(CmtCloseDayMapper.class);
 		return mapper.insertOrUpdate(dataList);
+	}
+
+	public static int insertOrUpdateByLogicalName(final SqlSession session, final List<CmtCloseDayDto> dataList, final String lastUpdUser) {
+		// Validate.
+		for (CmtCloseDayDto data : dataList) {
+			Validator.requireNonNull(data, "data");
+			Date closeDtime = data.getCloseDtime();
+			String tagLogicName1 = data.getTagLogicName1();
+			Validator.requireNonNull(closeDtime, "closeDtime");
+			Validator.requireNonNull(tagLogicName1, "tagLogicName1");
+		}
+
+		// Update.
+		CmtCloseDayMapper mapper = session.getMapper(CmtCloseDayMapper.class);
+		return mapper.insertOrUpdateByLogicalName(dataList, lastUpdUser);
 	}
 
 	public static int deleteByPrimaryKey(final SqlSession session, final Date closeDtime,final String tagNo) {

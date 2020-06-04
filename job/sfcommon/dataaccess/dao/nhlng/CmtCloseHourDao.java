@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-
-
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Validator;
@@ -137,6 +135,11 @@ public class CmtCloseHourDao {
 		return result;
 	}
 
+	public static List<CmtCloseHour> selectClacData(final SqlSession session, final List<String> tagNoList0, final List<String> tagNoList4, final Date targetDate) {
+		CmtCloseHourMapper mapper = session.getMapper(CmtCloseHourMapper.class);
+		return mapper.selectClacData(tagNoList0, tagNoList4, targetDate);
+	}
+
 	public static int insert(final SqlSession session, final List<CmtCloseHour> dataList) {
 		// Validate.
 		for (CmtCloseHour data : dataList) {
@@ -152,17 +155,16 @@ public class CmtCloseHourDao {
 		return mapper.insert(dataList);
 	}
 
-	public static int updateByPrimaryKey(final SqlSession session, final CmtCloseHour data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		Date closeDtime = data.getCloseDtime();
-		String tagNo = data.getTagNo();
-		Validator.requireNonNull(closeDtime, "closeDtime");
-		Validator.requireNonNullAndNonEmpty(tagNo, "tagNo");
-
+	public static int updateByExampleSelective(final SqlSession session, final List<CmtCloseHour> dataList, final CmtCloseHourExample example) {
 		// Update.
 		CmtCloseHourMapper mapper = session.getMapper(CmtCloseHourMapper.class);
-		return mapper.updateByPrimaryKeySelective(data);
+		int results = 0;
+		for(CmtCloseHour record:dataList){
+			example.addCriteria().andCloseDtimeEqualTo(record.getCloseDtime()).andTagNoEqualTo(record.getTagNo());
+			int result = mapper.updateByExampleSelective(record, example);
+			results = results + result;
+		}
+		return results;
 	}
 
 	public static int insertOrUpdate(final SqlSession session, final List<CmtCloseHour> dataList) {

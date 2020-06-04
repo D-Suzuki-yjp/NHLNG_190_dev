@@ -3,8 +3,6 @@ package job.sfcommon.dataaccess.dao.nhlng;
 import java.util.List;
 import java.util.Objects;
 
-
-
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Validator;
@@ -158,15 +156,17 @@ public class CmtTagValDao {
 		return mapper.insertSelective(data);
 	}
 
-	public static int updateByPrimaryKey(final SqlSession session, final CmtTagVal data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		String tagNo = data.getTagNo();
-		Validator.requireNonNullAndNonEmpty(tagNo, "tagNo");
+	public static int updateByExampleSelective(final SqlSession session, final List<CmtTagVal> dataList, final CmtTagValExample example) {
 
 		// Update.
 		CmtTagValMapper mapper = session.getMapper(CmtTagValMapper.class);
-		return mapper.updateByPrimaryKeySelective(data);
+		int results = 0;
+		for(CmtTagVal record:dataList){
+			example.addCriteria().andTagNoEqualTo(record.getTagNo());
+			int result = mapper.updateByExampleSelective(record, example);
+			results = results + result;
+		}
+		return results;
 	}
 
 	public static int deleteByPrimaryKey(final SqlSession session, final String tagNo) {

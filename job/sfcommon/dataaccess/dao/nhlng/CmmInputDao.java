@@ -2,8 +2,6 @@ package job.sfcommon.dataaccess.dao.nhlng;
 
 import java.util.List;
 
-
-
 import org.apache.ibatis.session.SqlSession;
 
 import job.sfcommon.dataaccess.entity.nhlng.CmmInput;
@@ -31,7 +29,7 @@ public class CmmInputDao {
 	============================================*/
 
 	/** 表示順カラム名 */
-	private static final String REPORTKIND_COLUMN_NAME = COLUMNS.TAG_NO.toString();
+	private static final String SEQNO_COLUMN_NAME = COLUMNS.SEQ_NO.toString();
 
 	/** テーブル名 */
 	public static final String TABLE_NAME;
@@ -83,11 +81,22 @@ public class CmmInputDao {
 
 	public static List<CmmInput> select(final SqlSession session, final CmmInputExample example) {
 		// ORDER BY clause
-		example.setOrderByClause(REPORTKIND_COLUMN_NAME);
+		example.setOrderByClause(SEQNO_COLUMN_NAME);
 
 		// Select.
 		CmmInputMapper mapper = session.getMapper(CmmInputMapper.class);
 		List<CmmInput> result = mapper.selectByExample(example);
+		return result;
+	}
+
+	public static List<CmmInput> ExSelect(final SqlSession session,
+			final CmmInputExample example) {
+		// ORDER BY clause
+		example.setOrderByClause(SEQNO_COLUMN_NAME);
+
+		// Select.
+		CmmInputMapper mapper = session.getMapper(CmmInputMapper.class);
+		List<CmmInput> result = mapper.selectByExtendedExample(example);
 		return result;
 	}
 }

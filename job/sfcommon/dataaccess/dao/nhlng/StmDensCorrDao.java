@@ -1,13 +1,9 @@
 package job.sfcommon.dataaccess.dao.nhlng;
 
-import java.math.BigDecimal;
 import java.util.List;
-
-
 
 import org.apache.ibatis.session.SqlSession;
 
-import biz.grandsight.ex.util.Validator;
 import job.sfcommon.dataaccess.entity.nhlng.StmDensCorr;
 import job.sfcommon.dataaccess.entity.nhlng.StmDensCorrExample;
 import job.sfcommon.dataaccess.mapper.nhlng.StmDensCorrMapper;
@@ -90,38 +86,4 @@ public class StmDensCorrDao {
 		List<StmDensCorr> result = mapper.selectByExample(example);
 		return result;
 	}
-
-	/**
-	 * メッセージデータinsert
-	 * @param session  SQLセッション
-	 * @param data  メッセージデータ
-	 * @return int insert件数
-	 */
-	public static int insert(final SqlSession session, final StmDensCorr data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		BigDecimal densFrom = data.getDensFrom();
-		Validator.requireNonNull(densFrom, "densFrom");
-
-		// Insert.
-		StmDensCorrMapper mapper = session.getMapper(StmDensCorrMapper.class);
-		return mapper.insertSelective(data);
-	}
-
-	public static int updateByPrimaryKey(final SqlSession session, final StmDensCorr data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		BigDecimal densFrom = data.getDensFrom();
-		Validator.requireNonNull(densFrom, "densFrom");
-
-		// Update.
-		StmDensCorrMapper mapper = session.getMapper(StmDensCorrMapper.class);
-		return mapper.updateByPrimaryKeySelective(data);
-	}
-
-	public static int deleteByPrimaryKey(final SqlSession session, final BigDecimal densFrom) {
-		StmDensCorrMapper mapper = session.getMapper(StmDensCorrMapper.class);
-		return mapper.deleteByPrimaryKey(densFrom);
-	}
-
 }

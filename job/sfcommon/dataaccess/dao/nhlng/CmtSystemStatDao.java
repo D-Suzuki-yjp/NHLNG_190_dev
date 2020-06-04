@@ -2,8 +2,6 @@ package job.sfcommon.dataaccess.dao.nhlng;
 
 import java.util.List;
 
-
-
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Validator;
@@ -108,15 +106,17 @@ public class CmtSystemStatDao {
 		return mapper.insertSelective(data);
 	}
 
-	public static int updateByPrimaryKey(final SqlSession session, final CmtSystemStat data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		String sccServerName = data.getSccServerName();
-		Validator.requireNonNullAndNonEmpty(sccServerName, "sccServerName");
+	public static int updateByExampleSelective(final SqlSession session, final List<CmtSystemStat> dataList, final CmtSystemStatExample example) {
 
 		// Update.
 		CmtSystemStatMapper mapper = session.getMapper(CmtSystemStatMapper.class);
-		return mapper.updateByPrimaryKeySelective(data);
+		int results = 0;
+		for(CmtSystemStat record:dataList){
+			example.addCriteria().andSccServerNameEqualTo(record.getSccServerName());
+			int result = mapper.updateByExampleSelective(record, example);
+			results = results + result;
+		}
+		return results;
 	}
 
 	public static int deleteByPrimaryKey(final SqlSession session, final String sccServerName) {

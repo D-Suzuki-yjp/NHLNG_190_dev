@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-
-
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Validator;
@@ -125,6 +123,11 @@ public class CmtCloseMonDao{
 		return result;
 	}
 
+	public static List<CmtCloseMon> selectClacData(final SqlSession session, final List<String> tagNoList3, final List<String> tagNoList6, final Date targetDate) {
+		CmtCloseMonMapper mapper = session.getMapper(CmtCloseMonMapper.class);
+		return mapper.selectClacData(tagNoList3, tagNoList6, targetDate);
+	}
+
 	public static int insert(final SqlSession session, final CmtCloseMon data) {
 		// Validate.
 		Validator.requireNonNull(data, "data");
@@ -138,17 +141,16 @@ public class CmtCloseMonDao{
 		return mapper.insertSelective(data);
 	}
 
-	public static int updateByPrimaryKey(final SqlSession session, final CmtCloseMon data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		Date closeDtime = data.getCloseDtime();
-		String tagNo = data.getTagNo();
-		Validator.requireNonNull(closeDtime, "closeDtime");
-		Validator.requireNonNullAndNonEmpty(tagNo, "tagNo");
-
+	public static int updateByExampleSelective(final SqlSession session, final List<CmtCloseMon> dataList, final CmtCloseMonExample example) {
 		// Update.
 		CmtCloseMonMapper mapper = session.getMapper(CmtCloseMonMapper.class);
-		return mapper.updateByPrimaryKeySelective(data);
+		int results = 0;
+		for(CmtCloseMon record:dataList){
+			example.addCriteria().andCloseDtimeEqualTo(record.getCloseDtime()).andTagNoEqualTo(record.getTagNo());
+			int result = mapper.updateByExampleSelective(record, example);
+			results = results + result;
+		}
+		return results;
 	}
 
 	public static int insertOrUpdate(final SqlSession session, final List<CmtCloseMon> dataList) {

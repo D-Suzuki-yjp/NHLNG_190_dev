@@ -2,8 +2,6 @@ package job.sfcommon.dataaccess.dao.nhlng;
 
 import java.util.List;
 
-
-
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Validator;
@@ -31,15 +29,15 @@ public class CmtSyncInfoDao {
 	============================================*/
 
 	/** 表示順カラム名 */
-	private static final String TABLENAME_COLUMN_NAME = COLUMNS.TABLE_NAME.toString();
+	private static final String TABLENAME_COLUMN_NAME = COLUMNS.TARGET_TABLE.toString();
 
 	/** テーブル名 */
-	public static final String TABLE_NAME;
+	public static final String TARGET_TABLE;
 
 	/** カラム名を表す変数 */
 	public static enum COLUMNS {
 		/** テーブル名 */
-		TABLE_NAME,
+		TARGET_TABLE,
 		/** 最終等値化日時 */
 		LAST_SYNC_DTIME,
 		/** 等値化種別 */
@@ -49,7 +47,7 @@ public class CmtSyncInfoDao {
 	}
 
 	static {
-		TABLE_NAME = "CmtSyncInfo";
+		TARGET_TABLE = "CmtSyncInfo";
 	}
 
 	/*--------------------------------------------
@@ -92,28 +90,30 @@ public class CmtSyncInfoDao {
 	public static int insert(final SqlSession session, final CmtSyncInfo data) {
 		// Validate.
 		Validator.requireNonNull(data, "data");
-		String tableName = data.getTableName();
-		Validator.requireNonNullAndNonEmpty(tableName, "tableName");
+		String targetTable = data.getTargetTable();
+		Validator.requireNonNullAndNonEmpty(targetTable, "targetTable");
 
 		// Insert.
 		CmtSyncInfoMapper mapper = session.getMapper(CmtSyncInfoMapper.class);
 		return mapper.insertSelective(data);
 	}
 
-	public static int updateByPrimaryKey(final SqlSession session, final CmtSyncInfo data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		String tableName = data.getTableName();
-		Validator.requireNonNullAndNonEmpty(tableName, "tableName");
+	public static int updateByExampleSelective(final SqlSession session, final List<CmtSyncInfo> dataList, final CmtSyncInfoExample example) {
 
 		// Update.
 		CmtSyncInfoMapper mapper = session.getMapper(CmtSyncInfoMapper.class);
-		return mapper.updateByPrimaryKeySelective(data);
+		int results = 0;
+		for(CmtSyncInfo record:dataList){
+			example.addCriteria().andTargetTableEqualTo(record.getTargetTable());
+			int result = mapper.updateByExampleSelective(record, example);
+			results = results + result;
+		}
+		return results;
 	}
 
-	public static int deleteByPrimaryKey(final SqlSession session, final String tableName) {
+	public static int deleteByPrimaryKey(final SqlSession session, final String targetTable) {
 		CmtSyncInfoMapper mapper = session.getMapper(CmtSyncInfoMapper.class);
-		return mapper.deleteByPrimaryKey(tableName);
+		return mapper.deleteByPrimaryKey(targetTable);
 	}
 
 }

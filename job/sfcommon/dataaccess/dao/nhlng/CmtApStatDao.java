@@ -2,8 +2,6 @@ package job.sfcommon.dataaccess.dao.nhlng;
 
 import java.util.List;
 
-
-
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Validator;
@@ -80,12 +78,12 @@ public class CmtApStatDao {
 	|               M E T H O D S               |
 	============================================*/
 
-	private static long count(final SqlSession session, final CmtApStatExample example) {
+	public static long count(final SqlSession session, final CmtApStatExample example) {
 		CmtApStatMapper mapper = session.getMapper(CmtApStatMapper.class);
 		return mapper.countByExample(example);
 	}
 
-	private static List<CmtApStat> select(final SqlSession session, final CmtApStatExample example) {
+	public static List<CmtApStat> select(final SqlSession session, final CmtApStatExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(APNAME_COLUMN_NAME);
 
@@ -108,17 +106,17 @@ public class CmtApStatDao {
 		return mapper.insertSelective(data);
 	}
 
-	public static int updateByPrimaryKey(final SqlSession session, final CmtApStat data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		String sccServerName = data.getSccServerName();
-		String apName = data.getApName();
-		Validator.requireNonNullAndNonEmpty(sccServerName, "sccServerName");
-		Validator.requireNonNullAndNonEmpty(apName, "apName");
+	public static int updateByExampleSelective(final SqlSession session, final List<CmtApStat> dataList, final CmtApStatExample example) {
 
 		// Update.
 		CmtApStatMapper mapper = session.getMapper(CmtApStatMapper.class);
-		return mapper.updateByPrimaryKeySelective(data);
+		int results = 0;
+		for(CmtApStat record:dataList){
+			example.addCriteria().andSccServerNameEqualTo(record.getSccServerName()).andApNameEqualTo(record.getApName());
+			int result = mapper.updateByExampleSelective(record, example);
+			results = results + result;
+		}
+		return results;
 	}
 
 	public static int deleteByPrimaryKey(final SqlSession session, final String sccServerName, final String apName) {
