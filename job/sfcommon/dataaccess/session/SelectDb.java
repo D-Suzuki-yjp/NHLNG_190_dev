@@ -4,6 +4,8 @@ import javax.enterprise.context.Dependent;
 
 import org.apache.ibatis.session.SqlSession;
 
+import job.sfcommon.util.ConstUtil;
+
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -26,10 +28,9 @@ public class SelectDb {
 	public static SqlSession dbAcssece(String dbName) {
 
 		SqlSession session = null;
-		/** TODO DB名のプロパティ化*/
-		if(dbName.equals("looponex_core")){
+		if(dbName.equals(ConstUtil.LOOPONEX_CORE)){
 			session = LooponexcoreSqlSessionFactory.openSession();
-		} else if(dbName.equals("nhlng")){
+		} else if(dbName.equals(ConstUtil.NHLNG)){
 			session = NhlngSqlSessionFactory.openSession();
 		}
 
