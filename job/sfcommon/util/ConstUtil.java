@@ -58,6 +58,16 @@ public class ConstUtil {
         }
     }
 
+	/**
+	 * COREDB
+	 */
+	public static final String LOOPONEX_CORE = "looponex_core";
+
+	/**
+	 * JOBDB
+	 */
+	public static final String NHLNG = "nhlng";
+
     /** NHタグマスタが持つタグ論理名の数 */
     public static final int TAGLOGICNAME_ARRAY = 4;
 
@@ -66,4 +76,37 @@ public class ConstUtil {
 	/** ファイル読み書き失敗。 */
 	public static final String E00002 = "E00002";
 
+	/** 計算処理 */
+	/** 計算処理 計算種別*/
+	public static final String CALC_KIND_CALC = "calc";
+
+	/** 計算処理 計算種別*/
+	public static final String CALC_KIND_USER = "user";
+
+	/** 計算処理 計算情報*/
+	public static final String CALC_INFO_ADD = "add";
+
+	/** 計算処理 計算情報*/
+	public static final String CALC_INFO_SUB = "sub";
+
+	/** 計算処理 計算情報*/
+	public static final String CALC_INFO_MUL = "mul";
+
+	/** 計算処理 計算情報*/
+	public static final String CALC_INFO_DIV = "div";
+
+	/** 計算処理 計算情報*/
+	public static final String CALC_INFO_SET = "set";
+
+	/** 計算処理 計算情報*/
+	public static final String CALC_INFO_SUM = "sum";
+
+	/** 計算処理 計算情報*/
+	public static final String CALC_INFO_AVG = "avg";
+
+	/** 計算処理 計算情報*/
+	public static final String CALC_INFO_MAX = "max";
+
+	/** 計算処理 計算情報*/
+	public static final String CALC_INFO_MIN = "min";
 }

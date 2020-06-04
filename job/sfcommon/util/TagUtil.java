@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.enterprise.context.Dependent;
 
 import org.apache.ibatis.session.SqlSession;
 
 import job.sfcommon.dataaccess.dao.nhlng.CmmTagMasterVDao;
+import job.sfcommon.dataaccess.dao.nhlng.CmtTagValDao;
 import job.sfcommon.dataaccess.entity.nhlng.CmmTagMasterV;
 import job.sfcommon.dataaccess.entity.nhlng.CmmTagMasterVExample;
 import job.sfcommon.dataaccess.entity.nhlng.CmtTagVal;
+import job.sfcommon.dataaccess.entity.nhlng.CmtTagValExample;
 import job.sfcommon.dataaccess.session.SelectDb;
 import job.sfcommon.function.outputlogs.OutPutLogs;
 
@@ -41,7 +44,6 @@ public class TagUtil {
 	private static Map<String, String> lcodeToTagNoMap;
 
 	/**
-	 * TODO スケルトン
 	 * 複数tagNoによるNHタグマスタテーブル検索結果を返す<br>
 	 * @param session SQLセッション
 	 * @param tagNoList タグNoリスト
@@ -49,7 +51,7 @@ public class TagUtil {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map<String, CmmTagMasterV> selectCmmTagMaster(SqlSession session, final List<String> tagNoList) throws RuntimeException{
-/*
+
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
@@ -61,26 +63,22 @@ public class TagUtil {
 		CmmTagMasterVExample example = new CmmTagMasterVExample();
 		example.createCriteria().andTagNoIn(tagNoList);
 		if(Objects.nonNull(tagNoList)){
-			SqlSession session = SelectDb.dbAcssece("nhlng");
 			try{
 				cmmTagMasterVList = CmmTagMasterVDao.select(session, example);
 			}catch(Exception e){
-				throw(e);
-			}finally{
-				session.close();
+				throw new RuntimeException(e);
 			}
 		}
 		for(CmmTagMasterV cmmTagMaster : cmmTagMasterVList){
 			resultMap.put(cmmTagMaster.getTagNo(), cmmTagMaster);
 		}
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);]
-*/
-		return null;
+		OutPutLogs.outPutLogs("CMN", "002", param);
+
+		return resultMap;
 	}
 
 	/**
-	 * TODO スケルトン
 	 * 論理名によるNHタグマスタテーブル検索結果を返す<br>
 	 * @param session SQLセッション
 	 * @param List<String[]> タグ論理名リスト
@@ -88,7 +86,7 @@ public class TagUtil {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map<String[], List<CmmTagMasterV>> selectCmtTagMasterByLogicalName(SqlSession session, final List<String[]> logicNameList) throws RuntimeException{
-/*
+
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
@@ -96,7 +94,6 @@ public class TagUtil {
 
 		Map<String[],List<CmmTagMasterV>> resultMap = new HashMap();
 
-		SqlSession session = SelectDb.dbAcssece("nhlng");
 		try{
 			for(String[] logicName : logicNameList){
 				if(4==logicName.length){
@@ -119,44 +116,13 @@ public class TagUtil {
 				}
 			}
 		}catch(Exception e){
-			throw(e);
-		} finally {
-			session.close();
+			throw new RuntimeException(e);
 		}
 		// 処理終了ログ
 		OutPutLogs.outPutLogs("CMN", "002", param);
-*/
-		return null;
+
+		return resultMap;
 	}
-
-	/**
-	 * 帳票区分によるNHタグマスタテーブル検索結果を返す<br>
-	 * @param repDivList 帳票区分リスト
-	 * @return List<Map<CmtTagValDao.COLUMNS, Object>>
-	 */
-	/*	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static List<CmmTagMasterV> selectCmtTagMasterForPrint(final List<String> repDivList) throws RuntimeException{
-
-		// 処理開始ログ
-		String[] param = { new Object() {
-		}.getClass().getEnclosingMethod().getName()};
-		OutPutLogs.outPutLogs("CMN", "001", param);
-
-		List<CmmTagMasterV> cmtTagValLsit = new ArrayList();
-
-			SqlSession session = SelectDb.dbAcssece("nhlng");
-			try{
-				cmtTagValLsit = CmmTagMasterVDao.selectCmtTagMasterForPrint(session, repDivList);
-			}catch(Exception e){
-				throw(new RuntimeException());
-			} finally {
-				session.close();
-			}
-
-		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
-		return cmtTagValLsit;
-	}*/
 
 	/**
 	 * 複数tagNoによるタグデータテーブル検索結果を返す<br>
@@ -166,7 +132,7 @@ public class TagUtil {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<CmtTagVal> selectCmtTagVal(SqlSession session, final List<String> tagNoList) throws RuntimeException{
-/*
+
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
@@ -175,20 +141,17 @@ public class TagUtil {
 		List<CmtTagVal> cmtTagValLsit = new ArrayList();
 
 		if(Objects.nonNull(tagNoList)){
-			SqlSession session = SelectDb.dbAcssece("nhlng");
 			try{
 				cmtTagValLsit = CmtTagValDao.selectByTagNoList(session, tagNoList);
 			}catch(Exception e){
-				throw(e);
-			} finally {
-				session.close();
+				throw new RuntimeException(e);
 			}
 		}
 
 		// 処理終了ログ
 		OutPutLogs.outPutLogs("CMN", "002", param);
-*/
-		return null;
+
+		return cmtTagValLsit;
 	}
 
 	/**
@@ -199,7 +162,7 @@ public class TagUtil {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map<String[],List<CmtTagVal>> selectCmtTagValByLogicalName(SqlSession session, final List<String[]> logicNameList) throws RuntimeException{
-/*
+
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
@@ -207,12 +170,11 @@ public class TagUtil {
 
 		Map<String[],List<CmtTagVal>> resultMap = new HashMap();
 
-
-		SqlSession session = SelectDb.dbAcssece("nhlng");
 		try{
 			for(String[] logicName : logicNameList){
 				if(4==logicName.length){
 					CmtTagValExample example = new CmtTagValExample();
+					example.createCriteria();
 					if(Objects.nonNull(logicName[0])){
 						example.addCriteria().andTagLogicName1EqualTo(logicName[0]);
 					}
@@ -230,14 +192,58 @@ public class TagUtil {
 				}
 			}
 		}catch(Exception e){
-			throw(e);
-		} finally {
-			session.close();
+			throw new RuntimeException(e);
 		}
 		// 処理終了ログ
 		OutPutLogs.outPutLogs("CMN", "002", param);
-*/
-		return null;
+
+		return resultMap;
+	}
+
+	/**
+	 * 複数タグ論理名によるタグデータテーブル検索結果を返す<br>
+	 * @param session SQLセッション
+	 * @param logicNameList タグ論理名リスト
+	 * @return Map<String[],List<CmtTagVal>>
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Map<String[],List<CmtTagVal>> selectConstValByLogicalName(SqlSession session, final List<String[]> logicNameList) throws RuntimeException{
+
+		// 処理開始ログ
+		String[] param = { new Object() {
+		}.getClass().getEnclosingMethod().getName()};
+		OutPutLogs.outPutLogs("CMN", "001", param);
+
+		Map<String[],List<CmtTagVal>> resultMap = new HashMap();
+
+		try{
+			for(String[] logicName : logicNameList){
+				if(4==logicName.length){
+					CmtTagValExample example = new CmtTagValExample();
+					example.createCriteria().andTagKindEqualTo(1);
+					if(Objects.nonNull(logicName[0])){
+						example.addCriteria().andTagLogicName1EqualTo(logicName[0]);
+					}
+					if(Objects.nonNull(logicName[1])){
+						example.addCriteria().andTagLogicName2EqualTo(logicName[1]);
+					}
+					if(Objects.nonNull(logicName[2])){
+						example.addCriteria().andTagLogicName3EqualTo(logicName[2]);
+					}
+					if(Objects.nonNull(logicName[3])){
+						example.addCriteria().andTagLogicName4EqualTo(logicName[3]);
+					}
+					List<CmtTagVal> cmtTagValLsit = CmtTagValDao.ExSelect(session, example);
+					resultMap.put(logicName, cmtTagValLsit);
+				}
+			}
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
+		// 処理終了ログ
+		OutPutLogs.outPutLogs("CMN", "002", param);
+
+		return resultMap;
 	}
 
 	/**

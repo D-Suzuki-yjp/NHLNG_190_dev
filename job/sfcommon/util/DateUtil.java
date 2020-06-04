@@ -806,6 +806,18 @@ public class DateUtil {
 	}
 
 	/**
+	 * yyyyMMddHHmmss形式からHHmm部分を切り出す.
+	 * @param dt14 文字列
+	 * @return HH部分を切り出した文字列
+	 */
+	public static String getHHmm(String dt14) {
+		if (StringUtil.isEmpty(dt14)) {
+			return null;
+		}
+		return dt14.substring(8, 12);
+	}
+
+	/**
 	 * yyyyMMddHHmmss形式またはHHmmss形式の文字列からHH部分を切り出す.
      * 長さ(14or6)で判断する.
 	 * @param dt14 文字列
@@ -1409,9 +1421,9 @@ public class DateUtil {
 	}
 
 	/**
-	 * YYYY/HH/DD hh:mm:ssをYYYYMMDDhhmmssに編集.
-	 * @param date 区切り文字あり日付
-	 * @return 区切り文字なし日付(文字列)
+	 * 月末判定.
+	 * @param date
+	 * @return true:月末日 false:月末以外
 	 */
 	public static boolean isEndOfTheMonth(Date date) {
 		Calendar calendar = Calendar.getInstance();
