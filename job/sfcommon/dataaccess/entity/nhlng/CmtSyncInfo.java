@@ -13,7 +13,7 @@ public class CmtSyncInfo {
      *
      * @mbg.generated
      */
-    private String tableName;
+    private String targetTable;
 
     /**
      *
@@ -77,8 +77,8 @@ public class CmtSyncInfo {
      *
      * @mbg.generated
      */
-    public String getTableName() {
-        return tableName;
+    public String getTargetTable() {
+        return targetTable;
     }
 
     /**
@@ -89,8 +89,8 @@ public class CmtSyncInfo {
      *
      * @mbg.generated
      */
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setTargetTable(String targetTable) {
+        this.targetTable = targetTable;
     }
 
     /**

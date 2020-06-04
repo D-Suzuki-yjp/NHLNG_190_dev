@@ -205,132 +205,132 @@ public class CmmInputExample {
         }
 
         public Criteria andTagNoIsNull() {
-            addCriterion("tag_no is null");
+            addCriterion("cmm_input.tag_no is null");
             return (Criteria) this;
         }
 
         public Criteria andTagNoIsNotNull() {
-            addCriterion("tag_no is not null");
+            addCriterion("cmm_input.tag_no is not null");
             return (Criteria) this;
         }
 
         public Criteria andTagNoEqualTo(String value) {
-            addCriterion("tag_no =", value, "tagNo");
+            addCriterion("cmm_input.tag_no =", value, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoNotEqualTo(String value) {
-            addCriterion("tag_no <>", value, "tagNo");
+            addCriterion("cmm_input.tag_no <>", value, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoGreaterThan(String value) {
-            addCriterion("tag_no >", value, "tagNo");
+            addCriterion("cmm_input.tag_no >", value, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoGreaterThanOrEqualTo(String value) {
-            addCriterion("tag_no >=", value, "tagNo");
+            addCriterion("cmm_input.tag_no >=", value, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoLessThan(String value) {
-            addCriterion("tag_no <", value, "tagNo");
+            addCriterion("cmm_input.tag_no <", value, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoLessThanOrEqualTo(String value) {
-            addCriterion("tag_no <=", value, "tagNo");
+            addCriterion("cmm_input.tag_no <=", value, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoLike(String value) {
-            addCriterion("tag_no like", value, "tagNo");
+            addCriterion("cmm_input.tag_no like", value, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoNotLike(String value) {
-            addCriterion("tag_no not like", value, "tagNo");
+            addCriterion("cmm_input.tag_no not like", value, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoIn(List<String> values) {
-            addCriterion("tag_no in", values, "tagNo");
+            addCriterion("cmm_input.tag_no in", values, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoNotIn(List<String> values) {
-            addCriterion("tag_no not in", values, "tagNo");
+            addCriterion("cmm_input.tag_no not in", values, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoBetween(String value1, String value2) {
-            addCriterion("tag_no between", value1, value2, "tagNo");
+            addCriterion("cmm_input.tag_no between", value1, value2, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andTagNoNotBetween(String value1, String value2) {
-            addCriterion("tag_no not between", value1, value2, "tagNo");
+            addCriterion("cmm_input.tag_no not between", value1, value2, "tagNo");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindIsNull() {
-            addCriterion("history_kind is null");
+            addCriterion("cmm_input.history_kind is null");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindIsNotNull() {
-            addCriterion("history_kind is not null");
+            addCriterion("cmm_input.history_kind is not null");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindEqualTo(Integer value) {
-            addCriterion("history_kind =", value, "historyKind");
+            addCriterion("cmm_input.history_kind =", value, "historyKind");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindNotEqualTo(Integer value) {
-            addCriterion("history_kind <>", value, "historyKind");
+            addCriterion("cmm_input.history_kind <>", value, "historyKind");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindGreaterThan(Integer value) {
-            addCriterion("history_kind >", value, "historyKind");
+            addCriterion("cmm_input.history_kind >", value, "historyKind");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindGreaterThanOrEqualTo(Integer value) {
-            addCriterion("history_kind >=", value, "historyKind");
+            addCriterion("cmm_input.history_kind >=", value, "historyKind");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindLessThan(Integer value) {
-            addCriterion("history_kind <", value, "historyKind");
+            addCriterion("cmm_input.history_kind <", value, "historyKind");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindLessThanOrEqualTo(Integer value) {
-            addCriterion("history_kind <=", value, "historyKind");
+            addCriterion("cmm_input.history_kind <=", value, "historyKind");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindIn(List<Integer> values) {
-            addCriterion("history_kind in", values, "historyKind");
+            addCriterion("cmm_input.history_kind in", values, "historyKind");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindNotIn(List<Integer> values) {
-            addCriterion("history_kind not in", values, "historyKind");
+            addCriterion("cmm_input.history_kind not in", values, "historyKind");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindBetween(Integer value1, Integer value2) {
-            addCriterion("history_kind between", value1, value2, "historyKind");
+            addCriterion("cmm_input.history_kind between", value1, value2, "historyKind");
             return (Criteria) this;
         }
 
         public Criteria andHistoryKindNotBetween(Integer value1, Integer value2) {
-            addCriterion("history_kind not between", value1, value2, "historyKind");
+            addCriterion("cmm_input.history_kind not between", value1, value2, "historyKind");
             return (Criteria) this;
         }
 
@@ -521,6 +521,206 @@ public class CmmInputExample {
 
         public Criteria andInputTagNoNotBetween(String value1, String value2) {
             addCriterion("input_tag_no not between", value1, value2, "inputTagNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindIsNull() {
+            addCriterion("calc_kind is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindIsNotNull() {
+            addCriterion("calc_kind is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindEqualTo(String value) {
+            addCriterion("calc_kind =", value, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindNotEqualTo(String value) {
+            addCriterion("calc_kind <>", value, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindGreaterThan(String value) {
+            addCriterion("calc_kind >", value, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindGreaterThanOrEqualTo(String value) {
+            addCriterion("calc_kind >=", value, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindLessThan(String value) {
+            addCriterion("calc_kind <", value, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindLessThanOrEqualTo(String value) {
+            addCriterion("calc_kind <=", value, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindLike(String value) {
+            addCriterion("calc_kind like", value, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindNotLike(String value) {
+            addCriterion("calc_kind not like", value, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindIn(List<String> values) {
+            addCriterion("calc_kind in", values, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindNotIn(List<String> values) {
+            addCriterion("calc_kind not in", values, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindBetween(String value1, String value2) {
+            addCriterion("calc_kind between", value1, value2, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcKindNotBetween(String value1, String value2) {
+            addCriterion("calc_kind not between", value1, value2, "calcKind");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoIsNull() {
+            addCriterion("calc_info is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoIsNotNull() {
+            addCriterion("calc_info is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoEqualTo(String value) {
+            addCriterion("calc_info =", value, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoNotEqualTo(String value) {
+            addCriterion("calc_info <>", value, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoGreaterThan(String value) {
+            addCriterion("calc_info >", value, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoGreaterThanOrEqualTo(String value) {
+            addCriterion("calc_info >=", value, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoLessThan(String value) {
+            addCriterion("calc_info <", value, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoLessThanOrEqualTo(String value) {
+            addCriterion("calc_info <=", value, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoLike(String value) {
+            addCriterion("calc_info like", value, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoNotLike(String value) {
+            addCriterion("calc_info not like", value, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoIn(List<String> values) {
+            addCriterion("calc_info in", values, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoNotIn(List<String> values) {
+            addCriterion("calc_info not in", values, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoBetween(String value1, String value2) {
+            addCriterion("calc_info between", value1, value2, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcInfoNotBetween(String value1, String value2) {
+            addCriterion("calc_info not between", value1, value2, "calcInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityIsNull() {
+            addCriterion("calc_priority is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityIsNotNull() {
+            addCriterion("calc_priority is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityEqualTo(Integer value) {
+            addCriterion("calc_priority =", value, "calcPriority");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityNotEqualTo(Integer value) {
+            addCriterion("calc_priority <>", value, "calcPriority");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityGreaterThan(Integer value) {
+            addCriterion("calc_priority >", value, "calcPriority");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityGreaterThanOrEqualTo(Integer value) {
+            addCriterion("calc_priority >=", value, "calcPriority");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityLessThan(Integer value) {
+            addCriterion("calc_priority <", value, "calcPriority");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityLessThanOrEqualTo(Integer value) {
+            addCriterion("calc_priority <=", value, "calcPriority");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityIn(List<Integer> values) {
+            addCriterion("calc_priority in", values, "calcPriority");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityNotIn(List<Integer> values) {
+            addCriterion("calc_priority not in", values, "calcPriority");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityBetween(Integer value1, Integer value2) {
+            addCriterion("calc_priority between", value1, value2, "calcPriority");
+            return (Criteria) this;
+        }
+
+        public Criteria andCalcPriorityNotBetween(Integer value1, Integer value2) {
+            addCriterion("calc_priority not between", value1, value2, "calcPriority");
             return (Criteria) this;
         }
     }
