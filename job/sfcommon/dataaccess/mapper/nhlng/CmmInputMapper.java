@@ -24,6 +24,10 @@ public interface CmmInputMapper {
      */
     List<CmmInput> selectByExample(CmmInputExample example);
 
+    /**TODO write
+     */
+    List<CmmInput> selectByExtendedExample(CmmInputExample example);
+
 	/**
 	 * @author D.Suzuki
 	 *

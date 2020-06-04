@@ -28,7 +28,7 @@ public interface CmmCalcMapper {
 	 * @author D.Suzuki
 	 *
 	 * selectByPrimaryKey
-	 * @param historyKind  帳票区分
+	 * @param historyKind  締切種別
 	 * @return CmmCalc 計算マスタ
 	 */
     CmmCalc selectByPrimaryKey(@Param("historyKind") Integer historyKind);

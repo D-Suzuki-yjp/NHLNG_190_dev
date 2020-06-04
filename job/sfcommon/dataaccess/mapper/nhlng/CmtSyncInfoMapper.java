@@ -69,10 +69,10 @@ public interface CmtSyncInfoMapper {
 	 * @author D.Suzuki
 	 *
 	 * selectByPrimaryKey
-	 * @param tableName  テーブル名
+	 * @param targetTable  テーブル名
 	 * @return CmtSyncInfo 等値化情報
 	 */
-    CmtSyncInfo selectByPrimaryKey(@Param("tableName") String tableName);
+    CmtSyncInfo selectByPrimaryKey(@Param("targetTable") String targetTable);
 
 	/**
 	 * @author D.Suzuki
@@ -87,8 +87,8 @@ public interface CmtSyncInfoMapper {
 	 * @author D.Suzuki
 	 *
 	 * selectByPrimaryKey
-	 * @param tableName  テーブル名
+	 * @param targetTable  テーブル名
 	 * @return int delete件数
 	 */
-	int deleteByPrimaryKey(String tableName);
+	int deleteByPrimaryKey(String targetTable);
 }
