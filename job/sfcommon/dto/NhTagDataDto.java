@@ -18,6 +18,12 @@ import java.util.Date;
  * @author D.Suzuki
  */
 public class NhTagDataDto{
+
+    /**
+     * 締め日時(JobDb)
+     */
+    private Date closeDtime;
+
     /**
      * タグNo
      */
@@ -37,6 +43,14 @@ public class NhTagDataDto{
      * 収集日時(JobDb)
      */
     private Date collDTime;
+
+    public Date getCloseDtime() {
+        return closeDtime;
+    }
+
+    public void setCloseDtime(Date closeDtime) {
+        this.closeDtime = closeDtime;
+    }
 
     public String getTagNo() {
         return tagNo;
