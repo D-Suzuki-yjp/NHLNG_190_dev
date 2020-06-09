@@ -152,7 +152,7 @@ public class CmtCloseDayDao{
 		for (CmtCloseDayDto data : dataList) {
 			Validator.requireNonNull(data, "data");
 			Date closeDtime = data.getCloseDtime();
-			String tagLogicName1 = data.getTagLogicName1();
+			String tagLogicName1 = data.getTagLogicalName1();
 			Validator.requireNonNull(closeDtime, "closeDtime");
 			Validator.requireNonNull(tagLogicName1, "tagLogicName1");
 		}
