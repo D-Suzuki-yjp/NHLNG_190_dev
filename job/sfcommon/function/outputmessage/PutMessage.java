@@ -230,7 +230,7 @@ public class PutMessage implements ServerTask {
 			} else {
 				// 自身が主系の場合のみDDCに出力
 				/** TODO 主従状態定数のプロパティ化 */
-				if (1 == (SystemUtil.getMasterStat().getMasterStatOneself())) {
+				if (1 == (SystemUtil.getMasterStat(session).getMasterStatOneself())) {
 					try {
 						/** TODO サブシステムIDをプロパティ化 */
 						// LoopOnExAPI
