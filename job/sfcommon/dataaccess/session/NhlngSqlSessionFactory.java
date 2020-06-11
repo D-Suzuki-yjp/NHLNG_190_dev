@@ -12,7 +12,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.session.TransactionIsolationLevel;
 
-import com.yse.gb.gf.front.LogWriter;
+import job.sfcommon.function.outputlogs.OutPutLogs;
+import job.sfcommon.util.ConstUtil;
 
 /**
  * アクセスコントロールのマスタDB用のMyBatisセッション生成クラス。
@@ -35,8 +36,8 @@ public class NhlngSqlSessionFactory {
 		} catch (IOException e) {
 			// If the resource cannot be found or read
 			e.printStackTrace();
-			String message = String.format(ERROR_FORMAT, "mybatis-config-nhlng.xml");
-			LogWriter.putError(message, e);
+			String[] pram = {String.format(ERROR_FORMAT, "mybatis-config-nhlng.xml")};
+			OutPutLogs.outPutLogs(ConstUtil.LOG_COMMON, "0003", pram);
 		}
 	}
 
