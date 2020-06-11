@@ -20,30 +20,20 @@ public class OutPutLogs {
 
 	/**
 	 * ログ出力共通関数
-	 * TODO スケルトン
 	 * @param String cat カテゴリ
 	 * @param String logId ID
 	 * @param String[] param パラメータ
 	 */
-	public static void outPutLogs(String cat, String logId, String[] param) {
+	public static void outPutLogs(final String cat,final String logId,final String[] param) {
 
-	MsMessage msmsg = null;
 	// MsLog4j.propertiesに定義したカテゴリでMsMessageインスタンス
-	/** TODO 機能ごとにカテゴリを追加、カテゴリ名の定数プロパティ化 */
-//	 switch(cat){
-//	 // 共通
-//	 case "CMN" : msmsg = new MsMessage("CMN");
-//	 	break;
-//	 // 画面
-//	 case "SCR" : msmsg = new MsMessage("SCR");
-//	 	break;
-//	 }
-//	String msg = "ms"; // ※未使用のパラメータだが空文字、Null以外を指定
-//
-//	//GRANDSIGHT_EX_MS.API
-//	msmsg.messageOut(logId, msg, param); // MsMessage.messageOut(メッセージ番号,
-//												// 任意の文字列, メッセージ用パラメータ)
-//												// でlog出力を実行
+	MsMessage msmsg = new MsMessage(cat);
+	String msg = "ms"; // ※未使用のパラメータだが空文字、Null以外を指定
+
+	//GRANDSIGHT_EX_MS.API
+	msmsg.messageOut(logId, msg, param); // MsMessage.messageOut(メッセージ番号,
+												// 任意の文字列, メッセージ用パラメータ)
+												// でlog出力を実行
 	}
 
 }
