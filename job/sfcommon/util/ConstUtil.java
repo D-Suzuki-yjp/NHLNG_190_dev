@@ -76,7 +76,9 @@ public class ConstUtil {
 	/** ファイル読み書き失敗。 */
 	public static final String E00002 = "E00002";
 
-	/** 計算処理 */
+	/***********************************************/
+	/**                 計算処理                                                   */
+	/***********************************************/
 	/** 計算処理 計算種別*/
 	public static final String CALC_KIND_CALC = "calc";
 
@@ -109,4 +111,29 @@ public class ConstUtil {
 
 	/** 計算処理 計算情報*/
 	public static final String CALC_INFO_MIN = "min";
+
+	/***********************************************/
+	/**                 ログ出力                                                      */
+	/***********************************************/
+
+	/** ログカテゴリ 共通処理*/
+	public static final String LOG_COMMON = "logcat0.comn";
+
+	/** ログカテゴリA.冗長化*/
+	public static final String LOG_CAT_A = "logcat1.rmeq";
+
+	/** ログカテゴリB.データ処理*/
+	public static final String LOG_CAT_B = "logcat2.dprc";
+
+	/** ログカテゴリC.データ管理*/
+	public static final String LOG_CAT_C = "logcat2.calc";
+
+	/** ログカテゴリD.帳票作成*/
+	public static final String LOG_CAT_D = "logcat3.repo";
+
+	/** ログカテゴリE.通信*/
+	public static final String LOG_CAT_E = "logcat2.comm";
+
+	/** ログカテゴリF.システム管理*/
+	public static final String LOG_CAT_F = "logcat4.sysm";
 }
