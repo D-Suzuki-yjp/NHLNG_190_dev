@@ -21,13 +21,13 @@ package job.sfcommon.dto;
 		/**
 		 * タグ論理名1
 		 */
-		private String tagLogicalName1;
+		private String tagLogicName1;
 
-		public String getTagLogicalName1() {
-			return tagLogicalName1;
+		public String getTagLogicName1() {
+			return tagLogicName1;
 		}
 
-		public void setTagLogicalName1(String tagLogicalName1) {
-			this.tagLogicalName1 = tagLogicalName1;
+		public void setTagLogicName1(String tagLogicName1) {
+			this.tagLogicName1 = tagLogicName1;
 		}
 }
