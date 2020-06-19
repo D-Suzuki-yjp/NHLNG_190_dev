@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Validator;
+import job.sfcommon.dataaccess.entity.nhlng.CmtClose;
 import job.sfcommon.dataaccess.entity.nhlng.CmtCloseMon;
 import job.sfcommon.dataaccess.entity.nhlng.CmtCloseMonExample;
 import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseMonMapper;
@@ -123,9 +124,10 @@ public class CmtCloseMonDao{
 		return result;
 	}
 
-	public static List<CmtCloseMon> selectClacData(final SqlSession session, final List<String> tagNoList3, final List<String> tagNoList6, final Date targetDate) {
+	@SuppressWarnings("rawtypes")
+	public static List<CmtClose> selectClacData(final SqlSession session, final List<String> monTagNoList1, final List<String> monTagNoList2, List<String> monTagNoList5, final Date targetDate) {
 		CmtCloseMonMapper mapper = session.getMapper(CmtCloseMonMapper.class);
-		return mapper.selectClacData(tagNoList3, tagNoList6, targetDate);
+		return mapper.selectClacData(monTagNoList1, monTagNoList2, monTagNoList5,targetDate);
 	}
 
 	public static int insert(final SqlSession session, final CmtCloseMon data) {

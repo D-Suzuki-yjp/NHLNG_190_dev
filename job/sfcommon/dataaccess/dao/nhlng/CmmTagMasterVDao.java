@@ -3,8 +3,6 @@ package job.sfcommon.dataaccess.dao.nhlng;
 import java.util.List;
 import java.util.Objects;
 
-
-
 import org.apache.ibatis.session.SqlSession;
 
 import job.sfcommon.dataaccess.entity.nhlng.CmmTagMasterV;
@@ -120,7 +118,7 @@ public class CmmTagMasterVDao {
 	|               M E T H O D S               |
 	============================================*/
 
-	private static long count(final SqlSession session, final CmmTagMasterVExample example) {
+	public static long count(final SqlSession session, final CmmTagMasterVExample example) {
 		CmmTagMasterVMapper mapper = session.getMapper(CmmTagMasterVMapper.class);
 		return mapper.countByExample(example);
 	}

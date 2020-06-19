@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Validator;
+import job.sfcommon.dataaccess.entity.nhlng.CmtClose;
 import job.sfcommon.dataaccess.entity.nhlng.CmtCloseDay;
 import job.sfcommon.dataaccess.entity.nhlng.CmtCloseDayExample;
 import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseDayMapper;
@@ -102,9 +103,10 @@ public class CmtCloseDayDao{
 		return result;
 	}
 
-	public static List<CmtCloseDay> selectClacData(final SqlSession session, final List<String> tagNoList1, final List<String> tagNoList5, final Date targetDate) {
+	@SuppressWarnings("rawtypes")
+	public static List<CmtClose> selectClacData(final SqlSession session, final List<String> dayTagNoList0, final List<String> dayTagNoList1, List<String> dayTagNoList4, final Date targetDate) {
 		CmtCloseDayMapper mapper = session.getMapper(CmtCloseDayMapper.class);
-		return mapper.selectClacData(tagNoList1, tagNoList5, targetDate);
+		return mapper.selectClacData(dayTagNoList0, dayTagNoList1, dayTagNoList4, targetDate);
 	}
 
 	public static int insert(final SqlSession session, final CmtCloseDay data) {
@@ -152,7 +154,7 @@ public class CmtCloseDayDao{
 		for (CmtCloseDayDto data : dataList) {
 			Validator.requireNonNull(data, "data");
 			Date closeDtime = data.getCloseDtime();
-			String tagLogicName1 = data.getTagLogicalName1();
+			String tagLogicName1 = data.getTagLogicName1();
 			Validator.requireNonNull(closeDtime, "closeDtime");
 			Validator.requireNonNull(tagLogicName1, "tagLogicName1");
 		}

@@ -119,9 +119,9 @@ public class CmtApStatDao {
 		return results;
 	}
 
-	public static int deleteByPrimaryKey(final SqlSession session, final String sccServerName, final String apName) {
+	public static int delete(final SqlSession session, final CmtApStatExample example) {
 		CmtApStatMapper mapper = session.getMapper(CmtApStatMapper.class);
-		return mapper.deleteByPrimaryKey(sccServerName, apName);
+		return mapper.deleteByExample(example);
 	}
 
 }

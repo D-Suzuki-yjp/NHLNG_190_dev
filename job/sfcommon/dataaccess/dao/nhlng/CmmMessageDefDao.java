@@ -1,15 +1,9 @@
 package job.sfcommon.dataaccess.dao.nhlng;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-
 
 import org.apache.ibatis.session.SqlSession;
 
-import biz.grandsight.ex.util.Converter;
 import job.sfcommon.dataaccess.entity.nhlng.CmmMessageDef;
 import job.sfcommon.dataaccess.entity.nhlng.CmmMessageDefExample;
 import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageDefMapper;
@@ -95,7 +89,7 @@ public class CmmMessageDefDao {
 		object.setMsgKind((String) map.get(COLUMNS.MSG_KIND));
 		object.setMsgText((String) map.get(COLUMNS.MSG_TEXT));
 	}
-	*/
+
 
 	private static void convertModelListToMapList(final List<CmmMessageDef> objectList, final List<Map<COLUMNS, Object>> mapList) {
 		if (objectList == null) { return; }
@@ -121,138 +115,21 @@ public class CmmMessageDefDao {
 			data.put(COLUMNS.MSG_TEXT, object.getMsgText());
 		}
 	}
+	*/
 
-	private static CmmMessageDefExample makeEqualToMatchingExample(final Map<COLUMNS, Object> searchingOption) {
-		// WHERE clause
-		CmmMessageDefExample example = new CmmMessageDefExample();
-		if (searchingOption.size() > 0) {
-			if (searchingOption.containsKey(COLUMNS.MSG_ID)) {
-				String MSGCAT = (String) searchingOption.get(COLUMNS.MSG_ID);
-				example.createCriteria().andMsgIdEqualTo(MSGCAT);
-			}
-			if (searchingOption.containsKey(COLUMNS.MSG_CAT)) {
-				String MSGCAT = (String) searchingOption.get(COLUMNS.MSG_CAT);
-				example.createCriteria().andMsgCatEqualTo(MSGCAT);
-			}
-		}
-		return example;
-	}
-
-	private static CmmMessageDefExample makePartialMatchingExample(final Map<COLUMNS, String> searchingOption) {
-		// WHERE clause
-		CmmMessageDefExample example = new CmmMessageDefExample();
-		if (searchingOption.size() > 0) {
-			if (searchingOption.containsKey(COLUMNS.MSG_ID)) {
-				String MSGCAT = Converter.buildPartialMatchStringInSQL(searchingOption.get(COLUMNS.MSG_ID));
-				example.createCriteria().andMsgIdLike(MSGCAT);
-			}
-			if (searchingOption.containsKey(COLUMNS.MSG_CAT)) {
-				String MSGCAT = Converter.buildPartialMatchStringInSQL(searchingOption.get(COLUMNS.MSG_CAT));
-				example.createCriteria().andMsgIdLike(MSGCAT);
-			}
-		}
-		return example;
-	}
-
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static long countByPrimaryKey(final SqlSession session, final String msgId) {
-		CmmMessageDefExample example = new CmmMessageDefExample();
-		example.createCriteria().andMsgIdEqualTo(msgId);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static long countEqualToMatching(final SqlSession session, final Map<CmmMessageDefDao.COLUMNS, Object> searchingOption) {
-		CmmMessageDefExample example = makeEqualToMatchingExample(searchingOption);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	public static long countPartialMatching(final SqlSession session, final Map<CmmMessageDefDao.COLUMNS, String> searchingOption) {
-		CmmMessageDefExample example = makePartialMatchingExample(searchingOption);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static long countAllRecord(final SqlSession session) {
-		CmmMessageDefExample example = new CmmMessageDefExample();
-		return count(session, example);
-	}
-
-	private static long count(final SqlSession session, final CmmMessageDefExample example) {
+	public static long count(final SqlSession session, final CmmMessageDefExample example) {
 		CmmMessageDefMapper mapper = session.getMapper(CmmMessageDefMapper.class);
 		return mapper.countByExample(example);
 	}
 
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static Map<CmmMessageDefDao.COLUMNS, Object> selectByPrimaryKey(final SqlSession session, final String msgId, final String msgCat) {
-		CmmMessageDefMapper mapper = session.getMapper(CmmMessageDefMapper.class);
-		CmmMessageDef record = mapper.selectByPrimaryKey(msgId, msgCat);
-
-		Map<COLUMNS, Object> result = new HashMap<>();
-		convertModelToMap(record, result);
-		return result;
-	}
-
-	/**
-	 * @param session
-	 * @param cmmMessageDef
-	 * @return
-	 */
-	public static List<Map<CmmMessageDefDao.COLUMNS, Object>> selectEqualToMatching(final SqlSession session, final Map<COLUMNS, Object> cmmMessageDef) {
-		CmmMessageDefExample example = makeEqualToMatchingExample(cmmMessageDef);
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	public static List<Map<CmmMessageDefDao.COLUMNS, Object>> selectPartialMatching(final SqlSession session, final Map<CmmMessageDefDao.COLUMNS, String> searchingOption) {
-		CmmMessageDefExample example = makePartialMatchingExample(searchingOption);
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static List<Map<CmmMessageDefDao.COLUMNS, Object>> selectAllRecord(final SqlSession session) {
-		CmmMessageDefExample example = new CmmMessageDefExample();
-		return select(session, example);
-	}
-
-	private static List<Map<CmmMessageDefDao.COLUMNS, Object>> select(final SqlSession session, final CmmMessageDefExample example) {
+	public static List<CmmMessageDef> select(final SqlSession session, final CmmMessageDefExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CMMMESSAGEDEF_COLUMN_NAME);
 
 		// Select.
 		CmmMessageDefMapper mapper = session.getMapper(CmmMessageDefMapper.class);
-		List<CmmMessageDef> recordList = mapper.selectByExample(example);
+		List<CmmMessageDef> result = mapper.selectByExample(example);
 
-		// Convert and return.
-		List<Map<COLUMNS, Object>> result = new ArrayList<>();
-		convertModelListToMapList(recordList, result);
 		return result;
 	}
 }

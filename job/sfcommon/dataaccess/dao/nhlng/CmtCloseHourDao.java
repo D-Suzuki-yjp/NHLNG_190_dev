@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.apache.ibatis.session.SqlSession;
 
 import biz.grandsight.ex.util.Validator;
+import job.sfcommon.dataaccess.entity.nhlng.CmtClose;
 import job.sfcommon.dataaccess.entity.nhlng.CmtCloseHour;
 import job.sfcommon.dataaccess.entity.nhlng.CmtCloseHourExample;
 import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseHourMapper;
@@ -135,9 +136,10 @@ public class CmtCloseHourDao {
 		return result;
 	}
 
-	public static List<CmtCloseHour> selectClacData(final SqlSession session, final List<String> tagNoList0, final List<String> tagNoList4, final Date targetDate) {
+	@SuppressWarnings("rawtypes")
+	public static List<CmtClose> selectClacData(final SqlSession session, final List<String> hourTagNoList0, final List<String> hourTagNoList3, final Date targetDate) {
 		CmtCloseHourMapper mapper = session.getMapper(CmtCloseHourMapper.class);
-		return mapper.selectClacData(tagNoList0, tagNoList4, targetDate);
+		return mapper.selectClacData(hourTagNoList0, hourTagNoList3, targetDate);
 	}
 
 	public static int insert(final SqlSession session, final List<CmtCloseHour> dataList) {

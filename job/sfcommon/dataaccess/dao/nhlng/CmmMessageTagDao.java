@@ -1,15 +1,9 @@
 package job.sfcommon.dataaccess.dao.nhlng;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-
 
 import org.apache.ibatis.session.SqlSession;
 
-import biz.grandsight.ex.util.Converter;
 import job.sfcommon.dataaccess.entity.nhlng.CmmMessageTag;
 import job.sfcommon.dataaccess.entity.nhlng.CmmMessageTagExample;
 import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageTagMapper;
@@ -94,7 +88,7 @@ public class CmmMessageTagDao {
 		object.setTagNo((String) map.get(COLUMNS.TAG_NO));
 		object.setTagVal((BigDecimal) map.get(COLUMNS.TAG_VAL));
 	}
-	*/
+
 
 	private static void convertModelListToMapList(final List<CmmMessageTag> objectList, final List<Map<COLUMNS, Object>> mapList) {
 		if (objectList == null) { return; }
@@ -120,152 +114,20 @@ public class CmmMessageTagDao {
 			data.put(COLUMNS.TAG_VAL, object.getTagVal());
 		}
 	}
-
-	private static CmmMessageTagExample makeEqualToMatchingExample(final Map<COLUMNS, Object> searchingOption) {
-		// WHERE clause
-		CmmMessageTagExample example = new CmmMessageTagExample();
-		if (searchingOption.size() > 0) {
-			if (searchingOption.containsKey(COLUMNS.MSG_ID)) {
-				String value1 = (String) searchingOption.get(COLUMNS.MSG_ID);
-				example.createCriteria().andMsgIdEqualTo(value1);
-			}
-			if (searchingOption.containsKey(COLUMNS.SEQ_NO)) {
-				Integer value2 = (Integer) searchingOption.get(COLUMNS.SEQ_NO);
-				example.createCriteria().andSeqNoEqualTo(value2);
-			}
-		}
-		return example;
-	}
-
-	private static CmmMessageTagExample makePartialMatchingExample(final Map<COLUMNS, Object> searchingOption) {
-		// WHERE clause
-		CmmMessageTagExample example = new CmmMessageTagExample();
-		if (searchingOption.size() > 0) {
-			if (searchingOption.containsKey(COLUMNS.MSG_ID)) {
-				String value1 = Converter.buildPartialMatchStringInSQL((String) searchingOption.get(COLUMNS.MSG_ID));
-				example.createCriteria().andMsgCatLike(value1);
-			}
-			if (searchingOption.containsKey(COLUMNS.SEQ_NO)) {
-				Integer value2 = (Integer) searchingOption.get(COLUMNS.SEQ_NO);
-				example.createCriteria().andSeqNoEqualTo(value2);
-			}
-		}
-		return example;
-	}
-
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static long countByPrimaryKey(final SqlSession session, final String msgId) {
-		CmmMessageTagExample example = new CmmMessageTagExample();
-		example.createCriteria().andMsgIdEqualTo(msgId);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static long countEqualToMatching(final SqlSession session, final Map<CmmMessageTagDao.COLUMNS, Object> searchingOption) {
-		CmmMessageTagExample example = makeEqualToMatchingExample(searchingOption);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	public static long countPartialMatching(final SqlSession session, final Map<CmmMessageTagDao.COLUMNS, Object> searchingOption) {
-		CmmMessageTagExample example = makePartialMatchingExample(searchingOption);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static long countAllRecord(final SqlSession session) {
-		CmmMessageTagExample example = new CmmMessageTagExample();
-		return count(session, example);
-	}
-
-	private static long count(final SqlSession session, final CmmMessageTagExample example) {
+	*/
+	public static long count(final SqlSession session, final CmmMessageTagExample example) {
 		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
 		return mapper.countByExample(example);
 	}
 
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static Map<CmmMessageTagDao.COLUMNS, Object> selectByPrimaryKey(final SqlSession session, final String msgId, final Integer seqNo, final String msgCat) {
-		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
-		CmmMessageTag record = mapper.selectByPrimaryKey(msgId, seqNo, msgCat);
-
-		Map<COLUMNS, Object> result = new HashMap<>();
-		convertModelToMap(record, result);
-		return result;
-	}
-
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static List<Map<CmmMessageTagDao.COLUMNS, Object>> selectByMsgId(final SqlSession session, final String msgId, final String msgCat) {
-		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
-		List<CmmMessageTag> recordList = mapper.selectByMsgId(msgId, msgCat);
-
-		List<Map<COLUMNS, Object>> result = new ArrayList<>();
-		convertModelListToMapList(recordList, result);
-		return result;
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	public static List<Map<CmmMessageTagDao.COLUMNS, Object>> selectEqualToMatching(final SqlSession session, final Map<CmmMessageTagDao.COLUMNS, Object> searchingOption) {
-		CmmMessageTagExample example = makeEqualToMatchingExample(searchingOption);
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	public static List<Map<CmmMessageTagDao.COLUMNS, Object>> selectPartialMatching(final SqlSession session, final Map<CmmMessageTagDao.COLUMNS, Object> searchingOption) {
-		CmmMessageTagExample example = makePartialMatchingExample(searchingOption);
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static List<Map<CmmMessageTagDao.COLUMNS, Object>> selectAllRecord(final SqlSession session) {
-		CmmMessageTagExample example = new CmmMessageTagExample();
-		return select(session, example);
-	}
-
-	private static List<Map<CmmMessageTagDao.COLUMNS, Object>> select(final SqlSession session, final CmmMessageTagExample example) {
+	public static List<CmmMessageTag> select(final SqlSession session, final CmmMessageTagExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(MSGID_COLUMN_NAME);
 
 		// Select.
 		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
-		List<CmmMessageTag> recordList = mapper.selectByExample(example);
+		List<CmmMessageTag> result = mapper.selectByExample(example);
 
-		// Convert and return.
-		List<Map<COLUMNS, Object>> result = new ArrayList<>();
-		convertModelListToMapList(recordList, result);
 		return result;
 	}
 }

@@ -115,9 +115,9 @@ public class CmtComStatDao {
 		return results;
 	}
 
-	public static int deleteByPrimaryKey(final SqlSession session, final String sccServerName, final String comHostName) {
+	public static int delete(final SqlSession session, final CmtComStatExample example) {
 		CmtComStatMapper mapper = session.getMapper(CmtComStatMapper.class);
-		return mapper.deleteByPrimaryKey(sccServerName, comHostName);
+		return mapper.deleteByExample(example);
 	}
 
 }

@@ -111,9 +111,9 @@ public class CmtSyncInfoDao {
 		return results;
 	}
 
-	public static int deleteByPrimaryKey(final SqlSession session, final String targetTable) {
+	public static int deleteByPrimaryKey(final SqlSession session, final CmtSyncInfoExample example) {
 		CmtSyncInfoMapper mapper = session.getMapper(CmtSyncInfoMapper.class);
-		return mapper.deleteByPrimaryKey(targetTable);
+		return mapper.deleteByExample(example);
 	}
 
 }

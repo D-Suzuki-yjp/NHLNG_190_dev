@@ -1,15 +1,10 @@
 package job.sfcommon.dataaccess.dao.nhlng;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-
 
 import org.apache.ibatis.session.SqlSession;
 
+import biz.grandsight.ex.util.Validator;
 import job.sfcommon.dataaccess.entity.nhlng.CmtMessage;
 import job.sfcommon.dataaccess.entity.nhlng.CmtMessageExample;
 import job.sfcommon.dataaccess.mapper.nhlng.CmtMessageMapper;
@@ -91,7 +86,6 @@ public class CmtMessageDao {
 			objectList.add(object);
 		}
 	}
-	*/
 
 	private static void convertMapToModel(final Map<COLUMNS, Object> map, final CmtMessage object) {
 		if (map == null) { return; }
@@ -146,95 +140,19 @@ public class CmtMessageDao {
 		}
 		return example;
 	}
-
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static long countByPrimaryKey(final SqlSession session, final Integer seqNo) {
-		CmtMessageExample example = new CmtMessageExample();
-		example.createCriteria().andSeqNoEqualTo(seqNo);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static long countEqualToMatching(final SqlSession session, final Map<COLUMNS, Object> searchingOption) {
-		CmtMessageExample example = makeEqualToMatchingExample(searchingOption);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static long countAllRecord(final SqlSession session) {
-		CmtMessageExample example = new CmtMessageExample();
-		return count(session, example);
-	}
-
-	private static long count(final SqlSession session, final CmtMessageExample example) {
+	*/
+	public static long count(final SqlSession session, final CmtMessageExample example) {
 		CmtMessageMapper mapper = session.getMapper(CmtMessageMapper.class);
 		return mapper.countByExample(example);
 	}
 
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static Map<COLUMNS, Object> selectByPrimaryKey(final SqlSession session, final Integer seqNo, final String msgCat) {
-		CmtMessageMapper mapper = session.getMapper(CmtMessageMapper.class);
-		CmtMessage record = mapper.selectByPrimaryKey(seqNo, msgCat);
-
-		Map<COLUMNS, Object> result = new HashMap<>();
-		convertModelToMap(record, result);
-		return result;
-	}
-
-	public static Map<COLUMNS, Object> selectByPrimaryKeyBetweenDB(final SqlSession session, final Integer seqNo, final String msgCat) {
-		CmtMessageMapper mapper = session.getMapper(CmtMessageMapper.class);
-		CmtMessage record = mapper.selectByPrimaryKeyBetweenDB(seqNo, msgCat);
-
-		Map<COLUMNS, Object> result = new HashMap<>();
-		convertModelToMap(record, result);
-		return result;
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	public static List<Map<COLUMNS, Object>> selectEqualToMatching(final SqlSession session, final Map<COLUMNS, Object> searchingOption) {
-		CmtMessageExample example = makeEqualToMatchingExample(searchingOption);
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static List<Map<COLUMNS, Object>> selectAllRecord(final SqlSession session) {
-		CmtMessageExample example = new CmtMessageExample();
-		return select(session, example);
-	}
-
-	private static List<Map<COLUMNS, Object>> select(final SqlSession session, final CmtMessageExample example) {
+	public static List<CmtMessage> select(final SqlSession session, final CmtMessageExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(SEQNO_COLUMN_NAME);
 
 		// Select.
 		CmtMessageMapper mapper = session.getMapper(CmtMessageMapper.class);
-		List<CmtMessage> recordList = mapper.selectByExample(example);
-
-		// Convert and return.
-		List<Map<COLUMNS, Object>> result = new ArrayList<>();
-		convertModelListToMapList(recordList, result);
+		List<CmtMessage> result = mapper.selectByExample(example);
 		return result;
 	}
 
@@ -244,29 +162,25 @@ public class CmtMessageDao {
 	 * @param data  メッセージデータ
 	 * @return int insert件数
 	 */
-	public static int insert(final SqlSession session, final Map<CmtMessageDao.COLUMNS, Object> data) {
-
-		// Make data.
-		CmtMessage record = new CmtMessage();
-		convertMapToModel(data, record);
+	public static int insert(final SqlSession session, final CmtMessage data) {
+		// Validate.
+		Validator.requireNonNull(data, "data");
+		String msgId = data.getMsgId();
+		Validator.requireNonNullAndNonEmpty(msgId, "msgId");
 
 		// Insert.
 		CmtMessageMapper mapper = session.getMapper(CmtMessageMapper.class);
-		return mapper.insertSelective(record);
+		return mapper.insertSelective(data);
 	}
 
-	public static int updateByPrimaryKey(final SqlSession session, final Map<COLUMNS, Object> data) {
-		// Make data.
-		CmtMessage record = new CmtMessage();
-		convertMapToModel(data, record);
-
+	public static int updateByExampleSelective(final SqlSession session, final CmtMessage record, final CmtMessageExample example) {
 		// Update.
 		CmtMessageMapper mapper = session.getMapper(CmtMessageMapper.class);
-		return mapper.updateByPrimaryKeySelective(record);
+		return mapper.updateByExampleSelective(record, example);
 	}
 
-	public static int deleteByPrimaryKey(final SqlSession session, final Integer seqNo, final String msgCat) {
+	public static int deleteByExample(final SqlSession session, final CmtMessageExample example) {
 		CmtMessageMapper mapper = session.getMapper(CmtMessageMapper.class);
-		return mapper.deleteByPrimaryKey(seqNo, msgCat);
+		return mapper.deleteByExample(example);
 	}
 }

@@ -1,13 +1,9 @@
 package job.sfcommon.dataaccess.dao.nhlng;
 
-import java.math.BigDecimal;
 import java.util.List;
-
-
 
 import org.apache.ibatis.session.SqlSession;
 
-import biz.grandsight.ex.util.Validator;
 import job.sfcommon.dataaccess.entity.nhlng.StmTank;
 import job.sfcommon.dataaccess.entity.nhlng.StmTankExample;
 import job.sfcommon.dataaccess.mapper.nhlng.StmTankMapper;
@@ -91,36 +87,4 @@ public class StmTankDao {
 		List<StmTank> result = mapper.selectByExample(example);
 		return result;
 	}
-
-	public static int insert(final SqlSession session, final StmTank data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		Integer tankNo = data.getTankNo();
-		Integer lvlGaugeFrom = data.getLvlGaugeFrom();
-		Validator.requireNonNull(tankNo, "tankNo");
-		Validator.requireNonNull(lvlGaugeFrom, "lvlGaugeFrom");
-
-		// Insert.
-		StmTankMapper mapper = session.getMapper(StmTankMapper.class);
-		return mapper.insertSelective(data);
-	}
-
-	public static int updateByPrimaryKey(final SqlSession session, final StmTank data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		Integer tankNo = data.getTankNo();
-		Integer lvlGaugeFrom = data.getLvlGaugeFrom();
-		Validator.requireNonNull(tankNo, "tankNo");
-		Validator.requireNonNull(lvlGaugeFrom, "lvlGaugeFrom");
-
-		// Update.
-		StmTankMapper mapper = session.getMapper(StmTankMapper.class);
-		return mapper.updateByPrimaryKeySelective(data);
-	}
-
-	public static int deleteByPrimaryKey(final SqlSession session, final int tankNo, final BigDecimal lvlGaugeFrom) {
-		StmTankMapper mapper = session.getMapper(StmTankMapper.class);
-		return mapper.deleteByPrimaryKey(tankNo, lvlGaugeFrom);
-	}
-
 }

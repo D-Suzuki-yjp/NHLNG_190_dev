@@ -119,8 +119,8 @@ public class CmtSystemStatDao {
 		return results;
 	}
 
-	public static int deleteByPrimaryKey(final SqlSession session, final String sccServerName) {
+	public static int delete(final SqlSession session, CmtSystemStatExample example) {
 		CmtSystemStatMapper mapper = session.getMapper(CmtSystemStatMapper.class);
-		return mapper.deleteByPrimaryKey(sccServerName);
+		return mapper.deleteByExample(example);
 	}
 }

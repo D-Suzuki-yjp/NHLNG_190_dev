@@ -136,15 +136,6 @@ public class CmtTagValDao {
 		return result;
 	}
 
-	/**
-	 * メッセージデータinsert
-	 *
-	 * @param session
-	 *            SQLセッション
-	 * @param data
-	 *            メッセージデータ
-	 * @return int insert件数
-	 */
 	public static int insert(final SqlSession session, final CmtTagVal data) {
 		// Validate.
 		Validator.requireNonNull(data, "data");
@@ -169,9 +160,9 @@ public class CmtTagValDao {
 		return results;
 	}
 
-	public static int deleteByPrimaryKey(final SqlSession session, final String tagNo) {
+	public static int delete(final SqlSession session, final CmtTagValExample example) {
 		CmtTagValMapper mapper = session.getMapper(CmtTagValMapper.class);
-		return mapper.deleteByPrimaryKey(tagNo);
+		return mapper.deleteByExample(example);
 	}
 
 }
