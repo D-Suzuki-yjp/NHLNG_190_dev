@@ -57,5 +57,6 @@
 	<!-- Location of mapping XML -->
 	<mappers>
 		<package name="job.sfcommon.dataaccess.mapper.nhlng"/>
+		<package name="job.demand.server.dao.nhlng.mapper"/>
 	</mappers>
 </configuration>

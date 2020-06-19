@@ -57,5 +57,6 @@
 	<!-- Location of mapping XML -->
 	<mappers>
 		<package name="job.sfcommon.dataaccess.mapper.looponexcore"/>
+		<package name="job.demand.server.dao.looponexcore.mapper"/>
 	</mappers>
 </configuration>
