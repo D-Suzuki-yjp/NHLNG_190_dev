@@ -19,12 +19,12 @@ import job.sfcommon.util.ConstUtil;
  * ExecDemandOutputMessage メッセージ出力デマンドアプリケーション呼出クラス(SF)
  * @author D.Suzuki
  */
-public class ExecDemandOutputMessage {
+public class ExecDemandOutputMsgConditional {
 
 	private final static String LOG_MSG = "メッセージ出力SFリクエスト";
 
 	/**
-	 * メッセージ出力デマンドアプリケーション呼出
+	 * 条件付きメッセージ出力デマンドアプリケーション呼出
 	 * @param MsgId  メッセージID
 	 * @param msgCat  メッセージカテゴリ
 	 * @param msgParams  埋込パラメータ
@@ -41,7 +41,7 @@ public class ExecDemandOutputMessage {
         // メッセージID
         paramList.add(MsgId);
         // 条件付きフラグ
-        paramList.add("0");
+        paramList.add("1");
         // 埋込パラメータ
         paramList.add(msgParams);
 
