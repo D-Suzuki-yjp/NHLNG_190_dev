@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<MessageList>
+	<subsystem kind="logcat0.comn">
+		<message id="0001" level="debug" text="%s" />
+		<message id="0002" level="info" text="%s" />
+		<message id="0003" level="error" text="%s" />
+		<message id="0004" level="info" text="%s処理開始  %s" />
+		<message id="0005" level="info" text="%s処理終了  %s" />
+	</subsystem>
+	<subsystem kind="logcat1.rmeq">
+		<message id="0001" level="debug" text="%s" />
+		<message id="0002" level="info" text="%s" />
+		<message id="0003" level="error" text="%s" />
+		<message id="0004" level="info" text="%s処理開始  %s" />
+		<message id="0005" level="info" text="%s処理終了  %s" />
+	</subsystem>
+	<subsystem kind="logcat2.dprc">
+		<message id="0001" level="debug" text="%s" />
+		<message id="0002" level="info" text="%s" />
+		<message id="0003" level="error" text="%s" />
+		<message id="0004" level="info" text="%s処理開始  %s" />
+		<message id="0005" level="info" text="%s処理終了  %s" />
+	</subsystem>
+	<subsystem kind="logcat2.calc">
+		<message id="0001" level="debug" text="%s" />
+		<message id="0002" level="info" text="%s" />
+		<message id="0003" level="error" text="%s" />
+		<message id="0004" level="info" text="%s処理開始  %s" />
+		<message id="0005" level="info" text="%s処理終了  %s" />
+	</subsystem>
+	<subsystem kind="logcat3.repo">
+		<message id="0001" level="debug" text="%s" />
+		<message id="0002" level="info" text="%s" />
+		<message id="0003" level="error" text="%s" />
+		<message id="0004" level="info" text="%s処理開始  %s" />
+		<message id="0005" level="info" text="%s処理終了  %s" />
+	</subsystem>
+	<subsystem kind="logcat2.comm">
+		<message id="0001" level="debug" text="%s" />
+		<message id="0002" level="info" text="%s" />
+		<message id="0003" level="error" text="%s" />
+		<message id="0004" level="info" text="%s処理開始  %s" />
+		<message id="0005" level="info" text="%s処理終了  %s" />
+	</subsystem>
+	<subsystem kind="logcat4.sysm">
+		<message id="0001" level="debug" text="%s" />
+		<message id="0002" level="info" text="%s" />
+		<message id="0003" level="error" text="%s" />
+		<message id="0004" level="info" text="%s処理開始  %s" />
+		<message id="0005" level="info" text="%s処理終了  %s" />
+	</subsystem>
+	<subsystem kind="logger.common">
+		<message id="0001" level="error" text="システムエラー [%s] 詳細エラー = %s" />
+		<message id="0002" level="error" text="DB接続エラー [%s] 詳細ｴﾗｰ = %s" />
+		<message id="0003" level="warning" text="アルゴリズム情報変換エラー アルゴリズム種別 = %s アルゴリズム情報 = %s 詳細エラー = %s" />
+		<message id="0004" level="error" text="収集タイミングタイプエラー 収集タイミング=%s" />
+		<message id="0005" level="debug" text="アルゴリズム管理初期処理開始" />
+		<message id="0006" level="debug" text="アルゴリズム管理初期処理完了" />
+		<message id="0007" level="error" text="四捨五入処理エラー　値 = %s 詳細エラー = %s" />
+		<message id="0008" level="error" text="calcアルゴリズム計算エラー[%s] 計算式 = %s 詳細エラー = %s" />
+		<message id="0009" level="error" text="gapアルゴリズム計算差分エラー　前回値 = %s 今回値 = %s 上限値 = %s 偏差制限 = %s 計算結果 = %s" />
+		<message id="0010" level="error" text="gapアルゴリズム計算エラー[%s] パラメータ = %s" />
+		<message id="0011" level="error" text="計算対象データエラー" />
+		<message id="0012" level="warning" text="標準アルゴリズム計算結果nullエラー" />
+		<message id="0013" level="error" text="SFデマンドパラメータ文字列変換エラー　要求デマンドID = %s" />
+		<message id="0014" level="error" text="SFデマンド要求エラー　要求デマンドID = %s　詳細エラー = %s" />
+		<message id="0015" level="error" text="タグマスタチェックエラー Nコード = %s 収集タイミング種別名 = %s アルゴリズム種別名 = %s  エラー内容 = %s" />
+		<message id="0016" level="error" text="SFデマンド要求アルゴリズム管理エラー[%s] 詳細ｴﾗｰ = %s" />
+		<message id="0017" level="error" text="アルゴリズム　エラー[Nコード=%s] 締切種別=%s　アルゴリズム=%s パラメータ=%s 詳細メッセージ=%s" />
+		<message id="0018" level="info" text="ロギング【前】処理開始　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0019" level="info" text="ロギング【前】処理終了　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0020" level="info" text="ロギング【後】処理開始　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0021" level="info" text="ロギング【後】処理終了　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0022" level="" text="" />
+		<message id="0023" level="error" text="Userアルゴリズム計算エラー[%s]" />
+		<message id="0024" level="warning" text="アルゴリズム計算結果データエラー[%s]" />
+		<message id="0025" level="info" text="ロギング開始　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0026" level="info" text="ロギング完了　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0027" level="info" text="アルゴリズム管理立上処理が正常終了していないので、ロギング処理が実行できません。" />
+		<message id="0028" level="debug" text="アルゴリズム管理 タグマスタメンテナンス開始 " />
+		<message id="0029" level="debug" text="アルゴリズム管理 タグマスタメンテナンス終了" />
+		<message id="0030" level="debug" text="アルゴリズム管理　データ削除開始　収集タイミング=%s　起動時刻=%s　" />
+		<message id="0031" level="debug" text="アルゴリズム管理　データ削除完了　収集タイミング=%s　起動時刻=%s　" />
+		<message id="0032" level="error" text="ロギングデータアクセス 瞬時データ読込みエラー Nコード=%sは、存在しません。" />
+		<message id="0033" level="error" text="ロギングデータアクセス 瞬時データ書込みエラー Nコード=%s は、存在しません。 詳細内容=%s" />
+		<message id="0034" level="error" text="ロギングデータアクセス 締めデータ読込みエラー 締めテーブル名=%s Nコード=%sは、存在しません。" />
+		<message id="0035" level="error" text="マスタデータアクセス タグマスタ読込みエラー %s=%sは、存在しません。" />
+		<message id="0036" level="error" text="データ補填異常 [%s] 詳細エラー = %s" />
+		<message id="0037" level="info" text="データ補填 タグマスタにデータがありません。締めテーブル名=%s" />
+		<message id="0038" level="info" text="データ補填 パラメータ　起動時刻=%s 締切種別=%s グループNo=%s 周期=%s" />
+		<message id="0039" level="info" text="データ補填 最新データ登録日時=%s" />
+		<message id="0040" level="debug" text="ロギング開始前終了後処理実行エラー パラメータ=%s" />
+		<message id="0041" level="debug" text="ロギング開始前終了後処理実行エラー 締切種別=%s" />
+		<message id="0042" level="debug" text="ロギング開始前処理実行エラー 締切種別=%s パラメータ=%s [%s]" />
+		<message id="0043" level="debug" text="ロギング終了後処理実行エラー 締切種別=%s パラメータ=%s [%s]" />
+		<message id="0044" level="info" text="データ補填実行" />
+		<message id="0045" level="info" text="データ補填実行完了" />
+		<message id="0046" level="error" text="データ補填実行エラー 締切データが0件" />
+		<message id="0047" level="error" text="オンラインタグメンテナンス異常終了 [%s] 詳細エラー = %s" />
+		<message id="0048" level="debug" text="アルゴリズム管理復旧処理開始" />
+		<message id="0049" level="debug" text="アルゴリズム管理復旧処理終了" />
+		<message id="0050" level="error" text="Nコード引継ぎ実行中エラー 置換前Nコード = %s 置換後Nコード = %s テーブル名 = %s [%s] 詳細エラー = %s" />
+		<message id="0051" level="debug" text="ロギングデータ復旧管理初期処理開始 締切種別=%s グループNo=%s 起動時刻=%s" />
+		<message id="0052" level="debug" text="ロギングデータ復旧管理初期処理完了 締切種別=%s グループNo=%s 起動時刻=%s" />
+		<message id="0053" level="error" text="立ち上げ時データ補填要求異常 [%s] 詳細エラー = %s" />
+		<message id="0054" level="debug" text="データ補填実行 %s件書込み" />
+		<message id="0055" level="error" text="roundアルゴリズム計算エラー[%s] パラメータ = %s" />
+		<message id="0056" level="error" text="rgapアルゴリズム計算エラー[%s] パラメータ = %s" />
+		<message id="0057" level="error" text="収集停止フラグアクセスエラー[%s] 詳細エラー = %s" />
+		<message id="0058" level="debug" text="オンラインタグメンテナンス開始" />
+		<message id="0059" level="debug" text="オンラインタグメンテナンス終了" />
+		<message id="0060" level="debug" text="収集停止フラグアクセス開始　where句 = %s" />
+		<message id="0061" level="debug" text="収集停止フラグアクセス終了" />
+		<message id="0062" level="info" text="データ削除開始　収集タイミング=%s　グループNo=%s  実行時刻=%s　削除時刻=%s" />
+		<message id="0063" level="info" text="データ削除完了　収集タイミング=%s　グループNo=%s　実行時刻=%s　削除時刻=%s　" />
+		<message id="0064" level="warning" text="品質コード詳細更新　該当データなし　収集タイミング=%s　Nコード=%s　締切日時=%s" />
+		<message id="0065" level="info" text="【再締切】ロギング開始　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0066" level="info" text="【再締切】ロギング完了　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0067" level="info" text="再演算開始　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0068" level="info" text="再演算完了　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0069" level="info" text="再締切要求受付　収集タイミング=%s 要求時刻=%s グループNo=%s" />
+		<message id="0070" level="info" text="再演算要求受付　収集タイミング=%s 要求時刻=%s グループNo=%s" />
+		<message id="0071" level="debug" text="DBアクセスI/F　開始: %s, @class[%s] 引数=[%s]" />
+		<message id="0072" level="debug" text="DBアクセスI/F　終了: %s, @class[%s] 引数=[%s]" />
+		<message id="0073" level="error" text="DBアクセスI/F パラメータ異常  発生箇所=[method=[%s], @class[%s]], 引数=[%s], 例外=%s %s" />
+		<message id="0074" level="error" text="DBアクセスI/F 例外発生  発生箇所=[method=[%s], @class[%s]], 引数=[%s], 例外=%s %s" />
+		<message id="0075" level="error" text="[再締切] グループマスタに未定義のグループNoが指定されました。収集タイミング=[%s] 起動時刻=[%s] グループNo=[%s]" />
+		<message id="0076" level="error" text="[再演算] グループマスタに未定義のグループNoが指定されました。収集タイミング=[%s] 起動時刻=[%s] グループNo=[%s]" />
+		<message id="0077" level="info" text="データ復旧開始　復旧対象開始時刻=%s　復旧対象終了時刻=%s" />
+		<message id="0078" level="info" text="データ復旧完了" />
+		<message id="0079" level="debug" text="データ復旧処理開始　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0080" level="debug" text="データ復旧処理完了　収集タイミング=%s　起動時刻=%s　グループNo=%s" />
+		<message id="0081" level="debug" text="ＨＤＡデータ取得開始" />
+		<message id="0082" level="debug" text="ＨＤＡデータ取得完了" />
+		<message id="0101" level="debug" text="トランザクション開始 ID=[%s]" />
+		<message id="0102" level="debug" text="トランザクション終了 ID=[%s]" />
+		<message id="0103" level="debug" text="トランザクションコミット ID=[%s]" />
+		<message id="0104" level="debug" text="トランザクションロールバック ID=[%s]" />
+		<message id="0105" level="warning" text="終了されていないトランザクションを検知し、終了しました。 ID=[%s]" />
+		<message id="0106" level="debug" text="トランザクション継続開始 ID=[%s] 継続数[%s]" />
+		<message id="0107" level="debug" text="トランザクション継続終了 ID=[%s] 継続数[%s]" />
+		<message id="0201" level="info" text="ローテーションテーブル生成（瞬時トレンド) 開始" />
+		<message id="0202" level="info" text="ローテーションテーブル生成（瞬時トレンド) 終了" />
+		<message id="0203" level="info" text="ローテーションテーブル生成（瞬時トレンド) テーブル名=[%s]" />
+		<message id="0204" level="info" text="ローテーションテーブル削除（瞬時トレンド) 開始" />
+		<message id="0205" level="info" text="ローテーションテーブル削除（瞬時トレンド) 終了" />
+		<message id="0206" level="info" text="ローテーションテーブル削除（瞬時トレンド) テーブル名=[%s]" />
+		<message id="0207" level="info" text="ローテーションテーブルメンテナンス（瞬時トレンド)のパラメータ指定がありません" />
+		<message id="0208" level="info" text="ローテーションテーブルメンテナンス（瞬時トレンド)のパラメータにnullを指定しています" />
+		<message id="0209" level="info" text="ローテーションテーブルメンテナンス（瞬時トレンド)のパラメータ指定に誤りがあります" />
+		<message id="0000" level="debug" text="%s" />
+		<message id="0900" level="error" text="%s" />
+	</subsystem>
+	<subsystem kind="logger.current">
+		<message id="0001" level="error" text="システムエラー [%s] 詳細エラー = %s" />
+		<message id="0002" level="error" text="DB接続エラー [%s] 詳細ｴﾗｰ = %s" />
+		<message id="0003" level="error" text="OPC読込エラー [%s] 詳細ｴﾗｰ = %s" />
+		<message id="0004" level="debug" text="%s" />
+	</subsystem>
+	<subsystem kind="logger.history">
+		<message id="0001" level="error" text="システムエラー [%s] 詳細エラー = %s" />
+		<message id="0002" level="error" text="DB接続エラー [%s] 詳細ｴﾗｰ = %s" />
+		<message id="0003" level="warning" text="アルゴリズム計算結果データエラー[%s]　Nコード = %s" />
+		<message id="0004" level="error" text="低次データ取得エラー [%s] Nコード = %s 収集タイミング種別名 = %s" />
+		<message id="0005" level="debug" text="%s" />
+		<message id="0006" level="info" text="締切状態制御要求　収集タイミング=%s　締切状態=%s" />
+	</subsystem>
+	<subsystem kind="logger.duplex">
+		<message id="0001" level="error" text="システムエラー [%s] 詳細エラー = %s" />
+		<message id="0002" level="error" text="DB接続エラー [%s] 詳細エラー = %s" />
+		<message id="0003" level="debug" text="%s" />
+		<message id="0004" level="debug" text="計算機の状態:[%s]" />
+		<message id="0101" level="debug" text="状態遷移検知 旧状態[%s] 現状態[%s]" />
+		<message id="0102" level="info" text="再締切開始" />
+		<message id="0103" level="info" text="再締切完了" />
+		<message id="0104" level="warning" text="最新データ登録情報なし：締切種別[%s] グループNo[%s]" />
+		<message id="0105" level="debug" text="サービス状態起動時の再締切が無効" />
+		<message id="0201" level="debug" text="締切等値化要求送信 テーブル名[%s] 条件[%s]" />
+		<message id="0301" level="debug" text="オンライン等値化要求送信 SQL[%s]" />
+		<message id="0302" level="error" text="イコアライズキューの登録に失敗しました。Count=[%s]" />
+		<message id="0303" level="error" text="イコアライズキューの登録に失敗しました。待機側計算機をFAILにします。" />
+	</subsystem>
+	<subsystem kind="logger.opc">
+		<message id="0001" level="debug" text="%s" />
+		<message id="1001" level="error" text="CSVファイル無し File=%s" />
+		<message id="1002" level="error" text="出入力エラー %s" />
+		<message id="1003" level="error" text="CSVファイルに%sタグ無し" />
+		<message id="1004" level="error" text="カラムの数が不正です。正しくは、[%s]、[%s]、[%s]" />
+		<message id="1100" level="error" text="OPCグループ登録時エラー [%s]　詳細エラー = %s" />
+		<message id="1101" level="warning" text="HADアクセスエラー [%s]　詳細エラー = %s" />
+		<message id="1102" level="warning" text="OPCキャッシュアクセスエラー [%s]　詳細エラー = %s" />
+		<message id="1104" level="warning" text="OPCキャッシュリード　読込エラー　 [%s]　詳細 = %s" />
+	</subsystem>
+	<subsystem kind="logger.looponex">
+		<message id="0001" level="debug" text="%s" />
+		<message id="10301" level="error" text="対象のサブシステムIDは存在しません。" />
+		<message id="10302" level="error" text="対象のサブシステムは無効です。" />
+		<message id="10303" level="error" text="サブシステムデータ収集処理で問題が発生しました %s。" />
+	</subsystem>
+</MessageList>
