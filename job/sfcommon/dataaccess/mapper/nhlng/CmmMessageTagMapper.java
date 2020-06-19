@@ -2,8 +2,6 @@ package job.sfcommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import job.sfcommon.dataaccess.entity.nhlng.CmmMessageTag;
 import job.sfcommon.dataaccess.entity.nhlng.CmmMessageTagExample;
 
@@ -34,25 +32,4 @@ public interface CmmMessageTagMapper {
      * @mbg.generated
      */
     List<CmmMessageTag> selectByExample(CmmMessageTagExample example);
-
-	/**
-	 * @author D.Suzuki
-	 *
-	 * selectByPrimaryKey
-	 * @param msgId  メッセージID
-	 * @param seqNo  シーケンスNO
-	 * @param msgCat  メッセージカテゴリ
-	 * @return CmmMessageTag メッセージタグ出力マスタ
-	 */
-	CmmMessageTag selectByPrimaryKey(@Param("msgId") String msgId, @Param("seqNo") Integer seqNo, @Param("msgCat") String msgCat);
-
-	/**
-	 * @author D.Suzuki
-	 *
-	 * selectByMsgId
-	 * @param msgId  メッセージID
-	 * @param msgCat  メッセージカテゴリ
-	 * @return List<CmmMessageTag> メッセージタグ出力マスタリスト
-	 */
-	List<CmmMessageTag> selectByMsgId(@Param("msgId") String msgId, @Param("msgCat") String msgCat);
 }

@@ -101,7 +101,12 @@
     from public.cmt_sync_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
+      and
     </if>
+    <if test="_parameter == null">
+      where
+    </if>
+    delete_flag = 0
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
@@ -125,8 +130,8 @@
       upd_dtime_col, last_upd_user, last_upd_dtime,
       delete_flag)
     values (#{targetTable,jdbcType=VARCHAR}, #{lastSyncDtime,jdbcType=DATE}, #{syncKnd,jdbcType=NUMERIC},
-      #{updDtimeCol,jdbcType=VARCHAR}, #{lastUpdUser,jdbcType=VARCHAR}, #{lastUpdDtime,jdbcType=DATE},
-      #{deleteFlag,jdbcType=NUMERIC})
+      #{updDtimeCol,jdbcType=VARCHAR}, #{lastUpdUser,jdbcType=VARCHAR}, now(),
+      0)
   </insert>
   <insert id="insertSelective" parameterType="job.sfcommon.dataaccess.entity.nhlng.CmtSyncInfo">
     <!--
@@ -150,12 +155,8 @@
       <if test="lastUpdUser != null">
         last_upd_user,
       </if>
-      <if test="lastUpdDtime != null">
         last_upd_dtime,
-      </if>
-      <if test="deleteFlag != null">
         delete_flag,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="targetTable != null">
@@ -173,12 +174,8 @@
       <if test="lastUpdUser != null">
         #{lastUpdUser,jdbcType=VARCHAR},
       </if>
-      <if test="lastUpdDtime != null">
-        #{lastUpdDtime,jdbcType=DATE},
-      </if>
-      <if test="deleteFlag != null">
-        #{deleteFlag,jdbcType=NUMERIC},
-      </if>
+        lastUpdDtime = now(),
+        deleteFlag = 0,
     </trim>
   </insert>
   <select id="countByExample" parameterType="job.sfcommon.dataaccess.entity.nhlng.CmtSyncInfoExample" resultType="java.lang.Long">
@@ -214,7 +211,7 @@
         last_upd_user = #{record.lastUpdUser,jdbcType=VARCHAR},
       </if>
       <if test="record.lastUpdDtime != null">
-        last_upd_dtime = #{record.lastUpdDtime,jdbcType=DATE},
+        last_upd_dtime = now(),
       </if>
       <if test="record.deleteFlag != null">
         delete_flag = #{record.deleteFlag,jdbcType=NUMERIC},
@@ -235,10 +232,15 @@
       sync_knd = #{record.syncKnd,jdbcType=NUMERIC},
       upd_dtime_col = #{record.updDtimeCol,jdbcType=VARCHAR},
       last_upd_user = #{record.lastUpdUser,jdbcType=VARCHAR},
-      last_upd_dtime = #{record.lastUpdDtime,jdbcType=DATE},
+      last_upd_dtime = now(),
       delete_flag = #{record.deleteFlag,jdbcType=NUMERIC}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
+      and
     </if>
+    <if test="_parameter == null">
+      where
+    </if>
+    delete_flag = 0
   </update>
 </mapper>

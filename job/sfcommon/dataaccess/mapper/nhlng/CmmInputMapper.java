@@ -2,8 +2,6 @@ package job.sfcommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import job.sfcommon.dataaccess.entity.nhlng.CmmInput;
 import job.sfcommon.dataaccess.entity.nhlng.CmmInputExample;
 
@@ -24,18 +22,5 @@ public interface CmmInputMapper {
      */
     List<CmmInput> selectByExample(CmmInputExample example);
 
-    /**TODO write
-     */
-    List<CmmInput> selectByExtendedExample(CmmInputExample example);
-
-	/**
-	 * @author D.Suzuki
-	 *
-	 * selectByPrimaryKey
-	 * @param tagNo  タグNo
-	 * @param historyKind  締切種別
-	 * @param seqNo  シーケンスNO
-	 * @return CmmInput 入力データマスタ
-	 */
-    CmmInput selectByPrimaryKey(@Param("tagNo") String tagNo, @Param("historyKind") Integer historyKind, @Param("seqNo") Integer seqNo);
+	List<CmmInput> selectByExtendedExample(CmmInputExample example);
 }

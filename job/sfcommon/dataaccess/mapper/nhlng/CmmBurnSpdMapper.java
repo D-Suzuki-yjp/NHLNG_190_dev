@@ -2,8 +2,6 @@ package job.sfcommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import job.sfcommon.dataaccess.entity.nhlng.CmmBurnSpd;
 import job.sfcommon.dataaccess.entity.nhlng.CmmBurnSpdExample;
 
@@ -23,13 +21,4 @@ public interface CmmBurnSpdMapper {
      * @mbg.generated
      */
     List<CmmBurnSpd> selectByExample(CmmBurnSpdExample example);
-
-	/**
-	 * @author D.Suzuki
-	 *
-	 * selectByPrimaryKey
-	 * @param cmpnt  成分
-	 * @return CmmBurnSpd 燃焼速度マスタ
-	 */
-    CmmBurnSpd selectByPrimaryKey(@Param("cmpnt") Integer cmpnt);
 }

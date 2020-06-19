@@ -100,7 +100,12 @@
     from public.stm_dens_corr
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
+      and
     </if>
+    <if test="_parameter == null">
+      where
+    </if>
+    delete_flag = 0
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
@@ -124,8 +129,8 @@
       corr_qty_sub, last_upd_user, last_upd_dtime,
       delete_flag)
     values (#{densFrom,jdbcType=NUMERIC}, #{densTo,jdbcType=NUMERIC}, #{corrQtyMain,jdbcType=NUMERIC},
-      #{corrQtySub,jdbcType=NUMERIC}, #{lastUpdUser,jdbcType=VARCHAR}, #{lastUpdDtime,jdbcType=DATE},
-      #{deleteFlag,jdbcType=NUMERIC})
+      #{corrQtySub,jdbcType=NUMERIC}, #{lastUpdUser,jdbcType=VARCHAR}, now(),
+      0)
   </insert>
   <insert id="insertSelective" parameterType="job.sfcommon.dataaccess.entity.nhlng.StmDensCorr">
     <!--
@@ -149,12 +154,8 @@
       <if test="lastUpdUser != null">
         last_upd_user,
       </if>
-      <if test="lastUpdDtime != null">
         last_upd_dtime,
-      </if>
-      <if test="deleteFlag != null">
         delete_flag,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="densFrom != null">
@@ -172,12 +173,8 @@
       <if test="lastUpdUser != null">
         #{lastUpdUser,jdbcType=VARCHAR},
       </if>
-      <if test="lastUpdDtime != null">
-        #{lastUpdDtime,jdbcType=DATE},
-      </if>
-      <if test="deleteFlag != null">
-        #{deleteFlag,jdbcType=NUMERIC},
-      </if>
+        lastUpdDtime = now(),
+        deleteFlag = 0,
     </trim>
   </insert>
   <select id="countByExample" parameterType="job.sfcommon.dataaccess.entity.nhlng.StmDensCorrExample" resultType="java.lang.Long">
@@ -212,16 +209,19 @@
       <if test="record.lastUpdUser != null">
         last_upd_user = #{record.lastUpdUser,jdbcType=VARCHAR},
       </if>
-      <if test="record.lastUpdDtime != null">
-        last_upd_dtime = #{record.lastUpdDtime,jdbcType=DATE},
-      </if>
+        last_upd_dtime = now(),
       <if test="record.deleteFlag != null">
         delete_flag = #{record.deleteFlag,jdbcType=NUMERIC},
       </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
+      and
     </if>
+    <if test="_parameter == null">
+      where
+    </if>
+    delete_flag = 0
   </update>
   <update id="updateByExample" parameterType="map">
     <!--
@@ -234,10 +234,15 @@
       corr_qty_main = #{record.corrQtyMain,jdbcType=NUMERIC},
       corr_qty_sub = #{record.corrQtySub,jdbcType=NUMERIC},
       last_upd_user = #{record.lastUpdUser,jdbcType=VARCHAR},
-      last_upd_dtime = #{record.lastUpdDtime,jdbcType=DATE},
+      last_upd_dtime = now(),
       delete_flag = #{record.deleteFlag,jdbcType=NUMERIC}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
+      and
     </if>
+    <if test="_parameter == null">
+      where
+    </if>
+    delete_flag = 0
   </update>
 </mapper>

@@ -154,7 +154,12 @@
     from public.cmt_close_mon
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
+      and
     </if>
+    <if test="_parameter == null">
+      where
+    </if>
+    delete_flag = 0
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
@@ -173,7 +178,12 @@
       on public.cmt_close_mon.tag_no = public.cmm_tag_master_v.tag_no
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
+      and
     </if>
+    <if test="_parameter == null">
+      where
+    </if>
+    cmt_close_mon.delete_flag = 0
     <if test="orderByClause != null">
       order by cmt_close_mon.${orderByClause}
     </if>
@@ -187,25 +197,38 @@
     <include refid="Base_Column_List" />
     from public.cmt_close_mon
     where close_dtime = #{closeDtime,jdbcType=TIMESTAMP}
-      and tag_no = #{tagNo,jdbcType=VARCHAR}
+      and tag_no = #{tagNo,jdbcType=VARCHAR} and delete_flag = 0
   </select>
   <select id="selectClacData" parameterType="java.util.List" resultMap="BaseResultMap">
-    SELECT tag_no, tag_data, input_type
-    FROM (SELECT cmm_input.tag_no, cmt_close_mon.tag_data ,cmm_input.input_type
+    SELECT tag_no, tag_data, input_type, seq_no
+    FROM (SELECT cmm_input.tag_no, cmt_close_mon.tag_data ,cmm_input.input_type, cmm_input.seq_no
 	      FROM cmm_input INNER JOIN cmt_close_mon ON cmm_input.tag_no = cmt_close_mon.tag_no
 	      WHERE cmt_close_mon.tag_no IN
-	      <foreach collection="#{tagNoList0}" item="item0" index="index" open="(" separator="," close=")">
-            #{item0}
+	      <foreach collection="#{monTagNoList2}" item="item2" index="index" open="(" separator="," close=")">
+            #{item2}
           </foreach>
-	      AND cmm_input.input_type=1 AND cmt_close_mon.close_dtime = #{targetDate,jdbcType=TIMESTAMP}) AS t1
+	      AND cmm_input.input_type=2 AND cmt_close_mon.close_dtime = #{targetDate,jdbcType=TIMESTAMP} AND cmt_close_mon.delete_flag = 0) AS t1
 	    UNION
-         (SELECT cmm_input.tag_no, cmt_close_mon.tag_data ,cmm_input.input_type
+         (SELECT cmm_input.tag_no, cmt_close_mon.tag_data ,cmm_input.input_type, cmm_input.seq_no
 	      FROM cmm_input INNER JOIN cmt_close_mon ON cmm_input.tag_no = cmt_close_mon.tag_no
 	      WHERE cmt_close_mon.tag_no IN
-	      <foreach collection="#{tagNoList4}" item="item4" index="index" open="(" separator="," close=")">
-            #{item4}
+	      <foreach collection="#{monTagNoList5}" item="item5" index="index" open="(" separator="," close=")">
+            #{item5}
           </foreach>
-	      AND cmm_input.input_type=4 AND cmt_close_mon.close_dtime = to_timestamp(#{targetDate,jdbcType=TIMESTAMP}, 'YYYY-MM-DD hh:mm:ss') + '-1 hours');
+	      AND cmm_input.input_type=5 AND cmt_close_mon.close_dtime = to_timestamp(#{targetDate,jdbcType=TIMESTAMP}, 'YYYY-MM-DD hh:mm:ss') + '-1 month' AND cmt_close_mon.delete_flag = 0)
+	    <if test="#{monTagNoList1} != null">
+        UNION
+         (SELECT cmm_input.tag_no, cmt_close_mon.tag_data ,cmm_input.input_type, cmm_input.seq_no
+	      FROM cmm_input INNER JOIN cmt_close_day ON cmm_input.tag_no = cmt_close_day.tag_no
+	      WHERE cmt_close_mon.tag_no IN
+	      <foreach collection="#{monTagNoList1}" item="item1" index="index" open="(" separator="," close=")">
+            #{item1}
+          </foreach>
+	      AND cmm_input.input_type=1
+	      AND cmt_close_day.close_dtime <![CDATA[ < ]]>= #{targetDate,jdbcType=TIMESTAMP}
+	      AND cmt_close_day.close_dtime <![CDATA[ > ]]> to_timestamp(#{targetDate,jdbcType=TIMESTAMP}, 'YYYY-MM-DD hh:mm:ss') + '1 month' AND cmt_close_day.delete_flag = 0)
+        </if>
+	 ORDER BY seq_no;
   </select>
   <delete id="deleteByPrimaryKey" parameterType="job.sfcommon.dataaccess.entity.nhlng.CmtCloseMon">
     <!--
@@ -236,7 +259,7 @@
       last_upd_dtime, delete_flag)
     values (#{closeDtime,jdbcType=TIMESTAMP}, #{tagNo,jdbcType=VARCHAR}, #{tagData,jdbcType=VARCHAR},
       #{qltyCd,jdbcType=NUMERIC}, #{collDtime,jdbcType=TIMESTAMP}, #{lastUpdUser,jdbcType=VARCHAR},
-      #{lastUpdDtime,jdbcType=DATE}, #{deleteFlag,jdbcType=NUMERIC})
+      now(), 0)
   </insert>
   <insert id="insertSelective" parameterType="job.sfcommon.dataaccess.entity.nhlng.CmtCloseMon">
     <!--
@@ -263,12 +286,8 @@
       <if test="lastUpdUser != null">
         last_upd_user,
       </if>
-      <if test="lastUpdDtime != null">
         last_upd_dtime,
-      </if>
-      <if test="deleteFlag != null">
         delete_flag,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="closeDtime != null">
@@ -289,12 +308,8 @@
       <if test="lastUpdUser != null">
         #{lastUpdUser,jdbcType=VARCHAR},
       </if>
-      <if test="lastUpdDtime != null">
-        #{lastUpdDtime,jdbcType=DATE},
-      </if>
-      <if test="deleteFlag != null">
-        #{deleteFlag,jdbcType=NUMERIC},
-      </if>
+        lastUpdDtime = now(),
+        deleteFlag = 0,
     </trim>
   </insert>
   <select id="countByExample" parameterType="job.sfcommon.dataaccess.entity.nhlng.CmtCloseMonExample" resultType="java.lang.Long">
@@ -305,7 +320,12 @@
     select count(*) from public.cmt_close_mon
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
+      and
     </if>
+    <if test="_parameter == null">
+      where
+    </if>
+    delete_flag = 0
   </select>
   <update id="updateByExampleSelective" parameterType="job.sfcommon.dataaccess.entity.nhlng.CmtCloseMon">
     <!--
@@ -333,7 +353,7 @@
         last_upd_user = #{record.lastUpdUser,jdbcType=VARCHAR},
       </if>
       <if test="record.lastUpdDtime != null">
-        last_upd_dtime = #{record.lastUpdDtime,jdbcType=DATE},
+        last_upd_dtime = now(),
       </if>
       <if test="record.deleteFlag != null">
         delete_flag = #{record.deleteFlag,jdbcType=NUMERIC},
@@ -341,7 +361,12 @@
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
+      and
     </if>
+    <if test="_parameter == null">
+      where
+    </if>
+    delete_flag = 0
   </update>
   <update id="updateByExample" parameterType="map">
     <!--
@@ -355,11 +380,16 @@
       qlty_cd = #{record.qltyCd,jdbcType=NUMERIC},
       coll_dtime = #{record.collDtime,jdbcType=TIMESTAMP},
       last_upd_user = #{record.lastUpdUser,jdbcType=VARCHAR},
-      last_upd_dtime = #{record.lastUpdDtime,jdbcType=DATE},
+      last_upd_dtime = now(),
       delete_flag = #{record.deleteFlag,jdbcType=NUMERIC}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
+      and
     </if>
+    <if test="_parameter == null">
+      where
+    </if>
+    delete_flag = 0
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="job.sfcommon.dataaccess.entity.nhlng.CmtCloseMon">
     <!--
@@ -381,14 +411,14 @@
         last_upd_user = #{lastUpdUser,jdbcType=VARCHAR},
       </if>
       <if test="lastUpdDtime != null">
-        last_upd_dtime = #{lastUpdDtime,jdbcType=DATE},
+        last_upd_dtime = now(),
       </if>
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=NUMERIC},
       </if>
     </set>
     where close_dtime = #{closeDtime,jdbcType=TIMESTAMP}
-      and tag_no = #{tagNo,jdbcType=VARCHAR}
+      and tag_no = #{tagNo,jdbcType=VARCHAR} and delete_flag = 0
   </update>
   <update id="updateByPrimaryKey" parameterType="job.sfcommon.dataaccess.entity.nhlng.CmtCloseMon">
     <!--
@@ -400,10 +430,11 @@
       qlty_cd = #{qltyCd,jdbcType=NUMERIC},
       coll_dtime = #{collDtime,jdbcType=TIMESTAMP},
       last_upd_user = #{lastUpdUser,jdbcType=VARCHAR},
-      last_upd_dtime = #{lastUpdDtime,jdbcType=DATE},
+      last_upd_dtime = now(),
       delete_flag = #{deleteFlag,jdbcType=NUMERIC}
     where close_dtime = #{closeDtime,jdbcType=TIMESTAMP}
       and tag_no = #{tagNo,jdbcType=VARCHAR}
+      and delete_flag = 0
   </update>
   <insert id="insertOrUpdate" parameterType="java.util.List">
   with
@@ -421,7 +452,7 @@
       coll_dtime = now(),
       last_upd_user = params.last_upd_user,
       last_upd_dtime = now(),
-      delete_flag = 1
+      delete_flag = 0
     from params
     where t.close_dtime = params.close_dtime and t.tag_no = params.tag_no
     returning t.close_dtime, t.tag_no
@@ -429,7 +460,7 @@
   insert into cmt_close_mon (<include refid="Base_Column_List" />)
   select params.close_dtime, params.tag_no, params.tag_data,
          192, now(), params.last_upd_user,
-         now(),1
+         now(),0
   from params
   where
     params.close_dtime not in (

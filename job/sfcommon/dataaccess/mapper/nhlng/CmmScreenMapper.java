@@ -2,8 +2,6 @@ package job.sfcommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import job.sfcommon.dataaccess.entity.nhlng.CmmScreen;
 import job.sfcommon.dataaccess.entity.nhlng.CmmScreenExample;
 
@@ -23,13 +21,4 @@ public interface CmmScreenMapper {
      * @mbg.generated
      */
     List<CmmScreen> selectByExample(CmmScreenExample example);
-
-	/**
-	 * @author D.Suzuki
-	 *
-	 * selectByPrimaryKey
-	 * @param tagNo  タグNo
-	 * @return CmmScreen 画面ID^
-	 */
-    CmmScreen selectByPrimaryKey(@Param("tagNo") String tagNo,@Param("screenId") String screenId);
 }
