@@ -37,6 +37,9 @@ import job.sfcommon.function.outputlogs.OutPutLogs;
 @Dependent
 public class LoopOnExCoreUtil {
 
+	/** ログカテゴリ*/
+	private static final String LOG_CAT = ConstUtil.LOG_COMMON;
+
 	/**
 	 * 瞬時データ読込共通関数
 	 * LoopOnExAPIのみ使用しているためアプリケーションでのトランザクション管理不要
@@ -49,7 +52,7 @@ public class LoopOnExCoreUtil {
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		// return用オブジェクトをインスタンス
 		List<CurrentDataDto> currentDataDtoList = new ArrayList();
@@ -66,8 +69,9 @@ public class LoopOnExCoreUtil {
 			ITagDataManager iTagDataManager = new TagDataManager();
 			tagDataList = iTagDataManager.readCoreTagData(lcodeList);
 		} catch (LoopOnExException ex) {
-			/** TODO */
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(ex));
 		} catch (Exception e){
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			throw new RuntimeException(e);
 		}
 
@@ -89,7 +93,7 @@ public class LoopOnExCoreUtil {
 		tagDataList = null;
 
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return currentDataDtoList;
 	}
 
@@ -105,7 +109,7 @@ public class LoopOnExCoreUtil {
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		// return用オブジェクトをインスタンス
 		Map<String[],List<CurrentDataDto>> resultMap = new HashMap();
@@ -122,7 +126,7 @@ public class LoopOnExCoreUtil {
 		}
 
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return resultMap;
 	}
 
@@ -138,7 +142,7 @@ public class LoopOnExCoreUtil {
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		// tagNoとlcodeをマッピングしたグローバル変数を取得
 		Map<String, String> tagNoToLcodeMap = TagUtil.getTagNoToLcodeMap();
@@ -165,13 +169,11 @@ public class LoopOnExCoreUtil {
 		for(CmtTagVal cmtTagVal : cmtTagValLsit){
 			tagData = new TagData();
 			tagData.setTagItemName(tagNoToLcodeMap.get(cmtTagVal.getTagNo()));
-			/** TODO 品質コードGOOD(192)を定数プロパティ化 */
-			tagData.setQualityCode(192);
-			/** TODO CALフラグ0/1の定数プロパティ化 */
-			if(0 == cmtTagVal.getCalFlag()){
+			tagData.setQualityCode(ConstUtil.QUALITY_CODE_GOOD);
+			if(ConstUtil.CAL_OFF == cmtTagVal.getCalFlag()){
 				// CALフラグ無効の場合は引数のvalueをセット
 				tagData.setTagValue(parmValueByLcodeMap.get(cmtTagVal.getTagNo()));
-			} else if(1 == cmtTagVal.getCalFlag()){
+			} else if(ConstUtil.CAL_ON == cmtTagVal.getCalFlag()){
 				// CALフラグ有効の場合はタグデータテーブルの定数をセット
 				tagData.setTagValue((String) cmtTagVal.getTagData());
 			}
@@ -187,7 +189,7 @@ public class LoopOnExCoreUtil {
 			// LoopOnExAPI
 			iTagDataManager.writeCoreTagData(tagDataList, true, false);
 		} catch (LoopOnExException e) {
-			/** TODO */
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			return false;
 		} catch (Exception e){
 			return false;
@@ -200,7 +202,7 @@ public class LoopOnExCoreUtil {
 			tagDataList = null;
 		}
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		// 書込み成功
 		return true;
 	}
@@ -217,23 +219,22 @@ public class LoopOnExCoreUtil {
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
-		// 検索日時を時に丸める
-		Date fromDateCorrected = DateUtil.moldYYYYMMDDHH(DateUtil.addHour(date, -1));
-		Date toDateCorrected = DateUtil.moldYYYYMMDDHH(date);
+		Date fromDate = DateUtil.addHour(date, -1);
 
 		// 収集グループナンバー,From日時,To日時で瞬時データ検索(LoopOnExAPI)
 		List<HistoryData> results = new ArrayList();
 		ITrendDataManager iTrendDataManager = new TrendDataManager();
 		List<Integer> historyGroupNoList = new ArrayList();
-		historyGroupNoList.add(2);
+		historyGroupNoList.add(ConstUtil.CLLGROUP_NO.FCNOPCA.getCllGroupNo());
 		try {
 			// LoopOnExAPI
-			results = iTrendDataManager.readHourHistoryDataByHistoryGroupNo(historyGroupNoList, fromDateCorrected, toDateCorrected);
-		} catch (LoopOnExException e) {
-			/** TODO */
+			results = iTrendDataManager.readHourHistoryDataByHistoryGroupNo(historyGroupNoList, fromDate, date);
+		} catch (LoopOnExException ex) {
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(ex));
 		} catch (Exception e){
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			throw new RuntimeException(e);
 		}
 
@@ -253,12 +254,11 @@ public class LoopOnExCoreUtil {
 		}
 
 		// 使用済変数を初期化
-		fromDateCorrected = null;
-		toDateCorrected = null;
+		fromDate = null;
 		results = null;
 
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return hourHistoryDtolist;
 	}
 

@@ -27,9 +27,10 @@ import job.sfcommon.function.outputlogs.OutPutLogs;
  */
 @Dependent
 public class SystemUtil {
-
+	/** ログカテゴリ*/
+	private static final String LOG_CAT = ConstUtil.LOG_COMMON;
 	/**
-	 * 自身のhostnameグローバル変数 TODO 現環境のホスト名を固定している
+	 * 自身のhostnameグローバル変数
 	 */
 	private static String hostName;
 
@@ -50,7 +51,7 @@ public class SystemUtil {
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		MasterStatDto masterStatDto = new MasterStatDto();
 		List<CmtSystemStat> results = new ArrayList();
@@ -60,6 +61,7 @@ public class SystemUtil {
 		try {
 			results = CmtSystemStatDao.select(session, example);
 		} catch (Exception e) {
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			throw (e);
 		}
 		// return用オブジェクトにラッパー
@@ -73,7 +75,7 @@ public class SystemUtil {
 			}
 		}
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return masterStatDto;
 	}
 
@@ -83,20 +85,19 @@ public class SystemUtil {
 	 * @throws Exception
 	 */
 	public void makeHostName() throws RuntimeException{
-
+		String[] param = { new Object() {
+		}.getClass().getEnclosingMethod().getName()};
 		// 自身のhost情報取得
 		try {
 			// 処理開始ログ
-			String[] param = { new Object() {
-			}.getClass().getEnclosingMethod().getName()};
-			OutPutLogs.outPutLogs("CMN", "001", param);
+			OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 			InetAddress ia = InetAddress.getLocalHost();
 			hostName = ia.getHostName();// ホスト名
 			// 処理終了ログ
-			OutPutLogs.outPutLogs("CMN", "002", param);
+			OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		} catch (UnknownHostException e1) {
-			/** TODO */
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e1));
 		}
 	}
 

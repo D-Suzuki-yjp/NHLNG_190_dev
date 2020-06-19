@@ -24,7 +24,7 @@ public final class ProcessUtil {
 	/** 外部コマンド実行開始日時. */
 	private static Date bDate = null;
 	/** 外部コマンド終了待ち時間. */
-	private static int TIMEOUT_FOR_EXEC_EXTERNAL_COMMAND = 60;
+	private static int TIMEOUT = 60;
 	/** プロセス */
 	private static Process process = null;
 
@@ -53,14 +53,14 @@ public final class ProcessUtil {
 
     	//一定の時間を超過しても外部プロセスからの応答がない場合は、実行中フラグを落して外部プロセス呼び出し可能にする
     	if (bExec) {
-        	int processTimeOut = TIMEOUT_FOR_EXEC_EXTERNAL_COMMAND;
+        	int processTimeOut = TIMEOUT;
         	Calendar timeOutCal = Calendar.getInstance();
         	timeOutCal.setTime(bDate);
         	timeOutCal.add(Calendar.SECOND, processTimeOut);
 
         	Calendar now = Calendar.getInstance();
         	now.setTime(DateUtil.sysdate());
-        	if (timeOutCal.compareTo(now) <= 0 ) {
+        	if (timeOutCal.compareTo(now) <= 0) {
         		// 時間切れ
         		stopExec();
         		bExec = false;
@@ -79,6 +79,42 @@ public final class ProcessUtil {
 			process.destroy();
 			process = null;
 		}
+    }
+
+    /**
+     * 外部コマンドの実行
+	 * <br>
+	 * <b>目的:</b><br>
+	 * 外部コマンドを実行します.<br>
+	 * <br>
+	 * <b>処理概要:</b><br>
+     * ※ isExec() == true の場合にのみ実行してください。
+     *
+     * @param args 実行パラメータ
+     * @return 実行
+     * @throws IOException I/O例外
+     */
+    public static int execProgram(String... args) throws IOException {
+    	return execProgram(null, null, args);
+    }
+
+    /**
+     * 外部コマンドの実行
+	 * <br>
+	 * <b>目的:</b><br>
+	 * 外部コマンドを実行します.<br>
+	 * <br>
+	 * <b>処理概要:</b><br>
+     * ※ isExec() == true の場合にのみ実行してください。
+     *
+     * @param out 出力先
+     * @param args 実行パラメータ
+     * @return 実行
+     * @throws IOException I/O例外
+     */
+    public static int execProgram(Writer out, String... args) throws IOException {
+    	File execDir = FileUtil.getFileInstance(".");
+    	return execProgram(execDir, null, out, args);
     }
 
     /**
@@ -110,8 +146,8 @@ public final class ProcessUtil {
      * ※ isExec() == false の場合にのみ実行してください。
      *
      * @param execDir 実行ディレクトリ
+     * @param envMap 環境変数指定
      * @param out 出力先
-     * @param env 環境変数指定
      * @param args 実行パラメータ
      * @return 実行
      * @throws IOException I/O例外
@@ -189,7 +225,6 @@ public final class ProcessUtil {
     /**
       * プロセスが終了するまで待機します。
       * @param out プロセスの実行結果（標準出力およびエラー出力）の出力先
-      * @param process プロセス
       * @param stream プロセスの入力ストリーム（標準出力およびエラー出力）
       * @return プロセスの実行結果
       * @throws IOException I/O例外

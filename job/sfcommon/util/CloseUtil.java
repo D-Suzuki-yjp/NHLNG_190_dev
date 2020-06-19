@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.enterprise.context.Dependent;
@@ -46,6 +45,9 @@ import job.sfcommon.function.outputlogs.OutPutLogs;
 @Dependent
 public class CloseUtil {
 
+	/** ログカテゴリ*/
+	private static final String LOG_CAT = ConstUtil.LOG_COMMON;
+
 	/**
 	 * 時締データ読込共通関数
 	 *
@@ -58,13 +60,13 @@ public class CloseUtil {
 	 * @return Map<String[],List<CmtCloseHour>> マップ<タグ論理名,リスト<タグNo,値,収集日時>>
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Map<Date, List<CmtCloseHour>> nhHourCloseReadByLogicalName(SqlSession session, final Date fromDate,
-			final Date toDate) throws RuntimeException {
+	public static Map<Date, List<CmtCloseHour>> nhHourCloseRead(SqlSession session, final Date fromDate,
+			final Date toDate) {
 
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName() };
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		// return用オブジェクトをインスタンス
 		Map<Date, List<CmtCloseHour>> resultMap = new HashMap();
@@ -82,6 +84,7 @@ public class CloseUtil {
 		try {
 			cmtCloseHourList = CmtCloseHourDao.select(session, example);
 		} catch (Exception e) {
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			throw new RuntimeException(e);
 		}
 
@@ -89,7 +92,7 @@ public class CloseUtil {
 		resultMap = cmtCloseHourList.stream().collect(Collectors.groupingBy(CmtCloseHour::getCloseDtime));
 
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return resultMap;
 	}
 
@@ -98,43 +101,43 @@ public class CloseUtil {
 	 *
 	 * @param session
 	 *            SQLセッション
-	 * @param List<CmtCloseHourDto>
+	 * @param List<CmtCloseHour>
 	 *            NH時締データリスト
 	 * @return boolean 書込み結果
 	 */
-	public static boolean nhHourCloseWrite(SqlSession session, final List<CmtCloseHour> CmtCloseHourList)
-			throws RuntimeException {
+	public static boolean nhHourCloseWrite(SqlSession session, final List<CmtCloseHour> CmtCloseHourList){
 
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName() };
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		try {
 			CmtCloseHourDao.insertOrUpdate(session, CmtCloseHourList);
 		} catch (Exception e) {
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			throw new RuntimeException(e);
 		}
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return true;
 	}
 
 	/**
 	 * 日締データ読込共通関数(論理名)
-	 *
+	 * @param session SqlSession
 	 * @param logicNameList
 	 *            タグ論理名
 	 * @return Map<String[],List<CmtCloseDay>> マップ<タグ論理名,リスト<タグNo,値,収集日時>>
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map<String[], List<CmtCloseDay>> nhDayCloseReadByLogicalName(SqlSession session,
-			final List<String[]> logicNameList) throws RuntimeException {
+			final List<String[]> logicNameList) {
 
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName() };
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		// return用オブジェクトをインスタンス
 		Map<String[], List<CmtCloseDay>> resultMap = new HashMap();
@@ -160,12 +163,13 @@ public class CloseUtil {
 			try {
 				results = CmtCloseDayDao.ExSelect(session, example);
 			} catch (Exception e) {
+				OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 				throw new RuntimeException(e);
 			}
 			resultMap.put(logicName, results);
 		}
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return resultMap;
 	}
 
@@ -174,26 +178,25 @@ public class CloseUtil {
 	 *
 	 * @param session
 	 *            SQLセッション
-	 * @param List<CmtCloseDayDto>
+	 * @param List<CmtCloseDay>
 	 *            NH日締データリスト
 	 * @return boolean 書込み結果
 	 */
-	public static boolean nhDayCloseWrite(SqlSession session, final List<CmtCloseDay> cmtCloseDayList)
-			throws RuntimeException {
+	public static boolean nhDayCloseWrite(SqlSession session, final List<CmtCloseDay> cmtCloseDayList){
 
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName() };
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		try {
 			CmtCloseDayDao.insertOrUpdate(session, cmtCloseDayList);
 		} catch (Exception e) {
-			/** TODO ログ出力 */
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			return false;
 		}
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return true;
 	}
 
@@ -204,24 +207,25 @@ public class CloseUtil {
 	 *            SQLセッション
 	 * @param List<CmtCloseDayDto>
 	 *            NH日締データリスト
+	 * @param String 最終更新者
 	 * @return boolean 書込み結果
 	 */
 	public static boolean nhDayCloseWriteByLogicalName(SqlSession session,
-			final List<CmtCloseDayDto> cmtCloseDayDtoList, String lastUpdUser) throws RuntimeException {
+			final List<CmtCloseDayDto> cmtCloseDayDtoList, String lastUpdUser){
 
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName() };
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		try {
 			CmtCloseDayDao.insertOrUpdateByLogicalName(session, cmtCloseDayDtoList, lastUpdUser);
 		} catch (Exception e) {
-			/** TODO ログ出力 */
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			return false;
 		}
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return true;
 	}
 
@@ -238,12 +242,12 @@ public class CloseUtil {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map<Date, List<CmtCloseMon>> nhMonCloseRead(SqlSession session, final Date fromDate,
-			final Date toDate) throws RuntimeException {
+			final Date toDate){
 
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName() + "," + fromDate + "," + toDate };
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		// 検索日時を月に丸める
 		Date fromDateCorrected = null;
@@ -270,7 +274,8 @@ public class CloseUtil {
 		try {
 			results = CmtCloseMonDao.select(session, example);
 		} catch (Exception e) {
-			throw (new RuntimeException());
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
+			throw new RuntimeException(e);
 		} finally {
 			session.close();
 		}
@@ -283,7 +288,7 @@ public class CloseUtil {
 		fromDateCorrected = null;
 		toDateCorrected = null;
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return resultMap;
 	}
 
@@ -292,28 +297,25 @@ public class CloseUtil {
 	 *
 	 * @param session
 	 *            SQLセッション
-	 * @param List<CmtCloseMonDto>
+	 * @param List<CmtCloseMon>
 	 *            NH月締データリスト
-	 * @param LastUpdUser
-	 *            最終更新者
 	 * @return boolean 書込み結果
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static boolean nhMonCloseWrite(SqlSession session, final List<CmtCloseMon> cmtCloseMonDtoList)
-			throws RuntimeException {
+	public static boolean nhMonCloseWrite(SqlSession session, final List<CmtCloseMon> cmtCloseMonDtoList){
 
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName() };
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		try {
 			CmtCloseMonDao.insertOrUpdate(session, cmtCloseMonDtoList);
 		} catch (Exception e) {
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			throw new RuntimeException(e);
 		}
 		// 処理終了ログ
-		OutPutLogs.outPutLogs("CMN", "002", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		return true;
 	}
 
@@ -322,18 +324,16 @@ public class CloseUtil {
 	 *
 	 * @param session
 	 *            SQLセッション
-	 * @param Date
-	 *            targetDate 対象日時
-	 * @param LastUpdUser
+	 * @param targetDate 対象日時
+	 * @param className
 	 *            最終更新者(日締処理class名)
 	 * @return boolean 処理結果
 	 */
-	public static boolean execDayClose(SqlSession session, final Date targetDate, final String className)
-			throws RuntimeException {
+	public static boolean execDayClose(SqlSession session, final Date targetDate, final String className) {
 		// 処理開始ログ
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName() };
-		OutPutLogs.outPutLogs("CMN", "001", param);
+		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		Date date = DateUtil.moldYYYYMMDD(targetDate);
 
@@ -341,39 +341,38 @@ public class CloseUtil {
 		try {
 			CmtCloseDayDao.dayClose(session, date, className);
 		} catch (Exception e) {
+			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			return false;
 		} finally {
 			session.close();
 			// 処理終了ログ
-			OutPutLogs.outPutLogs("CMN", "002", param);
+			OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
 		}
 
 		return true;
 	}
 
 	/**
-	 * 計算処理
-	 * TODO テスト中
+	 * 計算処理 TODO テスト中
+	 *
+	 * @param session
+	 *            SQLセッション
 	 * @param targetDate
 	 *            対象日時
-	 * @param calcKind
-	 *            計算種別
-	 * @return boolean 処理結果
+	 * @return histryKind 帳票区分
 	 */
 	@SuppressWarnings({ "rawtypes" })
-	public static boolean calcData(SqlSession session, final Date targetDate, final int histryKind)
-			throws RuntimeException {
+	public static boolean calcData(SqlSession session, final Date targetDate, final int histryKind) {
 
 		try {
 			// クラス名
-			final String[] classPass = new Object() {
-			}.getClass().getEnclosingClass().getName().split(Pattern.quote("."));
-			int passL = classPass.length;
-			String className = classPass[passL - 1];
+			String className = new Object() {
+			}.getClass().getSimpleName();
 
 			// 処理開始ログ
-			String[] param = { className, targetDate.toString(), Integer.toString(histryKind) };
-			OutPutLogs.outPutLogs("CMN", "001", param);
+			String[] param = { new Object() {
+			}.getClass().getEnclosingMethod().getName() };
+			OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 			// 引数チェック
 			if (Objects.isNull(targetDate)) {
@@ -400,32 +399,32 @@ public class CloseUtil {
 						.collect(Collectors.toList());
 				List<String> calcInfoList = calcInfoMap.get(calcPriority).stream().map(o -> o.getCalcInfo()).distinct()
 						.collect(Collectors.toList());
-				List<String> inputTagList = calcInfoMap.get(calcPriority).stream().map(o -> o.getInputTagNo())
-						.distinct().collect(Collectors.toList());
+				List<String> tagNoList = calcInfoMap.get(calcPriority).stream().map(o -> o.getTagNo()).distinct()
+						.collect(Collectors.toList());
 				List<Integer> dpList = calcInfoMap.get(calcPriority).stream().map(o -> o.getDp()).distinct()
 						.collect(Collectors.toList());
 
-				// 計算種別,計算情報,入力タグNO,DPが計算毎に一意にならなければデータ不正
-				if (calcKindList.size() != 1 || calcInfoList.size() != 1 || inputTagList.size() != 1
+				// 計算種別,計算情報,入力タグNO,DPが計算ごとに一意にならなければデータ不正
+				if (calcKindList.size() != 1 || calcInfoList.size() != 1 || tagNoList.size() != 1
 						|| dpList.size() != 1) {
 					return false;
 				}
 
-				// 総称型で締めデータ(時締、日締、月締のどれか)を取得
+				// 総称型で締データを取得
 				List<CmtClose> closeDataList = getCloseData(histryKind, session, calcInfoMap.get(calcPriority),
 						targetDate);
 
+				// 計算結果を格納するオブジェクトをインスタンス
 				BigDecimal result = new BigDecimal(0);
 
 				// 計算種別で処理が異なる
-				/** TODO 計算種別、計算情報のプロパティ化 */
 				if (ConstUtil.CALC_KIND_CALC.equals(calcKindList.get(0))) {
 					// 計算種別calcの場合は計算情報に対応する処理を行う
 					switch (calcInfoList.get(0)) {
 					case ConstUtil.CALC_INFO_ADD:
 						for (CmtClose cmtClose : closeDataList) {
 							BigDecimal v = new BigDecimal(cmtClose.getTagData());
-							result.add(v);
+							result = result.add(v);
 						}
 						break;
 					case ConstUtil.CALC_INFO_SUB:
@@ -433,10 +432,10 @@ public class CloseUtil {
 						for (CmtClose cmtClose : closeDataList) {
 							BigDecimal v = new BigDecimal(cmtClose.getTagData());
 							if (isFirstSub) {
-								result.add(v);
+								result = result.add(v);
 								isFirstSub = false;
 							} else {
-								result.subtract(v);
+								result = result.subtract(v);
 							}
 						}
 						break;
@@ -445,10 +444,10 @@ public class CloseUtil {
 						for (CmtClose cmtClose : closeDataList) {
 							BigDecimal v = new BigDecimal(cmtClose.getTagData());
 							if (isFirstMul) {
-								result.add(v);
+								result = result.add(v);
 								isFirstMul = false;
 							} else {
-								result.multiply(v);
+								result = result.multiply(v);
 							}
 						}
 						break;
@@ -457,10 +456,10 @@ public class CloseUtil {
 						for (CmtClose cmtClose : closeDataList) {
 							BigDecimal v = new BigDecimal(cmtClose.getTagData());
 							if (isFirstDiv) {
-								result.add(v);
+								result = result.add(v);
 								isFirstDiv = false;
 							} else {
-								result.divide(v);
+								result = result.divide(v, dpList.get(0), BigDecimal.ROUND_HALF_UP);
 							}
 						}
 						break;
@@ -490,6 +489,10 @@ public class CloseUtil {
 						Integer min = closeDataList.stream().mapToInt(v -> Integer.parseInt(v.getTagData())).min()
 								.orElseThrow(null);
 						result = new BigDecimal(min);
+						break;
+					default:
+						// 計算区分と一致しなければデータ不正
+						return false;
 					}
 				} else if (ConstUtil.CALC_KIND_USER.equals(calcKindList.get(0))) {
 					// 計算種別userの場合は任意の計算処理を呼び出す
@@ -516,7 +519,7 @@ public class CloseUtil {
 				// 計算結果をDPで丸める
 				result = result.setScale(dpList.get(0), BigDecimal.ROUND_HALF_UP);
 				// 計算結果を内部タグに書き込む
-				setCalcData(histryKind, session, inputTagList.get(0), result.toString(), targetDate, className);
+				setCalcData(histryKind, session, tagNoList.get(0), result.toPlainString(), targetDate, className);
 			}
 		} catch (Exception e) {
 			return false;
@@ -525,24 +528,26 @@ public class CloseUtil {
 	}
 
 	/**
+	 * 締データ(計算元値)検索
+	 *
 	 * @param histryKind
 	 * @param session
 	 * @param list
 	 * @param targetDate
 	 * @return List<T>(総称型:締データ)
 	 */
-	@SuppressWarnings({ "unchecked" })
-	private static <T> List<T> getCloseData(final int histryKind, final SqlSession session, final List<CmmInput> list,
-			final Date targetDate) {
-		// パラメータの締切種別に対応した締めデータを検索
+	@SuppressWarnings({ "rawtypes" })
+	private static <T> List<CmtClose> getCloseData(final int histryKind, final SqlSession session,
+			final List<CmmInput> list, final Date targetDate) {
+		// パラメータの締切種別に対応した締データを検索
 		switch (histryKind) {
 		case 0:
 			// 時締めデータ
-			List<String> tagNoList0 = list.stream().filter(o1 -> o1.getInputType() == 0).map(o2 -> o2.getTagNo())
-					.collect(Collectors.toList());
-			List<String> tagNoList4 = list.stream().filter(o1 -> o1.getInputType() == 4).map(o2 -> o2.getTagNo())
-					.collect(Collectors.toList());
-			return (List<T>) CmtCloseHourDao.selectClacData(session, tagNoList0, tagNoList4, targetDate);
+			List<String> hourTagNoList0 = list.stream().filter(o1 -> o1.getInputType() == 0)
+					.map(o2 -> o2.getInputTagNo()).collect(Collectors.toList());
+			List<String> hourTagNoList3 = list.stream().filter(o1 -> o1.getInputType() == 3)
+					.map(o2 -> o2.getInputTagNo()).collect(Collectors.toList());
+			return CmtCloseHourDao.selectClacData(session, hourTagNoList0, hourTagNoList3, targetDate);
 
 		case 1:
 		case 3:
@@ -551,22 +556,26 @@ public class CloseUtil {
 		case 6:
 		case 7:
 			// 日締めデータ
-			List<String> tagNoList1 = list.stream().filter(o1 -> o1.getInputType() == 1).map(o2 -> o2.getTagNo())
-					.collect(Collectors.toList());
-			List<String> tagNoList5 = list.stream().filter(o1 -> o1.getInputType() == 5).map(o2 -> o2.getTagNo())
-					.collect(Collectors.toList());
-			return (List<T>) CmtCloseDayDao.selectClacData(session, tagNoList1, tagNoList5, targetDate);
+			List<String> dayTagNoList0 = list.stream().filter(o1 -> o1.getInputType() == 0)
+					.map(o2 -> o2.getInputTagNo()).collect(Collectors.toList());
+			List<String> dayTagNoList1 = list.stream().filter(o1 -> o1.getInputType() == 1)
+					.map(o2 -> o2.getInputTagNo()).collect(Collectors.toList());
+			List<String> dayTagNoList4 = list.stream().filter(o1 -> o1.getInputType() == 4)
+					.map(o2 -> o2.getInputTagNo()).collect(Collectors.toList());
+			return CmtCloseDayDao.selectClacData(session, dayTagNoList0, dayTagNoList1, dayTagNoList4, targetDate);
 
 		case 2:
 		case 8:
 		case 9:
 		case 10:
 			// 月締めデータ
-			List<String> tagNoList3 = list.stream().filter(o1 -> o1.getInputType() == 3).map(o2 -> o2.getTagNo())
-					.collect(Collectors.toList());
-			List<String> tagNoList6 = list.stream().filter(o1 -> o1.getInputType() == 6).map(o2 -> o2.getTagNo())
-					.collect(Collectors.toList());
-			return (List<T>) CmtCloseMonDao.selectClacData(session, tagNoList3, tagNoList6, targetDate);
+			List<String> monTagNoList1 = list.stream().filter(o1 -> o1.getInputType() == 1)
+					.map(o2 -> o2.getInputTagNo()).collect(Collectors.toList());
+			List<String> monTagNoList2 = list.stream().filter(o1 -> o1.getInputType() == 2)
+					.map(o2 -> o2.getInputTagNo()).collect(Collectors.toList());
+			List<String> monTagNoList5 = list.stream().filter(o1 -> o1.getInputType() == 5)
+					.map(o2 -> o2.getInputTagNo()).collect(Collectors.toList());
+			return CmtCloseMonDao.selectClacData(session, monTagNoList1, monTagNoList2, monTagNoList5, targetDate);
 
 		default:
 			return null;
@@ -574,6 +583,8 @@ public class CloseUtil {
 	}
 
 	/**
+	 * 計算結果書込
+	 *
 	 * @param histryKind
 	 * @param session
 	 * @param tagNo
@@ -584,7 +595,7 @@ public class CloseUtil {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void setCalcData(final int histryKind, final SqlSession session, final String tagNo,
 			final String result, final Date targetDate, final String className) {
-		// パラメータの締切種別に対応した締めデータを更新
+		// パラメータの締切種別に対応した締データのタグを計算結果で更新
 		try {
 			switch (histryKind) {
 			case 0:
@@ -640,5 +651,12 @@ public class CloseUtil {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	/** TEST */
+	private BigDecimal calculate(Date targetDate, List<CmtClose> closeDataList, BigDecimal result) {
+
+		BigDecimal tesRsl = new BigDecimal(9999);
+		return result.add(tesRsl);
 	}
 }

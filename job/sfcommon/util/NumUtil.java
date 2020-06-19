@@ -399,7 +399,7 @@ public class NumUtil {
     		break;
     	case 2:
     		// DPで小数に変換
-    		val = val.divide(BigDecimal.valueOf(Math.pow(10, dp)),dp,RoundingMode.HALF_UP); ;
+    		val = val.divide(BigDecimal.valueOf(Math.pow(10, dp)),dp,RoundingMode.HALF_UP);
     		break;
     	}
     	String resultVal = val.toString();

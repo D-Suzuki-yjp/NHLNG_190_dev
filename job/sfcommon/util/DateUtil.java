@@ -478,21 +478,20 @@ public class DateUtil {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(DateTime);
 
-		/** TODO レンジ文字列の定数化&種類増やす */
 		switch(range){
-		case "MINUTE":
+		case ConstUtil.MINUTE:
 			calendar.add(Calendar.MINUTE, pram);
 			break;
-		case "HOUR":
+		case ConstUtil.HOUR:
 			calendar.add(Calendar.HOUR, pram);
 			break;
-		case "DAY":
+		case ConstUtil.DAY:
 			calendar.add(Calendar.DAY_OF_MONTH, pram);
 			break;
-		case "MONTH":
+		case ConstUtil.MONTH:
 			calendar.add(Calendar.MONTH, pram);
 			break;
-		case "YEAR":
+		case ConstUtil.YEAR:
 			calendar.add(Calendar.YEAR, pram);
 			break;
 		}
@@ -1425,6 +1424,7 @@ public class DateUtil {
 	 * @param date
 	 * @return true:月末日 false:月末以外
 	 */
+	@SuppressWarnings("static-access")
 	public static boolean isEndOfTheMonth(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
