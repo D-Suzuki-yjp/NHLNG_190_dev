@@ -114,7 +114,7 @@
     <if test="_parameter == null">
       where
     </if>
-    delete_flag = 0
+    public.cmm_input.delete_flag = 0
     order by cmm_calc.calc_priority, cmm_input.${orderByClause}
   </select>
   <select id="countByExample" parameterType="job.sfcommon.dataaccess.entity.nhlng.CmmInputExample" resultType="java.lang.Long">

@@ -176,7 +176,7 @@
     <if test="_parameter == null">
       where
     </if>
-    delete_flag = 0
+    public.cmt_tag_val.delete_flag = 0
     <if test="orderByClause != null">
       order by cmt_tag_val.${orderByClause}
     </if>
@@ -281,7 +281,7 @@
     <if test="_parameter == null">
       where
     </if>
-    delete_flag = 0
+    public.cmt_tag_val.delete_flag = 0
   </select>
   <update id="updateByExampleSelective" parameterType="job.sfcommon.dataaccess.entity.nhlng.CmtTagVal">
     <!--
