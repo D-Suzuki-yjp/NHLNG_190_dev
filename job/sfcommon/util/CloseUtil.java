@@ -45,6 +45,12 @@ import job.sfcommon.function.outputlogs.OutPutLogs;
 @Dependent
 public class CloseUtil {
 
+	/**
+	 * コンストラクタ
+	 */
+	private CloseUtil(){
+	};
+
 	/** ログカテゴリ*/
 	private static final String LOG_CAT = ConstUtil.LOG_COMMON;
 
@@ -101,11 +107,10 @@ public class CloseUtil {
 	 *
 	 * @param session
 	 *            SQLセッション
-	 * @param List<CmtCloseHour>
-	 *            NH時締データリスト
+	 * @param cmtCloseHourList NH時締データリスト
 	 * @return boolean 書込み結果
 	 */
-	public static boolean nhHourCloseWrite(SqlSession session, final List<CmtCloseHour> CmtCloseHourList){
+	public static boolean nhHourCloseWrite(SqlSession session, final List<CmtCloseHour> cmtCloseHourList){
 
 		// 処理開始ログ
 		String[] param = { new Object() {
@@ -113,7 +118,7 @@ public class CloseUtil {
 		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
 		try {
-			CmtCloseHourDao.insertOrUpdate(session, CmtCloseHourList);
+			CmtCloseHourDao.insertOrUpdate(session, cmtCloseHourList);
 		} catch (Exception e) {
 			OutPutLogs.outPutLogs(LOG_CAT, "0003", param, new Throwable(e));
 			throw new RuntimeException(e);
@@ -178,8 +183,7 @@ public class CloseUtil {
 	 *
 	 * @param session
 	 *            SQLセッション
-	 * @param List<CmtCloseDay>
-	 *            NH日締データリスト
+	 * @param cmtCloseDayList NH日締データリスト
 	 * @return boolean 書込み結果
 	 */
 	public static boolean nhDayCloseWrite(SqlSession session, final List<CmtCloseDay> cmtCloseDayList){
@@ -205,9 +209,8 @@ public class CloseUtil {
 	 *
 	 * @param session
 	 *            SQLセッション
-	 * @param List<CmtCloseDayDto>
-	 *            NH日締データリスト
-	 * @param String 最終更新者
+	 * @param cmtCloseDayDtoList NH日締データリスト
+	 * @param lastUpdUser 最終更新者
 	 * @return boolean 書込み結果
 	 */
 	public static boolean nhDayCloseWriteByLogicalName(SqlSession session,
@@ -294,12 +297,9 @@ public class CloseUtil {
 
 	/**
 	 * NH月締めデータ書込共通関数
-	 *
-	 * @param session
-	 *            SQLセッション
-	 * @param List<CmtCloseMon>
-	 *            NH月締データリスト
-	 * @return boolean 書込み結果
+	 * @param session SqlSession
+	 * @param cmtCloseMonDtoList 月締データリスト
+	 * @return boolean 処理結果
 	 */
 	public static boolean nhMonCloseWrite(SqlSession session, final List<CmtCloseMon> cmtCloseMonDtoList){
 
@@ -353,13 +353,11 @@ public class CloseUtil {
 	}
 
 	/**
-	 * 計算処理 TODO テスト中
-	 *
-	 * @param session
-	 *            SQLセッション
-	 * @param targetDate
-	 *            対象日時
-	 * @return histryKind 帳票区分
+	 * 計算処理
+	 * @param session SqlSession
+	 * @param targetDate 処理日時
+	 * @param histryKind 帳票区分
+	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes" })
 	public static boolean calcData(SqlSession session, final Date targetDate, final int histryKind) {
@@ -428,15 +426,9 @@ public class CloseUtil {
 						}
 						break;
 					case ConstUtil.CALC_INFO_SUB:
-						boolean isFirstSub = true;
 						for (CmtClose cmtClose : closeDataList) {
 							BigDecimal v = new BigDecimal(cmtClose.getTagData());
-							if (isFirstSub) {
-								result = result.add(v);
-								isFirstSub = false;
-							} else {
-								result = result.subtract(v);
-							}
+							result = result.subtract(v);
 						}
 						break;
 					case ConstUtil.CALC_INFO_MUL:
@@ -469,24 +461,24 @@ public class CloseUtil {
 					case ConstUtil.CALC_INFO_SUM:
 						for (CmtClose cmtClose : closeDataList) {
 							BigDecimal v = new BigDecimal(cmtClose.getTagData());
-							result.add(v);
+							result = result.add(v);
 						}
 						break;
 					case ConstUtil.CALC_INFO_AVG:
 						for (CmtClose cmtClose : closeDataList) {
 							BigDecimal v = new BigDecimal(cmtClose.getTagData());
-							result.add(v);
+							result = result.add(v);
 						}
 						BigDecimal n = new BigDecimal(closeDataList.size());
-						result.divide(n);
+						result = result.divide(n, dpList.get(0), BigDecimal.ROUND_HALF_UP);
 						break;
 					case ConstUtil.CALC_INFO_MAX:
-						Integer max = closeDataList.stream().mapToInt(v -> Integer.parseInt(v.getTagData())).max()
+						double max = closeDataList.stream().mapToDouble(v -> Double.parseDouble(v.getTagData())).max()
 								.orElseThrow(null);
 						result = new BigDecimal(max);
 						break;
 					case ConstUtil.CALC_INFO_MIN:
-						Integer min = closeDataList.stream().mapToInt(v -> Integer.parseInt(v.getTagData())).min()
+						double min = closeDataList.stream().mapToDouble(v -> Double.parseDouble(v.getTagData())).min()
 								.orElseThrow(null);
 						result = new BigDecimal(min);
 						break;
@@ -499,8 +491,8 @@ public class CloseUtil {
 					try {
 						Class<?> c = Class.forName(calcInfoList.get(0));
 						Object calcClass = c.newInstance();
-						Method m = c.getMethod("calculate", String.class);
-						m.invoke(calcClass, targetDate, closeDataList, result);
+						Method m = c.getDeclaredMethod("calculate", Date.class, List.class, BigDecimal.class);
+						result = (BigDecimal) m.invoke(calcClass, targetDate, closeDataList, result);
 					} catch (InvocationTargetException e) {
 						return false;
 					} catch (InstantiationException e) {
@@ -529,12 +521,13 @@ public class CloseUtil {
 
 	/**
 	 * 締データ(計算元値)検索
+	 * @param histryKind 帳票区分
+	 * @param session SqlSession
+	 * @param list 入力マスタリスト
+	 * @param targetDate 計算日時
 	 *
-	 * @param histryKind
-	 * @param session
-	 * @param list
-	 * @param targetDate
-	 * @return List<T>(総称型:締データ)
+	 * @param <T> 総称型
+	 * @return List 締データリスト(総称型)
 	 */
 	@SuppressWarnings({ "rawtypes" })
 	private static <T> List<CmtClose> getCloseData(final int histryKind, final SqlSession session,
@@ -584,13 +577,12 @@ public class CloseUtil {
 
 	/**
 	 * 計算結果書込
-	 *
-	 * @param histryKind
-	 * @param session
-	 * @param tagNo
-	 * @param result
-	 * @param targetDate
-	 * @param className
+	 * @param histryKind 帳票区分
+	 * @param session SqlSession
+	 * @param tagNo 計算結果入力タグ
+	 * @param result 計算結果
+	 * @param targetDate 計算日時
+	 * @param className 計算クラス
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void setCalcData(final int histryKind, final SqlSession session, final String tagNo,
@@ -651,12 +643,5 @@ public class CloseUtil {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	/** TEST */
-	private BigDecimal calculate(Date targetDate, List<CmtClose> closeDataList, BigDecimal result) {
-
-		BigDecimal tesRsl = new BigDecimal(9999);
-		return result.add(tesRsl);
 	}
 }
