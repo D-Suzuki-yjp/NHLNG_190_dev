@@ -1,11 +1,9 @@
-package job.uicommon.dataaccess.mapper.nhlng;
+package job.sfcommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
-import job.uicommon.dataaccess.entity.nhlng.CmmScreenName;
-import job.uicommon.dataaccess.entity.nhlng.CmmScreenNameExample;
+import job.sfcommon.dataaccess.entity.nhlng.CmmScreenName;
+import job.sfcommon.dataaccess.entity.nhlng.CmmScreenNameExample;
 
 public interface CmmScreenNameMapper {
     /**
@@ -23,13 +21,4 @@ public interface CmmScreenNameMapper {
      * @mbg.generated
      */
     List<CmmScreenName> selectByExample(CmmScreenNameExample example);
-
-	/**
-	 * @author D.Suzuki
-	 *
-	 * selectByPrimaryKey
-	 * @param screenId  画面ID
-	 * @return CmmItem 画面名マスタ
-	 */
-    CmmScreenName selectByPrimaryKey(@Param("screenId") String screenId);
 }

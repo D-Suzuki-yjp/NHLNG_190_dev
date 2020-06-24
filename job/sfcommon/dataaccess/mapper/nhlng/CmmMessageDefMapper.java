@@ -1,11 +1,9 @@
-package job.uicommon.dataaccess.mapper.nhlng;
+package job.sfcommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
-import job.uicommon.dataaccess.entity.nhlng.CmmMessageDef;
-import job.uicommon.dataaccess.entity.nhlng.CmmMessageDefExample;
+import job.sfcommon.dataaccess.entity.nhlng.CmmMessageDef;
+import job.sfcommon.dataaccess.entity.nhlng.CmmMessageDefExample;
 
 /**
  * ========================== MODIFICATION HISTORY ==========================
@@ -34,15 +32,5 @@ public interface CmmMessageDefMapper {
      * @mbg.generated
      */
     List<CmmMessageDef> selectByExample(CmmMessageDefExample example);
-
-	/**
-	 * @author D.Suzuki
-	 *
-	 * selectByPrimaryKey
-	 * @param msgId  メッセージID
-	 * @param msgCat  メッセージカテゴリ
-	 * @return CmmMessageDef メッセージ定義マスタ
-	 */
-    CmmMessageDef selectByPrimaryKey(@Param("msgId") String msgId,@Param("msgCat") String msgCat);
 
 }

@@ -1,9 +1,9 @@
-package job.uicommon.dataaccess.mapper.nhlng;
+package job.sfcommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import job.uicommon.dataaccess.entity.nhlng.CmmCalc;
-import job.uicommon.dataaccess.entity.nhlng.CmmCalcExample;
+import job.sfcommon.dataaccess.entity.nhlng.CmmCalc;
+import job.sfcommon.dataaccess.entity.nhlng.CmmCalcExample;
 
 public interface CmmCalcMapper {
     /**

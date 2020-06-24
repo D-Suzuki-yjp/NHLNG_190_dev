@@ -1,9 +1,9 @@
-package job.uicommon.dataaccess.mapper.nhlng;
+package job.sfcommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import job.uicommon.dataaccess.entity.nhlng.CmmTagMasterV;
-import job.uicommon.dataaccess.entity.nhlng.CmmTagMasterVExample;
+import job.sfcommon.dataaccess.entity.nhlng.CmmTagMasterV;
+import job.sfcommon.dataaccess.entity.nhlng.CmmTagMasterVExample;
 
 public interface CmmTagMasterVMapper {
     /**
