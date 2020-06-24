@@ -1,9 +1,11 @@
-package job.sfcommon.dataaccess.mapper.nhlng;
+package job.uicommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import job.sfcommon.dataaccess.entity.nhlng.CmmMessageCat;
-import job.sfcommon.dataaccess.entity.nhlng.CmmMessageCatExample;
+import org.apache.ibatis.annotations.Param;
+
+import job.uicommon.dataaccess.entity.nhlng.CmmMessageCat;
+import job.uicommon.dataaccess.entity.nhlng.CmmMessageCatExample;
 
 
 
@@ -34,4 +36,21 @@ public interface CmmMessageCatMapper {
      * @mbg.generated
      */
     List<CmmMessageCat> selectByExample(CmmMessageCatExample example);
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param msgCat  メッセージカテゴリ
+	 * @return メッセージカテゴリマスタ
+	 */
+    CmmMessageCat selectByPrimaryKey(@Param("msgCat") String msgCat);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKeyBetweenDB
+	 * @param msgCat  メッセージカテゴリ
+	 * @return CmmMessageCat メッセージカテゴリマスタ
+	 */
+	CmmMessageCat selectByPrimaryKeyBetweenDB(@Param("msgCat") String msgCat);
 }

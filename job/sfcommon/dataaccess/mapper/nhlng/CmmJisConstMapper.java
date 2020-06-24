@@ -1,9 +1,11 @@
-package job.sfcommon.dataaccess.mapper.nhlng;
+package job.uicommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import job.sfcommon.dataaccess.entity.nhlng.CmmJisConst;
-import job.sfcommon.dataaccess.entity.nhlng.CmmJisConstExample;
+import org.apache.ibatis.annotations.Param;
+
+import job.uicommon.dataaccess.entity.nhlng.CmmJisConst;
+import job.uicommon.dataaccess.entity.nhlng.CmmJisConstExample;
 
 public interface CmmJisConstMapper {
     /**
@@ -21,4 +23,13 @@ public interface CmmJisConstMapper {
      * @mbg.generated
      */
     List<CmmJisConst> selectByExample(CmmJisConstExample example);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param cmpnt  成分
+	 * @return CmmItem JIS定数マスタ
+	 */
+    CmmJisConst selectByPrimaryKey(@Param("cmpnt") Integer cmpnt);
 }

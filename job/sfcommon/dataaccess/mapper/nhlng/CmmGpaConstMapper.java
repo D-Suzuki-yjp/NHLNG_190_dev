@@ -1,9 +1,11 @@
-package job.sfcommon.dataaccess.mapper.nhlng;
+package job.uicommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import job.sfcommon.dataaccess.entity.nhlng.CmmGpaConst;
-import job.sfcommon.dataaccess.entity.nhlng.CmmGpaConstExample;
+import org.apache.ibatis.annotations.Param;
+
+import job.uicommon.dataaccess.entity.nhlng.CmmGpaConst;
+import job.uicommon.dataaccess.entity.nhlng.CmmGpaConstExample;
 
 public interface CmmGpaConstMapper {
     /**
@@ -21,4 +23,13 @@ public interface CmmGpaConstMapper {
      * @mbg.generated
      */
     List<CmmGpaConst> selectByExample(CmmGpaConstExample example);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param cmpnt  成分
+	 * @return CmmGpaConst 燃焼速度マスタ
+	 */
+    CmmGpaConst selectByPrimaryKey(@Param("cmpnt") Integer cmpnt);
 }

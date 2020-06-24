@@ -1,9 +1,11 @@
-package job.sfcommon.dataaccess.mapper.nhlng;
+package job.uicommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import job.sfcommon.dataaccess.entity.nhlng.CmmScreen;
-import job.sfcommon.dataaccess.entity.nhlng.CmmScreenExample;
+import org.apache.ibatis.annotations.Param;
+
+import job.uicommon.dataaccess.entity.nhlng.CmmScreen;
+import job.uicommon.dataaccess.entity.nhlng.CmmScreenExample;
 
 public interface CmmScreenMapper {
     /**
@@ -21,4 +23,13 @@ public interface CmmScreenMapper {
      * @mbg.generated
      */
     List<CmmScreen> selectByExample(CmmScreenExample example);
+
+	/**
+	 * @author D.Suzuki
+	 *
+	 * selectByPrimaryKey
+	 * @param tagNo  ’ •[‹æ•ª
+	 * @return CmmScreen ‰æ–Êƒ}ƒXƒ^
+	 */
+    CmmScreen selectByPrimaryKey(@Param("tagNo") String tagNo, String screenId);
 }

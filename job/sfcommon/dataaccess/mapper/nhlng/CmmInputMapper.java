@@ -1,9 +1,9 @@
-package job.sfcommon.dataaccess.mapper.nhlng;
+package job.uicommon.dataaccess.mapper.nhlng;
 
 import java.util.List;
 
-import job.sfcommon.dataaccess.entity.nhlng.CmmInput;
-import job.sfcommon.dataaccess.entity.nhlng.CmmInputExample;
+import job.uicommon.dataaccess.entity.nhlng.CmmInput;
+import job.uicommon.dataaccess.entity.nhlng.CmmInputExample;
 
 public interface CmmInputMapper {
     /**
@@ -21,6 +21,4 @@ public interface CmmInputMapper {
      * @mbg.generated
      */
     List<CmmInput> selectByExample(CmmInputExample example);
-
-	List<CmmInput> selectByExtendedExample(CmmInputExample example);
 }
