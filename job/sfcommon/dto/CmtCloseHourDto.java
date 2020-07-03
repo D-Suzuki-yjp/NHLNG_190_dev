@@ -1,8 +1,4 @@
 package job.sfcommon.dto;
-
-import java.util.Date;
-import java.util.List;
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -20,6 +16,10 @@ import java.util.List;
  * String NhCloseHourData.collDTime 収集日時
  * @author D.Suzuki
  */
+import java.util.Date;
+import java.util.List;
+
+/** NH日締データDTO */
  public class CmtCloseHourDto{
 		/**
 		 * タグNo
@@ -47,6 +47,9 @@ import java.util.List;
 			this.nhCloseHourDataList = nhCloseHourDataList;
 		}
 
+		/**
+		 * NhCloseHourData NH時締データ
+		 */
 		public class NhCloseHourData extends NhTagDataDto{
 
 			/**

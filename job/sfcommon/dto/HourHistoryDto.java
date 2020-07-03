@@ -1,7 +1,4 @@
 package job.sfcommon.dto;
-
-import java.util.Date;
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -10,13 +7,17 @@ import java.util.Date;
  * [END OF MODIFICATION HISTORY]
  * ==========================================================================
  *
- * HoureHistoryDto 瞬時トレンドDTO<br>
+ * HoureHistoryDto LooponEx日締データDTO<br>
  * String tagNo タグNo<br>
  * HoureHistory houreHistory トレンドデータ<br>
  * String HoureHistory.value 値<br>
  * String HoureHistory.collectDate 収集日時<br>
  * @author D.Suzuki
  */
+
+import java.util.Date;
+
+/** LooponEx日締データDTO */
  public class HourHistoryDto extends CoreTagDataDto{
 
     /**

@@ -1,7 +1,4 @@
 package job.sfcommon.dto;
-
-import java.util.List;
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -17,6 +14,10 @@ import java.util.List;
  * String CurrentTrend.collectDate 収集日時<br>
  * @author D.Suzuki
  */
+
+import java.util.List;
+
+/** 瞬時トレンドDTO */
  public class CurrentTrendDto{
 
     /**
@@ -46,6 +47,7 @@ import java.util.List;
         this.currentTrendList = currentTrendList;
     }
 
+    /** CurrentTrend 瞬時データ */
     public class CurrentTrend extends CoreTagDataDto{
     }
 }

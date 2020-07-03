@@ -1,7 +1,4 @@
 package job.sfcommon.dto;
-
-import java.util.Date;
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release Date ID/Name Comment
@@ -17,6 +14,9 @@ import java.util.Date;
  *
  * @author D.Suzuki
  */
+import java.util.Date;
+
+/** NH日締データDTO */
 public class NhTagDataDto{
 
     /**

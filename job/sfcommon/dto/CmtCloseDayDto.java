@@ -9,15 +9,17 @@ package job.sfcommon.dto;
  * ==========================================================================
  *
  * CmtCloseDayDto NH日締データDTO<br>
- * String tagNo タグNo<br>
- * List<NhCloseDayData> nhCloseDayDataList NH日締データリスト<br>
- * String NhCloseDayData.closeDTime 締め日時<br>
+ * String tagLogicName1 グ論理名1<br>
+ * Date NhTagDataDto.closeDtime 締め日時<br>
+ * String NhCloseDayData.tagNo タグNo<br>
  * String NhCloseDayData.tagData タグ値<br>
  * String NhCloseDayData.qltyCd 品質コード<br>
- * String NhCloseDayData.collDTime 収集日時
+ * Date NhCloseDayData.collDTime 収集日時
  * @author D.Suzuki
  */
- public class CmtCloseDayDto extends NhTagDataDto{
+
+/** NH日締データDTO */
+public class CmtCloseDayDto extends NhTagDataDto{
 		/**
 		 * タグ論理名1
 		 */

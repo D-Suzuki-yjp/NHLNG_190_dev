@@ -1,5 +1,4 @@
 package job.sfcommon.dto;
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release Date ID/Name Comment
@@ -14,6 +13,8 @@ package job.sfcommon.dto;
  *
  * @author D.Suzuki
  */
+
+/** 主従状態DTO */
 public class MasterStatDto{
     /**
      * SCCサーバ名（自系）

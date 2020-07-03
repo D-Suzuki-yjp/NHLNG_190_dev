@@ -1,5 +1,4 @@
 package job.sfcommon.dto;
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -14,6 +13,8 @@ package job.sfcommon.dto;
  * Date collectDate 収集日時<br>
  * @author D.Suzuki
  */
+
+/** 瞬時データDTO */
 public class CurrentDataDto extends CoreTagDataDto{
 
 }
