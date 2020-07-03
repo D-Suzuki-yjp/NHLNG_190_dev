@@ -1,4 +1,15 @@
 package job.demand.client;
+/**
+ * ========================== MODIFICATION HISTORY ==========================
+ * Release  Date       ID/Name                   Comment
+ * --------------------------------------------------------------------------
+ * R0.01.01 2020/02/27 30042453/D.Suzuki         初版
+ * [END OF MODIFICATION HISTORY]
+ * ==========================================================================
+ *
+ * ExecDemandOutputMessage 条件付きメッセージ出力デマンドアプリケーション呼出クラス(SF)
+ * @author D.Suzuki
+ */
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,27 +20,28 @@ import job.sfcommon.function.outputlogs.OutPutLogs;
 import job.sfcommon.util.ConstUtil;
 
 /**
- * ========================== MODIFICATION HISTORY ==========================
- * Release  Date       ID/Name                   Comment
- * --------------------------------------------------------------------------
- * R0.01.01 2020/02/27 30042453/D.Suzuki         初版
- * [END OF MODIFICATION HISTORY]
- * ==========================================================================
- *
- * ExecDemandOutputMessage メッセージ出力デマンドアプリケーション呼出クラス(SF)
+ * 条件付きメッセージ出力デマンドアプリケーション呼出クラス(SF)
  * @author D.Suzuki
  */
 public class ExecDemandOutputMsgConditional {
+	/**
+	 * コンストラクタ
+	 */
+	private ExecDemandOutputMsgConditional(){
+	};
 
-	private final static String LOG_MSG = "メッセージ出力SFリクエスト";
+	/**
+	 * logMsg
+	 */
+	private static final  String LOG_MSG = "メッセージ出力SFリクエスト";
 
 	/**
 	 * 条件付きメッセージ出力デマンドアプリケーション呼出
-	 * @param MsgId  メッセージID
-	 * @param msgCat  メッセージカテゴリ
+	 * @param msgId  メッセージID
 	 * @param msgParams  埋込パラメータ
+	 * @throws Throwable Throwable
 	 */
-	public static void execDemandOutputMessageMain(final String MsgId, final String msgParams) throws Throwable{
+	public static void execDemandOutputMessageMain(final String msgId, final String msgParams) throws Throwable{
         // リクエストクラスのインスタンス生成
         RequestForServer rfs = new RequestForServer();
 
@@ -39,7 +51,7 @@ public class ExecDemandOutputMsgConditional {
         // パラメータの作成
         List<String> paramList = new ArrayList<String>();
         // メッセージID
-        paramList.add(MsgId);
+        paramList.add(msgId);
         // 条件付きフラグ
         paramList.add("1");
         // 埋込パラメータ
