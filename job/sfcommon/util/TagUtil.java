@@ -1,4 +1,15 @@
 package job.sfcommon.util;
+/**
+ * ========================== MODIFICATION HISTORY ==========================
+ * Release  Date       ID/Name                   Comment
+ * --------------------------------------------------------------------------
+ * R0.01.01 2020/04/1 30042453/D.Suzuki         初版
+ * [END OF MODIFICATION HISTORY]
+ * ==========================================================================
+ *
+ * TagUtil タグマスタ関連ユーティリティ共通クラス
+ * @author D.Suzuki
+ */
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,17 +30,7 @@ import job.sfcommon.dataaccess.entity.nhlng.CmtTagValExample;
 import job.sfcommon.dataaccess.session.SelectDb;
 import job.sfcommon.function.outputlogs.OutPutLogs;
 
-/**
- * ========================== MODIFICATION HISTORY ==========================
- * Release  Date       ID/Name                   Comment
- * --------------------------------------------------------------------------
- * R0.01.01 2020/04/1 30042453/D.Suzuki         初版
- * [END OF MODIFICATION HISTORY]
- * ==========================================================================
- *
- * TagUtil タグマスタ関連ユーティリティ共通クラス
- * @author D.Suzuki
- */
+/** タグマスタ関連ユーティリティ共通クラス */
 @Dependent
 public class TagUtil {
 
@@ -51,7 +52,7 @@ public class TagUtil {
 	 * @param session SQLセッション
 	 * @param tagNoList タグNoリスト
 	 * @return Map<String, CmmTagMasterV>
-	 * @throws RuntimeException
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map<String, CmmTagMasterV> selectCmmTagMaster(SqlSession session, final List<String> tagNoList) throws RuntimeException{
@@ -86,8 +87,9 @@ public class TagUtil {
 	/**
 	 * 論理名によるNHタグマスタテーブル検索結果を返す<br>
 	 * @param session SQLセッション
-	 * @param List<String[]> タグ論理名リスト
+	 * @param logicNameList タグ論理名リスト
 	 * @return Map<String[], List<CmmTagMasterV>>
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map<String[], List<CmmTagMasterV>> selectCmtTagMasterByLogicalName(SqlSession session, final List<String[]> logicNameList)
@@ -136,6 +138,7 @@ public class TagUtil {
 	 * @param session SQLセッション
 	 * @param tagNoList タグNoリスト
 	 * @return List<CmtTagVal>
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<CmtTagVal> selectCmtTagVal(SqlSession session, final List<String> tagNoList) throws RuntimeException{
@@ -167,6 +170,7 @@ public class TagUtil {
 	 * @param session SQLセッション
 	 * @param logicNameList タグ論理名リスト
 	 * @return Map<String[],List<CmtTagVal>>
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map<String[],List<CmtTagVal>> selectCmtTagValByLogicalName(SqlSession session, final List<String[]> logicNameList)
@@ -196,7 +200,7 @@ public class TagUtil {
 					if(Objects.nonNull(logicName[3])){
 						example.addCriteria().andTagLogicName4EqualTo(logicName[3]);
 					}
-					List<CmtTagVal> cmtTagValLsit = CmtTagValDao.ExSelect(session, example);
+					List<CmtTagVal> cmtTagValLsit = CmtTagValDao.exSelect(session, example);
 					resultMap.put(logicName, cmtTagValLsit);
 				}
 			}
@@ -215,7 +219,7 @@ public class TagUtil {
 	 * @param session SQLセッション
 	 * @param logicNameList タグ論理名リスト
 	 * @return Map<String[],List<CmtTagVal>>
-	 * @throws RuntimeException
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map<String[],List<CmtTagVal>> selectConstValByLogicalName(SqlSession session, final List<String[]> logicNameList) throws RuntimeException{
@@ -231,20 +235,19 @@ public class TagUtil {
 			for(String[] logicName : logicNameList){
 				if(4==logicName.length){
 					CmtTagValExample example = new CmtTagValExample();
-					example.createCriteria().andTagKindEqualTo(1);
 					if(Objects.nonNull(logicName[0])){
-						example.addCriteria().andTagLogicName1EqualTo(logicName[0]);
+						example.createCriteria().andTagKindEqualTo(1).andTagLogicName1EqualTo(logicName[0]);
 					}
 					if(Objects.nonNull(logicName[1])){
-						example.addCriteria().andTagLogicName2EqualTo(logicName[1]);
+						example.createCriteria().andTagKindEqualTo(1).andTagLogicName2EqualTo(logicName[1]);
 					}
 					if(Objects.nonNull(logicName[2])){
-						example.addCriteria().andTagLogicName3EqualTo(logicName[2]);
+						example.createCriteria().andTagKindEqualTo(1).andTagLogicName3EqualTo(logicName[2]);
 					}
 					if(Objects.nonNull(logicName[3])){
-						example.addCriteria().andTagLogicName4EqualTo(logicName[3]);
+						example.createCriteria().andTagKindEqualTo(1).andTagLogicName4EqualTo(logicName[3]);
 					}
-					List<CmtTagVal> cmtTagValLsit = CmtTagValDao.ExSelect(session, example);
+					List<CmtTagVal> cmtTagValLsit = CmtTagValDao.exSelect(session, example);
 					resultMap.put(logicName, cmtTagValLsit);
 				}
 			}
@@ -260,9 +263,9 @@ public class TagUtil {
 
 	/**
 	 * tagNoからtagNoをlcodeに変換したlcodeリストの作成<br>
-	 * @param List<String> tagNoList tagNoリスト
+	 * @param tagNoList tagNoリスト
 	 * @return List<String> lcodeリスト
-	 * @throws RuntimeException
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<String> tagNoToLcode(List<String> tagNoList) throws RuntimeException{
@@ -284,8 +287,9 @@ public class TagUtil {
 
 	/**
 	 * tagNoからtagNo,lcode逆変換用にkeyとvalueを入替えたMapの作成<br>
-	 * @return List<String> tagNoList tagNoリスト
-	 * @throws RuntimeException
+	 * @param tagNoList tagNoリスト
+	 * @return Map<String, String> Map<key:lcode value:tagNo>
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map<String, String> lcodeToTagNo(List<String> tagNoList) throws RuntimeException{
@@ -295,21 +299,22 @@ public class TagUtil {
 		}.getClass().getEnclosingMethod().getName()};
 		OutPutLogs.outPutLogs(LOG_CAT, "0004", param);
 
-		Map<String, String> lcodeToTagNoMap = new HashMap();
+		Map<String, String> resultMap = new HashMap();
 		for(String tagNo : tagNoList){
-			lcodeToTagNoMap.put(tagNoToLcodeMap.get(tagNo), tagNo);
+			resultMap.put(tagNoToLcodeMap.get(tagNo), tagNo);
 			tagNo = null;
 		}
 		// 処理終了ログ
 		OutPutLogs.outPutLogs(LOG_CAT, "0005", param);
-		return lcodeToTagNoMap;
+		return resultMap;
 	}
 
 	/**
 	 * lcodeとtagNo読み替え用マッピングのグローバル変数作成処理
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void makeTagNoToLcodeMap() throws RuntimeException{
+	public static void makeTagNoToLcodeMap() throws RuntimeException{
 
 		// 処理開始ログ
 		String[] param = { new Object() {

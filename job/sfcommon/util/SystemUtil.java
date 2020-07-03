@@ -1,4 +1,14 @@
 package job.sfcommon.util;
+/**
+ * ========================== MODIFICATION HISTORY ==========================
+ * Release Date ID/Name Comment
+ * --------------------------------------------------------------------------
+ * R0.01.01 2020/04/10 30042453/D.Suzuki 初版 [END OF MODIFICATION HISTORY]
+ * ==========================================================================
+ *
+ * SystemUtil システム管理ユーティリティ共通クラス<br>
+ * * @author D.Suzuki
+ */
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -15,16 +25,7 @@ import job.sfcommon.dataaccess.entity.nhlng.CmtSystemStatExample;
 import job.sfcommon.dto.MasterStatDto;
 import job.sfcommon.function.outputlogs.OutPutLogs;
 
-/**
- * ========================== MODIFICATION HISTORY ==========================
- * Release Date ID/Name Comment
- * --------------------------------------------------------------------------
- * R0.01.01 2020/04/10 30042453/D.Suzuki 初版 [END OF MODIFICATION HISTORY]
- * ==========================================================================
- *
- * SystemUtil システム管理ユーティリティ共通クラス<br>
- * * @author D.Suzuki
- */
+/** システム管理ユーティリティ共通クラス */
 @Dependent
 public class SystemUtil {
 	/** ログカテゴリ*/
@@ -37,13 +38,9 @@ public class SystemUtil {
 	/**
 	 * 主従状態取得共通関数
 	 *
-	 * @param tagNoList
-	 *            タグNoリスト
-	 * @param fromDate
-	 *            検索条件From日時
-	 * @param toDate
-	 *            検索条件To日時
+	 * @param session SqlSession
 	 * @return List<CurrentDataDto> <タグNo,値,収集日時>リスト
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static MasterStatDto getMasterStat(SqlSession session) throws RuntimeException{
@@ -66,7 +63,7 @@ public class SystemUtil {
 		}
 		// return用オブジェクトにラッパー
 		for (CmtSystemStat result : results) {
-			if (hostName.equals(result.getSccServerName())){
+			if (getHostName().equals(result.getSccServerName())){
 				masterStatDto.setSccServerNameOneself(result.getSccServerName());
 				masterStatDto.setMasterStatOneself(result.getMasterStat());
 			} else {
@@ -81,10 +78,9 @@ public class SystemUtil {
 
 	/**
 	 * 自身のサーバホスト名グローバル変数作成処理
-	 *
-	 * @throws Exception
+	 * @throws RuntimeException RuntimeException
 	 */
-	public void makeHostName() throws RuntimeException{
+	private static void makeHostName() throws RuntimeException{
 		String[] param = { new Object() {
 		}.getClass().getEnclosingMethod().getName()};
 		// 自身のhost情報取得
@@ -103,10 +99,11 @@ public class SystemUtil {
 
 	/**
 	 * 自身のサーバホスト名取得
-	 *
-	 * @throws Exception
+	 * @return String 自サーバホスト名
+	 * @throws RuntimeException RuntimeException
 	 */
 	public static String getHostName() throws RuntimeException{
+		makeHostName();
 		return hostName;
 	}
 }

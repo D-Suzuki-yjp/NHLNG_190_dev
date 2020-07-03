@@ -1,4 +1,15 @@
 package job.sfcommon.util;
+/**
+ * ========================== MODIFICATION HISTORY ==========================
+ * Release  Date       ID/Name                   Comment
+ * --------------------------------------------------------------------------
+ * R0.01.01 2020/03/30 30042453/D.Suzuki         初版
+ * [END OF MODIFICATION HISTORY]
+ * ==========================================================================
+ *
+ * LoopOnExCoreUtil CoreDbユーティリティ共通クラス<br>
+ * * @author D.Suzuki
+ */
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,19 +34,14 @@ import job.sfcommon.dto.CurrentDataDto;
 import job.sfcommon.dto.HourHistoryDto;
 import job.sfcommon.function.outputlogs.OutPutLogs;
 
-/**
- * ========================== MODIFICATION HISTORY ==========================
- * Release  Date       ID/Name                   Comment
- * --------------------------------------------------------------------------
- * R0.01.01 2020/03/30 30042453/D.Suzuki         初版
- * [END OF MODIFICATION HISTORY]
- * ==========================================================================
- *
- * LoopOnExCoreUtil CoreDbユーティリティ共通クラス<br>
- * * @author D.Suzuki
- */
+/** CoreDbユーティリティ共通クラス */
 @Dependent
 public class LoopOnExCoreUtil {
+	/**
+	 * コンストラクタ
+	 */
+	private LoopOnExCoreUtil(){
+	};
 
 	/** ログカテゴリ*/
 	private static final String LOG_CAT = ConstUtil.LOG_COMMON;
@@ -45,6 +51,7 @@ public class LoopOnExCoreUtil {
 	 * LoopOnExAPIのみ使用しているためアプリケーションでのトランザクション管理不要
 	 * @param tagNoList タグNoリスト
 	 * @return List<CurrentDataDto> <タグNo,値,収集日時>リスト
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List<CurrentDataDto> slgCurrentDataRead(final List<String> tagNoList) throws RuntimeException{
@@ -102,6 +109,7 @@ public class LoopOnExCoreUtil {
 	 * @param session SQLセッション
 	 * @param logicNameList タグ論理名
 	 * @return Map<String[],List<CurrentDataDto>> マップ<タグ論理名,リスト<タグNo,値,収集日時>>
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map<String[],List<CurrentDataDto>> slgCurrentDataReadByLogicalName(SqlSession session, final List<String[]> logicNameList) throws RuntimeException{
@@ -133,11 +141,12 @@ public class LoopOnExCoreUtil {
 	/**
 	 * 瞬時データ書込共通関数
 	 * @param session SQLセッション
-	 * @param List<CurrentDataDto> <タグNo,値,収集日時>リスト
+	 * @param currentDataDtoList <タグNo,値,収集日時>リスト
 	 * @return boolean 更新結果
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static boolean slgCurrentDataWrite(SqlSession session, final List<CurrentDataDto> CurrentDataDtoList) throws RuntimeException{
+	public static boolean slgCurrentDataWrite(SqlSession session, final List<CurrentDataDto> currentDataDtoList) throws RuntimeException{
 
 		// 処理開始ログ
 		String[] param = { new Object() {
@@ -151,7 +160,7 @@ public class LoopOnExCoreUtil {
 		// key:tagNo、value:valueのマップを作製
 		List<String> tagNoList = new ArrayList();
 		Map<String, String> parmValueByLcodeMap = new HashMap();
-		for(CurrentDataDto currentDataDto : CurrentDataDtoList){
+		for(CurrentDataDto currentDataDto : currentDataDtoList){
 			tagNoList.add(currentDataDto.getTagNo());
 			parmValueByLcodeMap.put(currentDataDto.getTagNo(), currentDataDto.getValue());
 			currentDataDto = null;
@@ -211,7 +220,8 @@ public class LoopOnExCoreUtil {
 	 * 時締データ(CoreDb)読込共通関数
 	 * LoopOnExAPIのみ使用しているためアプリケーションでのトランザクション管理不要
 	 * @param date 検索日時
-	 * @return List<HourHistoryDto> <タグNo,値,収集日時>リスト
+	 * @return List<HourHistoryDto> 時締データリスト
+	 * @throws RuntimeException RuntimeException
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List<HourHistoryDto> slgHourHistoryRead(final Date date) throws RuntimeException{

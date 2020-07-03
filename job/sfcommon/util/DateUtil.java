@@ -11,6 +11,8 @@ import java.util.TimeZone;
 
 import org.apache.commons.lang.time.DateUtils;
 
+import job.sfcommon.function.outputlogs.OutPutLogs;
+
 
 /**
  * 日時、日付関連のユーティリティ.
@@ -27,6 +29,11 @@ import org.apache.commons.lang.time.DateUtils;
  * @author kumagai.
 */
 public class DateUtil {
+	/**
+	 * コンストラクタ
+	 */
+	private DateUtil(){
+	};
 
 	/** YYYYMMDDhhmmss */
 	public static final SimpleDateFormat FM_FULL =
@@ -61,7 +68,8 @@ public class DateUtil {
     /** yyyy-MM-dd HH:mm:ss.SSS */
 	public static final SimpleDateFormat YYYYhMMhDD_HHcMM =
 		new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
+	public static final SimpleDateFormat FM_PTIME =
+			new SimpleDateFormat("yyyy/MM/ddHH:mm:ss");
 	/**
 	 * 最小の日時(0000年01月01日00:00:00)をYYYYMMDDhhmmss形式で返す.
 	 * @return YYYYMMDDhhmmss形式の文字列
@@ -177,7 +185,9 @@ public class DateUtil {
 	 * @return YYYYMMDD型文字列(nullの場合は空文字)
 	 */
 	public static String toYYYYMMDD(Date dt) {
-		if (dt == null) return "";
+		if (dt == null) {
+			return "";
+		}
 		synchronized (FM_YYYYMMDD) {
 			return FM_YYYYMMDD.format(dt);
 		}
@@ -189,7 +199,9 @@ public class DateUtil {
 	 * @return YYYYMM型文字列
 	 */
 	public static String toYYYYMM(Date dt) {
-		if (dt == null) return "";
+		if (dt == null) {
+			return "";
+		}
 		synchronized (FM_YYYYMM) {
 			return FM_YYYYMM.format(dt);
 		}
@@ -201,7 +213,9 @@ public class DateUtil {
 	 * @return YYYYMM型文字列
 	 */
 	public static String toYYYYhMMhDD_HHcMM(Date dt) {
-		if (dt == null) return "";
+		if (dt == null) {
+			return "";
+		}
 		synchronized (YYYYhMMhDD_HHcMM) {
 			return YYYYhMMhDD_HHcMM.format(dt);
 		}
@@ -468,15 +482,15 @@ public class DateUtil {
 
 	/**
 	 * Date型に対して指定されたレンジを加減算する<br>
-	 * @param Date DateTime 日時
-	 * @param String range 加減算するレンジ
-	 * @param int pram 加減算する値（負の値で減算）
+	 * @param dateTime 日時
+	 * @param range 加減算するレンジ
+	 * @param pram 加減算する値（負の値で減算）
 	 * @return 加減算後の日時
 	 */
-	public static Date calcDateTime(Date DateTime, String range, int pram) {
+	public static Date calcDateTime(Date dateTime, String range, int pram) {
 
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(DateTime);
+		calendar.setTime(dateTime);
 
 		switch(range){
 		case ConstUtil.MINUTE:
@@ -494,9 +508,11 @@ public class DateUtil {
 		case ConstUtil.YEAR:
 			calendar.add(Calendar.YEAR, pram);
 			break;
+		default :
+			return dateTime;
 		}
-		DateTime = calendar.getTime();
-		return DateTime;
+		dateTime = calendar.getTime();
+		return dateTime;
 	}
 
 
@@ -616,7 +632,9 @@ public class DateUtil {
 	 * @throws ParseException
 	 */
 	public static Date moldYYYYMMDDHH(Date dt){
-		if (dt == null) return null;
+		if (dt == null) {
+			return null;
+		}
 		return DateUtils.truncate(dt, Calendar.HOUR_OF_DAY);
 	}
 
@@ -626,7 +644,9 @@ public class DateUtil {
 	 * @return Date(YYYYMMDDHHmm)
 	 */
 	public static Date moldYYYYMMDDHHmm(Date dt) {
-		if (dt == null) return null;
+		if (dt == null) {
+			return null;
+		}
 		return DateUtils.truncate(dt, Calendar.MINUTE);
 	}
 
@@ -649,7 +669,9 @@ public class DateUtil {
 	 * @throws ParseException
 	 */
 	public static Date moldYYYYMMDD(Date dt){
-		if (dt == null) return null;
+		if (dt == null) {
+			return null;
+		}
 		return DateUtils.truncate(dt, Calendar.DAY_OF_MONTH);
 	}
 
@@ -672,7 +694,9 @@ public class DateUtil {
 	 * @throws ParseException
 	 */
 	public static Date moldYYYYMM(Date dt){
-		if (dt == null) return null;
+		if (dt == null) {
+			return null;
+		}
 		return DateUtils.truncate(dt, Calendar.MONTH);
 	}
 
@@ -757,12 +781,12 @@ public class DateUtil {
 				return "金";
 			case Calendar.SATURDAY:
 				return "土";
+			default :
+				return "";
 			}
-			return "";
 		} catch (Exception e) {
-			// e.printStackTrace();
+			return "";
 		}
-		return "";
 	}
 
 	/**
@@ -796,12 +820,12 @@ public class DateUtil {
 				return "金";
 			case Calendar.SATURDAY:
 				return "<font color=\"blue\">土</font>";
+			default :
+				return "";
 			}
-			return "";
 		} catch (Exception e) {
-			e.printStackTrace();
+			return "";
 		}
-		return "";
 	}
 
 	/**
@@ -907,8 +931,8 @@ public class DateUtil {
 		}
 		int len = StringUtil.length(dt);
 		if (len == 14) {
-			return getYYYY(dt) + "/" + getMM(dt) + "/" + getDD(dt) + " " +
-			getHH(dt) + ":" + getmm(dt) + ":" + getSS(dt);
+			return getYYYY(dt) + "/" + getMM(dt) + "/" + getDD(dt) + " "
+		+ getHH(dt) + ":" + getmm(dt) + ":" + getSS(dt);
 		} else if (len == 8) {
 			return getYYYY(dt) + "/" + getMM(dt) + "/" + getDD(dt);
 		} else if (len == 6) {
@@ -932,8 +956,8 @@ public class DateUtil {
 		}
 		int len = StringUtil.length(dt);
 		if (len == 14) {
-			return getYYYY(dt) + "/" + getMM(dt) + "/" + getDD(dt) + " " +
-			getHH(dt) + ":" + getmm(dt);
+			return getYYYY(dt) + "/" + getMM(dt) + "/" + getDD(dt) + " "
+		+ getHH(dt) + ":" + getmm(dt);
 		} else if (len == 8) {
 			return getYYYY(dt) + "/" + getMM(dt) + "/" + getDD(dt);
 		} else if (len == 6) {
@@ -957,8 +981,8 @@ public class DateUtil {
 		}
 		int len = StringUtil.length(dt);
 		if (len == 14) {
-			return getYY(dt) + "/" + getMM(dt) + "/" + getDD(dt) + " " +
-			getHH(dt) + ":" + getmm(dt) + ":" + getSS(dt);
+			return getYY(dt) + "/" + getMM(dt) + "/" + getDD(dt) + " "
+		+ getHH(dt) + ":" + getmm(dt) + ":" + getSS(dt);
 		} else if (len == 8) {
 			return getYY(dt) + "/" + getMM(dt) + "/" + getDD(dt);
 		} else if (len == 6) {
@@ -982,8 +1006,8 @@ public class DateUtil {
 		}
 		int len = StringUtil.length(dt);
 		if (len == 14) {
-			return getYY(dt) + "/" + getMM(dt) + "/" + getDD(dt) + " " +
-			getHH(dt) + ":" + getmm(dt);
+			return getYY(dt) + "/" + getMM(dt) + "/" + getDD(dt) + " "
+		+ getHH(dt) + ":" + getmm(dt);
 		} else if (len == 8) {
 			return getYY(dt) + "/" + getMM(dt) + "/" + getDD(dt);
 		} else if (len == 6) {
@@ -1007,11 +1031,11 @@ public class DateUtil {
 		}
 		int len = StringUtil.length(dt);
 		if (len == 14) {
-			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日" + "(" +
-			getWeek(dt) + ") " + getHH(dt) + ":" + getmm(dt);
+			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日" + "("
+		+ getWeek(dt) + ") " + getHH(dt) + ":" + getmm(dt);
 		} else if (len == 8) {
-			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日" + "(" +
-			getWeek(dt) + ")";
+			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日" + "("
+		+ getWeek(dt) + ")";
 		} else if (len == 6) {
 			return getHH(dt) + ":" + getmm(dt);
 		} else {
@@ -1033,8 +1057,8 @@ public class DateUtil {
 		}
 		int len = StringUtil.length(dt);
 		if (len == 14) {
-			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日" + " " +
-			getHH(dt) + ":" + getmm(dt);
+			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日" + " "
+		+ getHH(dt) + ":" + getmm(dt);
 		} else if (len == 8) {
 			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日";
 		} else if (len == 6) {
@@ -1059,11 +1083,11 @@ public class DateUtil {
 		}
 		int len = StringUtil.length(dt);
 		if (len == 14) {
-			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日" + "(" +
-			getWeekHtml(dt) + ") " + getHH(dt) + ":" + getmm(dt);
+			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日" + "("
+			+ getWeekHtml(dt) + ") " + getHH(dt) + ":" + getmm(dt);
 		} else if (len == 8) {
-			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日" + "(" +
-			getWeekHtml(dt) + ")";
+			return getYYYY(dt) + "年" + getMM(dt) + "月" + getDD(dt) + "日" + "("
+			+ getWeekHtml(dt) + ")";
 		} else if (len == 6) {
 			return getHH(dt) + ":" + getmm(dt);
 		} else {
@@ -1328,7 +1352,9 @@ public class DateUtil {
 			} catch(Exception e) {
 				throw new IllegalArgumentException(e);
 			}
-		} else return "";
+		} else{
+			return "";
+		}
 	}
 
 	/**
@@ -1392,13 +1418,13 @@ public class DateUtil {
 		try{
 			if (strTime == null){
 				time = null;
-			}else if (strTime.length() == 14 ){
+			}else if (strTime.length() == 14){
 				time = new Timestamp(FM_FULL.parse(strTime).getTime());
-			}else if (strTime.length() == 19 ){
+			}else if (strTime.length() == 19){
 				time = new Timestamp(FM_YYYY_MM_DD_HH_MM_SS.parse(strTime).getTime());
-			}else if (strTime.length() == 8 ){
+			}else if (strTime.length() == 8){
 				time = new Timestamp(FM_YYYYMMDD.parse(strTime).getTime());
-			}else if (strTime.length() == 10 ){
+			}else if (strTime.length() == 10){
 				time = new Timestamp(FM_YYYY_MM_DD.parse(strTime).getTime());
 			}
 		}catch(Exception e){
@@ -1421,7 +1447,7 @@ public class DateUtil {
 
 	/**
 	 * 月末判定.
-	 * @param date
+	 * @param date 日付
 	 * @return true:月末日 false:月末以外
 	 */
 	@SuppressWarnings("static-access")
@@ -1434,6 +1460,23 @@ public class DateUtil {
 		}
 
 		return false;
+	}
+
+	/**
+	 * スケジューラから受信した現在時刻($PTIME)を yyyy/MM/ddHH:mm:ssでパース<br>
+	 * Date型で返却する
+	 * @param ptime SFスケジューラからのパラメータ
+	 * @return Date 現在日時
+	 */
+	public static Date getPtime(Object ptime) {
+		Date date = null;
+		try {
+			date = FM_PTIME.parse(ptime.toString());
+		} catch (ParseException e) {
+			String[] pram = {"$PTIMEパース失敗:ptime="+ptime};
+			OutPutLogs.outPutLogs(ConstUtil.LOG_COMMON, "0003", pram, new Throwable(e));
+		}
+		return date;
 	}
 
 	/**

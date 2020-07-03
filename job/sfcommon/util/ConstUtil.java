@@ -29,7 +29,11 @@ public class ConstUtil {
 	public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	/** ファイルエンコード. */
 	public static final String FILE_ENCODING = System.getProperty("file.encoding");
-
+	/** 時間単位 */
+	/**
+	 * comment
+	 *
+	 */
 	public static enum DATETIME_UNIT {
 		/** 分. */
 		MINUTE("MINUTE"),
@@ -41,13 +45,17 @@ public class ConstUtil {
 		MONTH("MONTH"),
 		/** 年. */
 		YEAR("YEAR");
-
+		/** name */
 		private final String datetimeUnit;
-
+		/** コンストラクタ
+		 * @param datetimeUnit 時間単位
+		 *  */
 		private DATETIME_UNIT(final String datetimeUnit) {
 			this.datetimeUnit = datetimeUnit;
 		}
-
+		/** getter
+		 *  @return datetimeUnit 時間単位
+		 *  */
 		public String getDatetimeUnit() {
 			return this.datetimeUnit;
 		}
@@ -130,13 +138,15 @@ public class ConstUtil {
 		SEISAN("S"),
 		/** 電力 */
 		ELECTRICITY("E");
-
+		/** name */
 		private final String repoDiv;
-
+		/** コンストラクタ
+		 * @param repoDiv 帳票区分 */
 		private REPO_DIV(final String repoDiv) {
 			this.repoDiv = repoDiv;
 		}
-
+		/** getter
+		 *  @return repoDiv 帳票区分 */
 		public String getRepoDiv() {
 			return this.repoDiv;
 		}
@@ -152,13 +162,15 @@ public class ConstUtil {
 		SOURCE("S"),
 		/** 計算結果 */
 		OUTCOME("O");
-
+		/** name */
 		private final String repoCalcDiv;
-
+		/** コンストラクタ
+		 *  @param repoCalcDiv 帳票計算区分*/
 		private REPO_CALC_DIV(final String repoCalcDiv) {
 			this.repoCalcDiv = repoCalcDiv;
 		}
-
+		/** getter
+		 * @return repoCalcDiv 帳票計算区分*/
 		public String getRepoCalcDiv() {
 			return this.repoCalcDiv;
 		}
@@ -176,18 +188,52 @@ public class ConstUtil {
 		MAX(3),
 		/** 最小 */
 		MIN(4);
-
+		/** name */
 		private final int closeKind;
-
+		/** コンストラクタ
+		 *  @param closeKind 締切種別*/
 		private CLOSE_KIND(final int closeKind) {
 			this.closeKind = closeKind;
 		}
-
+		/** getter
+		 *  @return closeKind 締切種別*/
 		public int getCloseKind() {
 			return this.closeKind;
 		}
 	}
+	/***********************************************/
+	/** マシン設定情報 */
+	/***********************************************/
 
+	/** SCC_A */
+	public static final String SCC_A = "SCC_A";
+
+	/** SCC_A */
+	public static final String SCC_B = "SCC_B";
+
+	/** ホスト名 */
+	public static enum HOST_NAME {
+		/** DDC用OPC_A1 */
+		OPCA1("STN0123"),
+		/** DDC用OPC_B1 */
+		OPCB1("STN0124"),
+		/** SCC-I/O用OPC_A2*/
+		OPCA2("OPC-A2"),
+		/** SCC-I/O用OPC_B2 */
+		OPCB2("OPC-B2");
+		/** name */
+		private final String hostName;
+		/** コンストラクタ
+		 * @param hostName ホスト名*/
+		private HOST_NAME(final String hostName) {
+			this.hostName = hostName;
+		}
+		/** getter
+		 * @return hostName ホスト名*/
+		public String getHostName() {
+			return this.hostName;
+		}
+	}
 	/***********************************************/
 	/** LoopOnEX */
 	/***********************************************/
@@ -219,13 +265,16 @@ public class ConstUtil {
 		TLS(4),
 		/** SCC用PLC_2(5) */
 		LGS(5);
-
+		/** name */
 		private final int cllGroupNo;
-
+		/** コンストラクタ
+		 * @param cllGroupNo 収集グループNo*/
 		private CLLGROUP_NO(final int cllGroupNo) {
 			this.cllGroupNo = cllGroupNo;
 		}
 
+		/** getter
+		 * @return cllGroupNo 収集グループNo*/
 		public int getCllGroupNo() {
 			return this.cllGroupNo;
 		}

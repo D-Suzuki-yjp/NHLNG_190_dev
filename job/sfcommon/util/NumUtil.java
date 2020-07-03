@@ -11,6 +11,10 @@ import java.text.NumberFormat;
  *
  */
 public class NumUtil {
+	/**コンストラクタ */
+	private NumUtil(){
+	};
+
     /**
      * 数値のフォーマット変換(#,##0).
      *
@@ -263,14 +267,14 @@ public class NumUtil {
             // BigDecimal BdOne = new BigDecimal(1);
 
             // 変換対象の値を取得
-            BigDecimal BdTargetVal = new BigDecimal(val);
+            BigDecimal bdTargetVal = new BigDecimal(val);
 
             // 四捨五入を実行
-            BigDecimal DbFormatVal = BdTargetVal.setScale(decCnt,
+            BigDecimal dbFormatVal = bdTargetVal.setScale(decCnt,
                     BigDecimal.ROUND_HALF_UP);
 
             // 値を文字列へ変換
-            retValue = DbFormatVal.toPlainString();
+            retValue = dbFormatVal.toPlainString();
 
         } catch (NumberFormatException e) {
             // エラー発生時は、デフォルト値を返答
@@ -332,12 +336,12 @@ public class NumUtil {
     public static String roundMain(double val, int pos, int coef) {
 
         // 変換対象の値を取得
-        BigDecimal BdTargetVal = new BigDecimal(val);
+        BigDecimal bdTargetVal = new BigDecimal(val);
 
-        BigDecimal DbFormatVal = BdTargetVal.setScale(pos, coef);
+        BigDecimal dbFormatVal = bdTargetVal.setScale(pos, coef);
 
         // 値を文字列へ変換
-        return DbFormatVal.toPlainString();
+        return dbFormatVal.toPlainString();
     }
 
     /**
@@ -350,7 +354,7 @@ public class NumUtil {
      * @return 除算した余り
      */
 
-    public static int Mod(int src, int num) {
+    public static int mod(int src, int num) {
         int a = src % num;
 
         return a;
@@ -368,7 +372,7 @@ public class NumUtil {
      *            小数点桁数
      * @return 変換した浮動小数点型
      */
-    public static float Mod(float val, int num, int dp) {
+    public static float mod(float val, int num, int dp) {
         float a = val % num;
         String fmt = ("%." + dp + "f");
         String format = String.format(fmt, a);
@@ -381,12 +385,12 @@ public class NumUtil {
     /**
      * 丸め共通処理(String TO String)
      *
-     * @param String 丸め対象値
-     * @param int dp
-     * @param int 丸め種別(0:DPで丸めて四捨五入,1:DPで偶数丸め,2:DPで小数に変換)
+     * @param targetValue 丸め対象値
+     * @param dp dp
+     * @param roundType 丸め種別(0:DPで丸めて四捨五入,1:DPで偶数丸め,2:DPで小数に変換)
      * @return String 丸め処理後の値
      */
-    public static String RoundOnString(final String targetValue, final int dp, final int roundType) {
+    public static String roundOnString(final String targetValue, final int dp, final int roundType) {
     	BigDecimal val = new BigDecimal(targetValue);
     	switch(roundType){
     	case 0:
@@ -401,6 +405,7 @@ public class NumUtil {
     		// DPで小数に変換
     		val = val.divide(BigDecimal.valueOf(Math.pow(10, dp)),dp,RoundingMode.HALF_UP);
     		break;
+    	default:
     	}
     	String resultVal = val.toString();
         return resultVal;
@@ -409,12 +414,12 @@ public class NumUtil {
     /**
      * 丸め共通処理(BigDecimal TO BigDecimal)
      *
-     * @param String 丸め対象値
-     * @param int dp
-     * @param int 丸め種別(0:DPで丸めて四捨五入,1:DPで偶数丸め,2:DPで小数に変換)
-     * @return String 丸め処理後の値
+     * @param targetValue 丸め対象値
+     * @param dp dp
+     * @param roundType 丸め種別(0:DPで丸めて四捨五入,1:DPで偶数丸め,2:DPで小数に変換)
+     * @return BigDecimal 丸め処理後の値
      */
-    public static BigDecimal RoundOnNumeric(final BigDecimal targetValue, final int dp, final int roundType) {
+    public static BigDecimal roundOnNumeric(final BigDecimal targetValue, final int dp, final int roundType) {
     	BigDecimal val = targetValue;
     	switch(roundType){
     	case 0:
@@ -429,6 +434,7 @@ public class NumUtil {
     		// DPで小数に変換
     		val = val.divide(BigDecimal.valueOf(Math.pow(10, dp)),dp,RoundingMode.HALF_UP);
     		break;
+    	default:
     	}
         return val;
     }

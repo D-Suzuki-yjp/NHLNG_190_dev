@@ -3,6 +3,7 @@ package job.sfcommon.util;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,7 +25,7 @@ public final class ProcessUtil {
 	/** 外部コマンド実行開始日時. */
 	private static Date bDate = null;
 	/** 外部コマンド終了待ち時間. */
-	private static int TIMEOUT = 60;
+	private static final int TIMEOUT = 60;
 	/** プロセス */
 	private static Process process = null;
 
@@ -79,6 +80,32 @@ public final class ProcessUtil {
 			process.destroy();
 			process = null;
 		}
+    }
+
+    /**
+     * 外部コマンドの実行
+	 * <br>
+	 * <b>目的:</b><br>
+	 * 外部コマンドを実行します.<br>
+	 * <br>
+	 * <b>処理概要:</b><br>
+     * ※ isExec() == true の場合にのみ実行してください。
+     *
+     * @param stdout 標準出力に出力された文字列
+     * @param args 実行パラメータ
+     * @return 実行
+     * @throws IOException I/O例外
+     */
+    public static int execProgram(StringBuffer stdout, String... args) throws IOException {
+    	// 標準出力用のWriterを準備
+    	StringWriter writer = new StringWriter();
+    	int ret = execProgram(writer, args);
+    	// 標準出力を戻り値に設定
+    	if (writer != null) {
+    		writer.close();
+    		stdout.append(writer.getBuffer());
+    	}
+    	return ret;
     }
 
     /**

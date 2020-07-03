@@ -13,27 +13,41 @@ import java.util.regex.Pattern;
  * @author kumagai.
  */
 public class StringUtil {
+	/** コンストラクタ. */
+	private StringUtil() { }
+	/** 正規表現 */
 	public static final Pattern P_I = Pattern.compile("[0-9]+");
+	/** 正規表現 */
 	public static final Pattern P_D = Pattern.compile("[0-9\\-\\.]+");
+	/** 正規表現 */
 	public static final Pattern P_LI = Pattern.compile("[a-z0-9\\-\\.]+");
+	/** 正規表現 */
 	public static final Pattern P_UI = Pattern.compile("[A-Z0-9\\-\\.]+");
+	/** 正規表現 */
 	public static final Pattern P_LUI =
 		Pattern.compile("[a-zA-Z0-9\\-\\.]+");
 
 	// userIdは[A-Z,0-9]のみ可能とする
+	/** 正規表現 */
 	public static final Pattern P_USID = Pattern.compile("[A-Z0-9]+");
 
 	// passwordは[a-z,A-Z,0-9]のみ可能とする
+	/** 正規表現 */
 	public static final Pattern P_PSWD = Pattern.compile("[a-zA-Z0-9]+");
 
 	// tel,faxは[0-9,-]のみ可能とする
+	/** 正規表現 */
 	public static final Pattern P_TEL = Pattern.compile("[0-9\\-]+");
 
+	/** 正規表現 */
 	private static final String E_WIN31J = "windows-31j";
+	/** 正規表現 */
 	private static final String E_MS932 = "MS932";
+	/** 正規表現 */
 	private static final String E_SJIS = "Shift_JIS";
-
+	/** 正規表現 */
 	private static final String TRUE_TEXT = "true";
+	/** 正規表現 */
 	private static final String TRUE_NUM = "1";
 
 	/**
@@ -43,8 +57,9 @@ public class StringUtil {
 	 * @return 一致すればtrue
 	 */
 	public static boolean isMatch(Pattern p, String target) {
-		if (target == null)
+		if (target == null){
 			return false;
+		}
 		Matcher matcher = p.matcher(target);
 		return matcher.matches();
 	}
@@ -129,8 +144,9 @@ public class StringUtil {
 	 */
 	public static boolean isMatchSJIS(String target) {
 	    int ulen = length(target);
-	    if (ulen == 0)
+	    if (ulen == 0){
 	      return false;
+	    }
 	    // MS932の波線をSJISの波線へ変換
 	    target = target.replace('\uff5e', '\u301c');
 	    // MS932のマイナスをSJISのマイナスへ変換
@@ -141,8 +157,9 @@ public class StringUtil {
 	    try {
 	    	sjis = target.getBytes(E_SJIS);
 	    	// SJISのByte長がUNICODE文字数の２倍でなければエラー
-	    	if (sjis.length != (ulen * 2))
+	    	if (sjis.length != (ulen * 2)){
 	    		return false;
+	    	}
 	      	// UNICODEへ戻して一致しなければエラー
 	      	String uni = new String(sjis, E_SJIS);
 	      	return target.equals(uni);
@@ -177,14 +194,16 @@ public class StringUtil {
 	 */
 	private static boolean isMatchEncode(String target, String encode) {
 	    int ulen = length(target);
-	    if (ulen == 0)
+	    if (ulen == 0){
 	    	return false;
+	    }
 	    byte[] str = null;
 	    try {
 	    	str = target.getBytes(encode);
 	      	// Byte長がUNICODE文字数の２倍でなければエラー
-	      	if (str.length != (ulen * 2))
+	      	if (str.length != (ulen * 2)){
 	      		return false;
+	      	}
 	      	// UNICODEへ戻して一致しなければエラー
 	      	String uni = new String(str, encode);
 	      	return target.equals(uni);
@@ -220,15 +239,18 @@ public class StringUtil {
 	 * @return 一致すればtrue
 	 */
 	public static boolean startWith(String s1, String s2, int count) {
-	    if (count <= 0)
+	    if (count <= 0){
 	    	return true;
+	    }
 	    int s1len = length(s1);
 	    int s2len = length(s2);
-	    if (s1len < count || s2len < count)
+	    if (s1len < count || s2len < count){
 	    	return false;
+	    }
 	    for (int i = 0; i < count; ++i) {
-	    	if (s1.charAt(i) != s2.charAt(i))
+	    	if (s1.charAt(i) != s2.charAt(i)){
 	    		return false;
+	    	}
 	    }
 	    return true;
 
@@ -272,8 +294,9 @@ public class StringUtil {
 	public static int getByteLength(String target, String encode)
     		throws UnsupportedEncodingException {
 	    int ulen = length(target);
-	    if (ulen == 0)
+	    if (ulen == 0){
 	    	return 0;
+	    }
 	    byte[] sjis = target.getBytes(encode);
 	    return sjis.length;
 	}
@@ -338,11 +361,14 @@ public class StringUtil {
 	 */
 	public static boolean isZero(String str) {
 		int len = length(str);
-		if (len == 0)
+		if (len == 0){
 			return false;
+		}
 		String txt = str.trim();
 		for (int i=0; i<txt.length(); i++) {
-			if (txt.charAt(i)!='0') return false;
+			if (txt.charAt(i)!='0'){
+				return false;
+			}
 		}
 		return true;
 	}

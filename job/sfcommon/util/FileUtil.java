@@ -112,7 +112,9 @@ public final class FileUtil {
         File[] files = dir.listFiles();
         for (int i=0; i<files.length; i++) {
             File file = files[i];
-            if (!file.isFile()) continue;   // ファイルでないときは何もしない
+            if (!file.isFile()) {
+            	continue;   // ファイルでないときは何もしない
+            }
             if (fileName != null && file.getName().matches(fileName)) {
                 // ファイル名がマッチしたらOK
                 fList.add(file);
@@ -164,7 +166,9 @@ public final class FileUtil {
 	    File[] dirs = dir.listFiles();
 	    for (int i=0; i<dirs.length; i++) {
 	        File d = dirs[i];
-	        if (!d.isDirectory()) continue;	// ディレクトリでないときは何もしない
+	        if (!d.isDirectory()){
+	        	continue;	// ディレクトリでないときは何もしない
+	        }
 	        if (dirName != null && d.getName().matches(dirName)) {
 	        	// ファイル名がマッチしたらOK
 	        	dList.add(d);
@@ -328,6 +332,7 @@ public final class FileUtil {
 	 * @param newFile コピー先ファイル
 	 * @throws IOException I/O例外
 	 */
+	@SuppressWarnings("resource")
 	public static void copyFile(File oldFile, File newFile) throws IOException{
 		FileChannel ifc = null;
 		FileChannel ofc = null;
@@ -341,8 +346,12 @@ public final class FileUtil {
 			// バイトを転送します。
 			ifc.transferTo(0, ifc.size(), ofc);
 		} finally {
-			if (ifc != null){ifc.close();}
-			if (ofc != null){ ofc.close();}
+			if (ifc != null){
+				ifc.close();
+			}
+			if (ofc != null){
+				ofc.close();
+			}
 		}
 	}
 
@@ -431,9 +440,18 @@ public final class FileUtil {
 			//throw new AppException("ファイル圧縮エラー　対象ディレクトリ=" + tergetDir + " 圧縮ファイル名=" + zipPathName);
 		} finally {
 			if (zos != null) {
-				try {zos.closeEntry();	} catch (IOException e) {}
-				try {zos.flush();		} catch (IOException e) {}
-				try {zos.close();		} catch (IOException e) {}
+				try {
+					zos.closeEntry();
+				} catch (IOException e) {
+				}
+				try {
+					zos.flush();
+				} catch (IOException e) {
+				}
+				try {
+					zos.close();
+				} catch (IOException e) {
+				}
 			}
 		}
 	}
@@ -465,8 +483,16 @@ public final class FileUtil {
 					} catch (Exception e) {
 						//throw new AppException("ファイル圧縮エラー");
 					} finally{
-						if (bis != null) {try {bis.close();} catch (IOException e) {}}
-						try {zos.closeEntry();	} catch (IOException e) {}
+						if (bis != null) {
+							try {
+								bis.close();
+							} catch (IOException e) {
+							}
+						}
+						try {
+							zos.closeEntry();
+						} catch (IOException e) {
+						}
 					}
 				}
 			}
