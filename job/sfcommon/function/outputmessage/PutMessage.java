@@ -51,15 +51,15 @@ import job.sfcommon.util.TagUtil;
 public class PutMessage implements ServerTask {
 
 	/** 無条件出力 */
-	private final String ABSOLUTE = "0";
+	private static final String ABSOLUTE = "0";
 	/** ログカテゴリ */
 	private static final String LOG_CAT = ConstUtil.LOG_COMMON;
 	/** 定義取得失敗ログ文言 */
-	private final String FAILER_GETDEF_TEXT = "定義取得失敗";
+	private static final String FAILER_GETDEF_TEXT = "定義取得失敗";
 	/** 出力失敗ログ文言 */
-	private final String FAILER_PUTMSG_TEXT = "出力失敗";
+	private static final String FAILER_PUTMSG_TEXT = "出力失敗";
 	/** アラート状態変化無しパラメータ */
-	private final int NO_CHANGE_STAT = 666;
+	private static final int NO_CHANGE_STAT = 666;
 
 	/**
 	 * コンストラクタ
@@ -74,7 +74,7 @@ public class PutMessage implements ServerTask {
 	 * @param arg0
 	 *            デマンド呼出元からのparamList
 	 * @return null
-	 * @throws Throwable
+	 * @throws Throwable Throwable
 	 */
 	public Object execute(@SuppressWarnings("rawtypes") List arg0) throws Throwable {
 
@@ -93,7 +93,7 @@ public class PutMessage implements ServerTask {
 			msgParams = (arg0.get(2).toString()).split(",");
 		}
 		// 処理実行
-		PutMessageMain(msgId, absolute, msgParams);
+		putMessageMain(msgId, absolute, msgParams);
 
 		return null;
 	}
@@ -111,7 +111,7 @@ public class PutMessage implements ServerTask {
 	/**
 	 * メッセージ出力メイン処理
 	 *
-	 * @param MsgId
+	 * @param msgId
 	 *            メッセージID
 	 * @param absolute
 	 *            無条件出力フラグ
@@ -119,7 +119,7 @@ public class PutMessage implements ServerTask {
 	 *            埋込パラメータ
 	 * @return
 	 */
-	public void PutMessageMain(String msgId, boolean absolute, String[] msgParams) {
+	public void putMessageMain(String msgId, boolean absolute, String[] msgParams) {
 
 		SqlSession session = SelectDb.dbAcssece(ConstUtil.NHLNG);
 		try {
@@ -163,7 +163,7 @@ public class PutMessage implements ServerTask {
 	 *
 	 * @param session
 	 *            SqlSession
-	 * @param MsgId
+	 * @param msgId
 	 *            メッセージID
 	 * @param msgParams
 	 *            埋込パラメータ
@@ -211,7 +211,7 @@ public class PutMessage implements ServerTask {
 	 *
 	 * @param session
 	 *            SqlSession
-	 * @param MsgId
+	 * @param msgId
 	 *            メッセージID
 	 * @param absolute
 	 *            無条件出力フラグ
