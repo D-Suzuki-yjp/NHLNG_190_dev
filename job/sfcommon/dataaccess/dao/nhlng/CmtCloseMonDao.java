@@ -1,18 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-
-import org.apache.ibatis.session.SqlSession;
-
-import biz.grandsight.ex.util.Validator;
-import job.sfcommon.dataaccess.entity.nhlng.CmtClose;
-import job.sfcommon.dataaccess.entity.nhlng.CmtCloseMon;
-import job.sfcommon.dataaccess.entity.nhlng.CmtCloseMonExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseMonMapper;
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -25,6 +11,19 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseMonMapper;
  * @author D.Suzuki
  */
 
+import java.util.Date;
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import biz.grandsight.ex.util.Validator;
+import job.sfcommon.dataaccess.entity.nhlng.CmtClose;
+import job.sfcommon.dataaccess.entity.nhlng.CmtCloseMon;
+import job.sfcommon.dataaccess.entity.nhlng.CmtCloseMonExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseMonMapper;
+
+
+/** NH月締データDAO */
 public class CmtCloseMonDao{
 
 	/*--------------------------------------------
@@ -77,32 +76,21 @@ public class CmtCloseMonDao{
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmtCloseMonExample example) {
 		CmtCloseMonMapper mapper = session.getMapper(CmtCloseMonMapper.class);
 		return mapper.countByExample(example);
 	}
 
 	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmtCloseMon> NH月締データ
 	 */
-	public static List<CmtCloseMon> selectByTagNoListBetweenDate(final SqlSession session, final List<String> tagNoList, Date fromDate, Date toDate){
-
-		CmtCloseMonExample example = new CmtCloseMonExample();
-		example.createCriteria().andTagNoIn(tagNoList);
-
-		if(Objects.isNull(fromDate)){
-			example.addCriteria().andCloseDtimeLessThanOrEqualTo(toDate);
-		} else if(Objects.isNull(toDate)){
-			example.addCriteria().andCloseDtimeGreaterThanOrEqualTo(fromDate);
-		}else{
-			example.addCriteria().andCloseDtimeBetween(fromDate, toDate);
-		}
-
-		return select(session, example);
-	}
-
 	public static List<CmtCloseMon> select(final SqlSession session, final CmtCloseMonExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CLOSEDTIME_COLUMN_NAME);
@@ -113,7 +101,12 @@ public class CmtCloseMonDao{
 		return result;
 	}
 
-	public static List<CmtCloseMon> ExSelect(final SqlSession session,
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmtCloseMon> NH月締データ
+	 */
+	public static List<CmtCloseMon> exSelect(final SqlSession session,
 			final CmtCloseMonExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CLOSEDTIME_COLUMN_NAME);
@@ -124,12 +117,26 @@ public class CmtCloseMonDao{
 		return result;
 	}
 
+	/**
+	 *
+	 * @param session SqlSession
+	 * @param monTagNoList1 入力タイプ1のtagNo
+	 * @param monTagNoList2 入力タイプ2のtagNo
+	 * @param monTagNoList5 入力タイプ5のtagNo
+	 * @param targetDate 対象日時
+	 * @return List<CmtClose> 締データ(総称型)
+	 */
 	@SuppressWarnings("rawtypes")
 	public static List<CmtClose> selectClacData(final SqlSession session, final List<String> monTagNoList1, final List<String> monTagNoList2, List<String> monTagNoList5, final Date targetDate) {
 		CmtCloseMonMapper mapper = session.getMapper(CmtCloseMonMapper.class);
 		return mapper.selectClacData(monTagNoList1, monTagNoList2, monTagNoList5,targetDate);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param data NH日締データ
+	 * @return int 件数
+	 */
 	public static int insert(final SqlSession session, final CmtCloseMon data) {
 		// Validate.
 		Validator.requireNonNull(data, "data");
@@ -143,6 +150,12 @@ public class CmtCloseMonDao{
 		return mapper.insertSelective(data);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param dataList NH日締データリスト
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
 	public static int updateByExampleSelective(final SqlSession session, final List<CmtCloseMon> dataList, final CmtCloseMonExample example) {
 		// Update.
 		CmtCloseMonMapper mapper = session.getMapper(CmtCloseMonMapper.class);
@@ -155,6 +168,11 @@ public class CmtCloseMonDao{
 		return results;
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param dataList NH日締データリスト
+	 * @return int 件数
+	 */
 	public static int insertOrUpdate(final SqlSession session, final List<CmtCloseMon> dataList) {
 		// Validate.
 		for (CmtCloseMon data : dataList) {
@@ -170,9 +188,14 @@ public class CmtCloseMonDao{
 		return mapper.insertOrUpdate(dataList);
 	}
 
-	public static int deleteByPrimaryKey(final SqlSession session, final Date closeDtime,final String tagNo) {
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
+	public static int delete(final SqlSession session, final CmtCloseMonExample example) {
 		CmtCloseMonMapper mapper = session.getMapper(CmtCloseMonMapper.class);
-		return mapper.deleteByPrimaryKey(closeDtime, tagNo);
+		return mapper.deleteByExample(example);
 	}
 
 }

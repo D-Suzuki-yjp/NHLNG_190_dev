@@ -1,19 +1,4 @@
 package job.sfcommon.dataaccess.dao.looponexcore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.looponexcore.SlgHistoryGroupMaster;
-import job.sfcommon.dataaccess.entity.looponexcore.SlgHistoryGroupMasterExample;
-import job.sfcommon.dataaccess.mapper.looponexcore.SlgHistoryGroupMasterMapper;
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -26,6 +11,18 @@ import job.sfcommon.dataaccess.mapper.looponexcore.SlgHistoryGroupMasterMapper;
  * @author D.Suzuki
  */
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.looponexcore.SlgHistoryGroupMaster;
+import job.sfcommon.dataaccess.entity.looponexcore.SlgHistoryGroupMasterExample;
+import job.sfcommon.dataaccess.mapper.looponexcore.SlgHistoryGroupMasterMapper;
+
+/** 締切グループマスタDAO */
 public class SlgHistoryGroupMasterDao {
 
 	/*--------------------------------------------
@@ -140,8 +137,14 @@ public class SlgHistoryGroupMasterDao {
 	}
 	*/
 
+	/**
+	 * @param objectList List<SlgHistoryGroupMaster>
+	 * @param mapList List<Map<COLUMNS, Object>>
+	 */
 	private static void convertModelListToMapList(final List<SlgHistoryGroupMaster> objectList, final List<Map<COLUMNS, Object>> mapList) {
-		if (objectList == null) { return; }
+		if (objectList == null) {
+			return;
+		}
 		for (SlgHistoryGroupMaster object : objectList) {
 			Map<COLUMNS, Object> map = new HashMap<>();
 			convertModelToMap(object, map);
@@ -149,8 +152,16 @@ public class SlgHistoryGroupMasterDao {
 		}
 	}
 
+	/**
+	 * @param object
+	 *            SlgHistoryGroupMaster
+	 * @param data
+	 *            Map<COLUMNS, Object>
+	 */
 	private static void convertModelToMap(final SlgHistoryGroupMaster object, final Map<COLUMNS, Object> data) {
-		if (object == null) { return; }
+		if (object == null) {
+			return;
+		}
 		if (object.getHistoryGroupNo() != null) {
 			data.put(COLUMNS.HISTORY_GROUP_NO, object.getHistoryGroupNo());
 		}
@@ -210,72 +221,21 @@ public class SlgHistoryGroupMasterDao {
 		}
 	}
 
-	private static SlgHistoryGroupMasterExample makeEqualToMatchingExample(final Map<COLUMNS, Object> searchingOption) {
-		// WHERE clause
-		SlgHistoryGroupMasterExample example = new SlgHistoryGroupMasterExample();
-		if (searchingOption.size() > 0) {
-			if (searchingOption.containsKey(COLUMNS.HISTORY_GROUP_NO)) {
-				Integer value = (Integer) searchingOption.get(COLUMNS.HISTORY_GROUP_NO);
-				example.createCriteria().andHistoryGroupNoEqualTo(value);
-			}
-		}
-		return example;
-	}
-
 	/**
-	 * @param session
-	 * @param id
-	 * @return
+	 * @param session SqlSession
+	 * @param example SlgHistoryGroupMaster
+	 * @return long 件数
 	 */
-	public static long countByPrimaryKey(final SqlSession session, final Integer closeDtime) {
-		SlgHistoryGroupMasterExample example = new SlgHistoryGroupMasterExample();
-		example.createCriteria().andHistoryGroupNoEqualTo(closeDtime);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static long countEqualToMatching(final SqlSession session, final Map<SlgHistoryGroupMasterDao.COLUMNS, Object> searchingOption) {
-		SlgHistoryGroupMasterExample example = makeEqualToMatchingExample(searchingOption);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static long countAllRecord(final SqlSession session) {
-		SlgHistoryGroupMasterExample example = new SlgHistoryGroupMasterExample();
-		return count(session, example);
-	}
-
 	private static long count(final SqlSession session, final SlgHistoryGroupMasterExample example) {
 		SlgHistoryGroupMasterMapper mapper = session.getMapper(SlgHistoryGroupMasterMapper.class);
 		return mapper.countByExample(example);
 	}
 
 	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
+	 * @param session SqlSession
+	 * @param example SlgHistoryGroupMaster
+	 * @return List<Map<COLUMNS, Object>>
 	 */
-	public static List<Map<SlgHistoryGroupMasterDao.COLUMNS, Object>> selectEqualToMatching(final SqlSession session, final Map<SlgHistoryGroupMasterDao.COLUMNS, Object> searchingOption) {
-		SlgHistoryGroupMasterExample example = makeEqualToMatchingExample(searchingOption);
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static List<Map<SlgHistoryGroupMasterDao.COLUMNS, Object>> selectAllRecord(final SqlSession session) {
-		SlgHistoryGroupMasterExample example = new SlgHistoryGroupMasterExample();
-		return select(session, example);
-	}
-
 	private static List<Map<COLUMNS, Object>> select(final SqlSession session, final SlgHistoryGroupMasterExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CLOSEDTIME_COLUMN_NAME);

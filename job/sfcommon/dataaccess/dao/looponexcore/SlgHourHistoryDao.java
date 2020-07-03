@@ -1,21 +1,4 @@
 package job.sfcommon.dataaccess.dao.looponexcore;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.looponexcore.SlgHourHistory;
-import job.sfcommon.dataaccess.entity.looponexcore.SlgHourHistoryExample;
-import job.sfcommon.dataaccess.mapper.looponexcore.SlgHourHistoryMapper;
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -28,6 +11,18 @@ import job.sfcommon.dataaccess.mapper.looponexcore.SlgHourHistoryMapper;
  * @author D.Suzuki
  */
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.looponexcore.SlgHourHistory;
+import job.sfcommon.dataaccess.entity.looponexcore.SlgHourHistoryExample;
+import job.sfcommon.dataaccess.mapper.looponexcore.SlgHourHistoryMapper;
+
+/** システム固有データDAO */
 public class SlgHourHistoryDao {
 
 	/*--------------------------------------------
@@ -101,8 +96,14 @@ public class SlgHourHistoryDao {
 	}
 	*/
 
+	/**
+	 * @param objectList List<SlgHourHistory>
+	 * @param mapList List<Map<COLUMNS, Object>>
+	 */
 	private static void convertModelListToMapList(final List<SlgHourHistory> objectList, final List<Map<COLUMNS, Object>> mapList) {
-		if (objectList == null) { return; }
+		if (objectList == null) {
+			return;
+		}
 		for (SlgHourHistory object : objectList) {
 			Map<COLUMNS, Object> map = new HashMap<>();
 			convertModelToMap(object, map);
@@ -110,8 +111,16 @@ public class SlgHourHistoryDao {
 		}
 	}
 
+	/**
+	 * @param object
+	 *            SlgHourHistory
+	 * @param data
+	 *            Map<COLUMNS, Object>
+	 */
 	private static void convertModelToMap(final SlgHourHistory object, final Map<COLUMNS, Object> data) {
-		if (object == null) { return; }
+		if (object == null) {
+			return;
+		}
 		if (object.getHistoryDate() != null) {
 			data.put(COLUMNS.HISTORY_DATE, object.getHistoryDate());
 		}
@@ -129,163 +138,22 @@ public class SlgHourHistoryDao {
 		}
 	}
 
-	private static SlgHourHistoryExample makeEqualToMatchingExample(final Map<COLUMNS, Object> searchingOption) {
-		// WHERE clause
-		SlgHourHistoryExample example = new SlgHourHistoryExample();
-		if (searchingOption.size() > 0) {
-			Date value1 = (Date) searchingOption.get(COLUMNS.HISTORY_DATE);
-			String value2 = (String) searchingOption.get(COLUMNS.LCODE);
-			if(Objects.nonNull(value1) && Objects.nonNull(value2)){
-				example.createCriteria().andHistoryDateEqualTo(value1).andLcodeEqualTo(value2);
-				if (Objects.isNull(example)){
-					example = makePartialMatchingExample(searchingOption);
-				}
-			}
-			else if (Objects.nonNull(value1)) {
-				example.createCriteria().andHistoryDateEqualTo(value1);
-			}
-			else if (Objects.nonNull(value2)) {
-				example.createCriteria().andLcodeEqualTo(value2);
-				if (Objects.isNull(example)){
-					example = makePartialMatchingExample(searchingOption);
-				}
-			}
-		}
-		return example;
-	}
-
-
-	private static SlgHourHistoryExample makePartialMatchingExample(final Map<COLUMNS, Object> searchingOption) {
-		// WHERE clause
-		SlgHourHistoryExample example = new SlgHourHistoryExample();
-		if (searchingOption.size() > 0) {
-			Date value1 = (Date) searchingOption.get(COLUMNS.HISTORY_DATE);
-			String value2 = (String) searchingOption.get(COLUMNS.LCODE);
-			if(Objects.nonNull(value1) && Objects.nonNull(value2)){
-				example.createCriteria().andHistoryDateEqualTo(value1).andLcodeLike(value2);
-			}
-			else if (Objects.nonNull(value1)) {
-				example.createCriteria().andHistoryDateEqualTo(value1);
-			}
-			else if (Objects.nonNull(value2)) {
-				example.createCriteria().andLcodeLike(value2);
-			}
-		}
-		return example;
-	}
-
-	private static SlgHourHistoryExample selectFromToMatchingExample(final Map<COLUMNS, Object> searchingOption, final Date toDate) {
-		// WHERE clause
-		SlgHourHistoryExample example = new SlgHourHistoryExample();
-		if (searchingOption.size() > 0) {
-			Date value1 = (Date) searchingOption.get(COLUMNS.HISTORY_DATE);
-			String value2 = (String) searchingOption.get(COLUMNS.LCODE);
-			if(Objects.nonNull(value1) && Objects.nonNull(value2)){
-				example.createCriteria().andHistoryDateBetween(value1, toDate).andLcodeEqualTo(value2);
-			}
-			else if (Objects.isNull(value2)) {
-				example.createCriteria().andHistoryDateBetween(value1, toDate);
-			}
-		}
-		return example;
-	}
-
 	/**
-	 * @param session
-	 * @param id
-	 * @return
+	 * @param session SqlSession
+	 * @param example SlgHourHistoryExample
+	 * @return long 件数
 	 */
-	public static long countSlgHourHistory(final SqlSession session, final Map<SlgHourHistoryDao.COLUMNS, Object> searchingOption, Date toDate) {
-
-		long result = 0;
-		if(Objects.isNull(toDate)){
-			result = countEqualToMatching(session, searchingOption);
-		} else {
-			result = countFromToMatching(session, searchingOption, toDate);
-		}
-		return result;
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static long countAllRecord(final SqlSession session) {
-		SlgHourHistoryExample example = new SlgHourHistoryExample();
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	private static long countEqualToMatching(final SqlSession session, final Map<SlgHourHistoryDao.COLUMNS, Object> searchingOption) {
-		SlgHourHistoryExample example = makeEqualToMatchingExample(searchingOption);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	private static long countFromToMatching(final SqlSession session, final Map<SlgHourHistoryDao.COLUMNS, Object> searchingOption, Date toDate) {
-		SlgHourHistoryExample example = selectFromToMatchingExample(searchingOption, toDate);
-		return count(session, example);
-	}
-
-	private static long count(final SqlSession session, final SlgHourHistoryExample example) {
+	public static long count(final SqlSession session, final SlgHourHistoryExample example) {
 		SlgHourHistoryMapper mapper = session.getMapper(SlgHourHistoryMapper.class);
 		return mapper.countByExample(example);
 	}
 
 	/**
-	 * @param session
-	 * @param id
-	 * @return
+	 * @param session SqlSession
+	 * @param example SlgHourHistoryExample
+	 * @return List<Map<COLUMNS, Object>>
 	 */
-	public static List<Map<SlgHourHistoryDao.COLUMNS, Object>> selectSlgHourHistory(final SqlSession session, final Map<SlgHourHistoryDao.COLUMNS, Object> searchingOption, Date toDate) {
-
-		List<Map<SlgHourHistoryDao.COLUMNS, Object>> result = new ArrayList();
-		if(Objects.isNull(toDate)){
-			result = selectEqualToMatching(session, searchingOption);
-		} else {
-			result = selectFromToMatching(session, searchingOption, toDate);
-		}
-		return result;
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static List<Map<SlgHourHistoryDao.COLUMNS, Object>> selectAllRecord(final SqlSession session) {
-		SlgHourHistoryExample example = new SlgHourHistoryExample();
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	private static List<Map<SlgHourHistoryDao.COLUMNS, Object>> selectEqualToMatching(final SqlSession session, final Map<SlgHourHistoryDao.COLUMNS, Object> searchingOption) {
-		SlgHourHistoryExample example = makeEqualToMatchingExample(searchingOption);
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	private static List<Map<SlgHourHistoryDao.COLUMNS, Object>> selectFromToMatching(final SqlSession session, final Map<SlgHourHistoryDao.COLUMNS, Object> searchingOption, Date toDate) {
-		SlgHourHistoryExample example = selectFromToMatchingExample(searchingOption, toDate);
-		return select(session, example);
-	}
-
-	private static List<Map<SlgHourHistoryDao.COLUMNS, Object>> select(final SqlSession session, final SlgHourHistoryExample example) {
+	public static List<Map<SlgHourHistoryDao.COLUMNS, Object>> select(final SqlSession session, final SlgHourHistoryExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CLOSEDTIME_COLUMN_NAME);
 

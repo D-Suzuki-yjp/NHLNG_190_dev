@@ -1,15 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-
-import biz.grandsight.ex.util.Validator;
-import job.sfcommon.dataaccess.entity.nhlng.CmtSystemStat;
-import job.sfcommon.dataaccess.entity.nhlng.CmtSystemStatExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmtSystemStatMapper;
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -22,6 +11,16 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmtSystemStatMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import biz.grandsight.ex.util.Validator;
+import job.sfcommon.dataaccess.entity.nhlng.CmtSystemStat;
+import job.sfcommon.dataaccess.entity.nhlng.CmtSystemStatExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmtSystemStatMapper;
+
+/** システム状態DAO */
 public class CmtSystemStatDao {
 
 	/*--------------------------------------------
@@ -80,11 +79,21 @@ public class CmtSystemStatDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmtSystemStatExample example) {
 		CmtSystemStatMapper mapper = session.getMapper(CmtSystemStatMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmtSystemStat> システム状態
+	 */
 	public static List<CmtSystemStat> select(final SqlSession session, final CmtSystemStatExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(SCCSERVERNAME_COLUMN_NAME);
@@ -95,6 +104,11 @@ public class CmtSystemStatDao {
 		return result;
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param data システム状態
+	 * @return int 件数
+	 */
 	public static int insert(final SqlSession session, final CmtSystemStat data) {
 		// Validate.
 		Validator.requireNonNull(data, "data");
@@ -106,6 +120,12 @@ public class CmtSystemStatDao {
 		return mapper.insertSelective(data);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param dataList システム状態
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
 	public static int updateByExampleSelective(final SqlSession session, final List<CmtSystemStat> dataList, final CmtSystemStatExample example) {
 
 		// Update.
@@ -119,6 +139,11 @@ public class CmtSystemStatDao {
 		return results;
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
 	public static int delete(final SqlSession session, CmtSystemStatExample example) {
 		CmtSystemStatMapper mapper = session.getMapper(CmtSystemStatMapper.class);
 		return mapper.deleteByExample(example);

@@ -1,16 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-
-import biz.grandsight.ex.util.Validator;
-import job.sfcommon.dataaccess.entity.nhlng.CmtMessage;
-import job.sfcommon.dataaccess.entity.nhlng.CmtMessageExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmtMessageMapper;
-
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -23,6 +11,16 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmtMessageMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import biz.grandsight.ex.util.Validator;
+import job.sfcommon.dataaccess.entity.nhlng.CmtMessage;
+import job.sfcommon.dataaccess.entity.nhlng.CmtMessageExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmtMessageMapper;
+
+/** メッセージデータDAO */
 public class CmtMessageDao {
 
 	/*--------------------------------------------
@@ -141,11 +139,22 @@ public class CmtMessageDao {
 		return example;
 	}
 	*/
+
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmtMessageExample example) {
 		CmtMessageMapper mapper = session.getMapper(CmtMessageMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmtMessage> メッセージデータ
+	 */
 	public static List<CmtMessage> select(final SqlSession session, final CmtMessageExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(SEQNO_COLUMN_NAME);
@@ -157,10 +166,9 @@ public class CmtMessageDao {
 	}
 
 	/**
-	 * メッセージデータinsert
-	 * @param session  SQLセッション
-	 * @param data  メッセージデータ
-	 * @return int insert件数
+	 * @param session SqlSession
+	 * @param data メッセージデータ
+	 * @return int 件数
 	 */
 	public static int insert(final SqlSession session, final CmtMessage data) {
 		// Validate.
@@ -173,12 +181,23 @@ public class CmtMessageDao {
 		return mapper.insertSelective(data);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param record メッセージデータリスト
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
 	public static int updateByExampleSelective(final SqlSession session, final CmtMessage record, final CmtMessageExample example) {
 		// Update.
 		CmtMessageMapper mapper = session.getMapper(CmtMessageMapper.class);
 		return mapper.updateByExampleSelective(record, example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
 	public static int deleteByExample(final SqlSession session, final CmtMessageExample example) {
 		CmtMessageMapper mapper = session.getMapper(CmtMessageMapper.class);
 		return mapper.deleteByExample(example);

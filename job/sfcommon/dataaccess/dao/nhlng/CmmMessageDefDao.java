@@ -1,15 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmMessageDef;
-import job.sfcommon.dataaccess.entity.nhlng.CmmMessageDefExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageDefMapper;
-
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -22,6 +11,15 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageDefMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmMessageDef;
+import job.sfcommon.dataaccess.entity.nhlng.CmmMessageDefExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageDefMapper;
+
+/** メッセージ定義マスタDAO */
 public class CmmMessageDefDao {
 
 	/*--------------------------------------------
@@ -117,11 +115,21 @@ public class CmmMessageDefDao {
 	}
 	*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmMessageDefExample example) {
 		CmmMessageDefMapper mapper = session.getMapper(CmmMessageDefMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmMessageDef> メッセージ定義マスタ
+	 */
 	public static List<CmmMessageDef> select(final SqlSession session, final CmmMessageDefExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CMMMESSAGEDEF_COLUMN_NAME);

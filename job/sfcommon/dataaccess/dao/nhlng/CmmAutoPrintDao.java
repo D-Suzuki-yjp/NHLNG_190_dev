@@ -1,16 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmAutoPrint;
-import job.sfcommon.dataaccess.entity.nhlng.CmmAutoPrintExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmAutoPrintMapper;
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release Date ID/Name Comment
@@ -22,7 +10,17 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmAutoPrintMapper;
  *
  * @author D.Suzuki
  */
+import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmAutoPrint;
+import job.sfcommon.dataaccess.entity.nhlng.CmmAutoPrintExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmAutoPrintMapper;
+
+
+/** 自動印刷マスタDAO */
 public class CmmAutoPrintDao {
 
 	/*--------------------------------------------
@@ -71,11 +69,21 @@ public class CmmAutoPrintDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmAutoPrintExample example) {
 		CmmAutoPrintMapper mapper = session.getMapper(CmmAutoPrintMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmAutoPrint> 自動印刷マスタリスト
+	 */
 	public static List<CmmAutoPrint> select(final SqlSession session, final CmmAutoPrintExample example) {
 		// ORDER BY clause
 		if (StringUtils.isEmpty(example.getOrderByClause())) {

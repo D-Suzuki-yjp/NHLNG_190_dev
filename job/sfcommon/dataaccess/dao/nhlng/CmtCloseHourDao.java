@@ -1,17 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-
-import org.apache.ibatis.session.SqlSession;
-
-import biz.grandsight.ex.util.Validator;
-import job.sfcommon.dataaccess.entity.nhlng.CmtClose;
-import job.sfcommon.dataaccess.entity.nhlng.CmtCloseHour;
-import job.sfcommon.dataaccess.entity.nhlng.CmtCloseHourExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseHourMapper;
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release Date ID/Name Comment
@@ -24,6 +11,18 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseHourMapper;
  * @author D.Suzuki
  */
 
+import java.util.Date;
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import biz.grandsight.ex.util.Validator;
+import job.sfcommon.dataaccess.entity.nhlng.CmtClose;
+import job.sfcommon.dataaccess.entity.nhlng.CmtCloseHour;
+import job.sfcommon.dataaccess.entity.nhlng.CmtCloseHourExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmtCloseHourMapper;
+
+/** NH時締データDAO */
 public class CmtCloseHourDao {
 
 	/*--------------------------------------------
@@ -76,37 +75,21 @@ public class CmtCloseHourDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmtCloseHourExample example) {
 		CmtCloseHourMapper mapper = session.getMapper(CmtCloseHourMapper.class);
 		return mapper.countByExample(example);
 	}
 
 	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	public static List<CmtCloseHour> selectByTagNoListBetweenDate(final SqlSession session,
-			final List<String> tagNoList, Date fromDate, Date toDate) {
-
-		CmtCloseHourExample example = new CmtCloseHourExample();
-		example.createCriteria().andTagNoIn(tagNoList);
-
-		if(Objects.isNull(fromDate)){
-			example.addCriteria().andCloseDtimeLessThanOrEqualTo(toDate);
-		} else if(Objects.isNull(toDate)){
-			example.addCriteria().andCloseDtimeGreaterThanOrEqualTo(fromDate);
-		}else{
-			example.addCriteria().andCloseDtimeBetween(fromDate, toDate);
-		}
-
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
+	 * @param session SqlSession
+	 * @param fromDate から日時
+	 * @param toDate 日時まで
+	 * @return List<CmtCloseHour> 時締データリスト
 	 */
 	public static List<CmtCloseHour> selectBetweenDate(final SqlSession session, Date fromDate, Date toDate) {
 
@@ -115,6 +98,11 @@ public class CmtCloseHourDao {
 		return select(session, example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞込条件
+	 * @return List<CmtCloseHour> 時締データリスト
+	 */
 	public static List<CmtCloseHour> select(final SqlSession session, final CmtCloseHourExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CLOSEDTIME_COLUMN_NAME);
@@ -125,7 +113,12 @@ public class CmtCloseHourDao {
 		return result;
 	}
 
-	public static List<CmtCloseHour> ExSelect(final SqlSession session,
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmtCloseHour> 時締データリスト
+	 */
+	public static List<CmtCloseHour> exSelect(final SqlSession session,
 			final CmtCloseHourExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CLOSEDTIME_COLUMN_NAME);
@@ -136,12 +129,24 @@ public class CmtCloseHourDao {
 		return result;
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param hourTagNoList0 入力タイプ0のtagNo
+	 * @param hourTagNoList3 入力タイプ3のtagNo
+	 * @param targetDate 対象日時
+	 * @return List<CmtClose> 時締データリスト
+	 */
 	@SuppressWarnings("rawtypes")
 	public static List<CmtClose> selectClacData(final SqlSession session, final List<String> hourTagNoList0, final List<String> hourTagNoList3, final Date targetDate) {
 		CmtCloseHourMapper mapper = session.getMapper(CmtCloseHourMapper.class);
 		return mapper.selectClacData(hourTagNoList0, hourTagNoList3, targetDate);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param dataList 時締データ
+	 * @return int 件数
+	 */
 	public static int insert(final SqlSession session, final List<CmtCloseHour> dataList) {
 		// Validate.
 		for (CmtCloseHour data : dataList) {
@@ -157,6 +162,12 @@ public class CmtCloseHourDao {
 		return mapper.insert(dataList);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param dataList 時締データリスト
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
 	public static int updateByExampleSelective(final SqlSession session, final List<CmtCloseHour> dataList, final CmtCloseHourExample example) {
 		// Update.
 		CmtCloseHourMapper mapper = session.getMapper(CmtCloseHourMapper.class);
@@ -169,6 +180,11 @@ public class CmtCloseHourDao {
 		return results;
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param dataList NH日締データリスト
+	 * @return int 件数
+	 */
 	public static int insertOrUpdate(final SqlSession session, final List<CmtCloseHour> dataList) {
 		// Validate.
 		for (CmtCloseHour data : dataList) {
@@ -184,8 +200,13 @@ public class CmtCloseHourDao {
 		return mapper.insertOrUpdate(dataList);
 	}
 
-	public static int deleteByPrimaryKey(final SqlSession session, final Date closeDtime,final String tagNo) {
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
+	public static int delete(final SqlSession session, final CmtCloseHourExample example) {
 		CmtCloseHourMapper mapper = session.getMapper(CmtCloseHourMapper.class);
-		return mapper.deleteByPrimaryKey(closeDtime, tagNo);
+		return mapper.deleteByExample(example);
 	}
 }

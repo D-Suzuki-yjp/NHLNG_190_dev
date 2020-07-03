@@ -1,14 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmMessageCat;
-import job.sfcommon.dataaccess.entity.nhlng.CmmMessageCatExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageCatMapper;
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -21,6 +11,16 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageCatMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmMessageCat;
+import job.sfcommon.dataaccess.entity.nhlng.CmmMessageCatExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageCatMapper;
+
+
+/** メッセージカテゴリマスタDAO */
 public class CmmMessageCatDao {
 
 	/*--------------------------------------------
@@ -103,11 +103,21 @@ public class CmmMessageCatDao {
 	}
 	*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmMessageCatExample example) {
 		CmmMessageCatMapper mapper = session.getMapper(CmmMessageCatMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmMessageCat> メッセージカテゴリマスタ
+	 */
 	public static List<CmmMessageCat> select(final SqlSession session, final CmmMessageCatExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(MSGCAT_COLUMN_NAME);

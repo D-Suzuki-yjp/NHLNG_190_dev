@@ -1,4 +1,14 @@
 package job.sfcommon.dataaccess.dao.nhlng;
+/**
+ * ========================== MODIFICATION HISTORY ==========================
+ * Release Date ID/Name Comment
+ * --------------------------------------------------------------------------
+ * R0.01.01 2020/03/24 30042453/D.Suzuki 初版 [END OF MODIFICATION HISTORY]
+ * ==========================================================================
+ *
+ * CmtTagValDao タグデータDAO
+ * @author D.Suzuki
+ */
 
 import java.util.List;
 import java.util.Objects;
@@ -10,18 +20,8 @@ import job.sfcommon.dataaccess.entity.nhlng.CmtTagVal;
 import job.sfcommon.dataaccess.entity.nhlng.CmtTagValExample;
 import job.sfcommon.dataaccess.mapper.nhlng.CmtTagValMapper;
 
-/**
- * ========================== MODIFICATION HISTORY ==========================
- * Release Date ID/Name Comment
- * --------------------------------------------------------------------------
- * R0.01.01 2020/03/24 30042453/D.Suzuki 初版 [END OF MODIFICATION HISTORY]
- * ==========================================================================
- *
- * CmtTagValDao タグデータDAO
- *
- * @author D.Suzuki
- */
 
+/** タグデータDAO */
 public class CmtTagValDao {
 
 	/*--------------------------------------------
@@ -72,15 +72,20 @@ public class CmtTagValDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmtTagValExample example) {
 		CmtTagValMapper mapper = session.getMapper(CmtTagValMapper.class);
 		return mapper.countByExample(example);
 	}
 
 	/**
-	 * @param session
-	 * @param tagNoList
-	 * @return List<CmtTagVal>
+	 * @param session SqlSession
+	 * @param tagNoList tagNoリスト
+	 * @return List<CmtTagVal> タグデータリスト
 	 */
 	public static List<CmtTagVal> selectByTagNoList(final SqlSession session,
 			final List<String> tagNoList) {
@@ -90,9 +95,9 @@ public class CmtTagValDao {
 	}
 
 	/**
-	 * @param session
-	 * @param tagNoList
-	 * @return List<CmtTagVal>
+	 * @param session SqlSession
+	 * @param logicNameList タグ論理名リスト
+	 * @return List<CmtTagVal> タグデータリスト
 	 */
 	public static List<CmtTagVal> selectBylogicNameList(final SqlSession session,
 			final List<List<String>> logicNameList) {
@@ -114,6 +119,11 @@ public class CmtTagValDao {
 		return select(session, example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmtTagVal> タグデータリスト
+	 */
 	public static List<CmtTagVal> select(final SqlSession session,
 			final CmtTagValExample example) {
 		// ORDER BY clause
@@ -125,7 +135,12 @@ public class CmtTagValDao {
 		return result;
 	}
 
-	public static List<CmtTagVal> ExSelect(final SqlSession session,
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmtTagVal> タグデータリスト
+	 */
+	public static List<CmtTagVal> exSelect(final SqlSession session,
 			final CmtTagValExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(TAGNO_COLUMN_NAME);
@@ -136,6 +151,11 @@ public class CmtTagValDao {
 		return result;
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param data タグデータ
+	 * @return int 件数
+	 */
 	public static int insert(final SqlSession session, final CmtTagVal data) {
 		// Validate.
 		Validator.requireNonNull(data, "data");
@@ -147,6 +167,12 @@ public class CmtTagValDao {
 		return mapper.insertSelective(data);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param dataList タグデータリスト
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
 	public static int updateByExampleSelective(final SqlSession session, final List<CmtTagVal> dataList, final CmtTagValExample example) {
 
 		// Update.
@@ -160,6 +186,11 @@ public class CmtTagValDao {
 		return results;
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
 	public static int delete(final SqlSession session, final CmtTagValExample example) {
 		CmtTagValMapper mapper = session.getMapper(CmtTagValMapper.class);
 		return mapper.deleteByExample(example);

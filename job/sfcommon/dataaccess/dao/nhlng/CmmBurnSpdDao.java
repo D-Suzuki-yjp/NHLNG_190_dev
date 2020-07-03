@@ -1,17 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmBurnSpd;
-import job.sfcommon.dataaccess.entity.nhlng.CmmBurnSpdExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmBurnSpdMapper;
-
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -24,6 +11,15 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmBurnSpdMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmBurnSpd;
+import job.sfcommon.dataaccess.entity.nhlng.CmmBurnSpdExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmBurnSpdMapper;
+
+/** 燃焼速度マスタDAO */
 public class CmmBurnSpdDao {
 
 	/*--------------------------------------------
@@ -74,11 +70,21 @@ public class CmmBurnSpdDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmBurnSpdExample example) {
 		CmmBurnSpdMapper mapper = session.getMapper(CmmBurnSpdMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmBurnSpd> 燃焼速度マスタリスト
+	 */
 	public static List<CmmBurnSpd> select(final SqlSession session, final CmmBurnSpdExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CMPNT_COLUMN_NAME);

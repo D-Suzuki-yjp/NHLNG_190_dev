@@ -73,11 +73,21 @@ public class StmTankDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final StmTankExample example) {
 		StmTankMapper mapper = session.getMapper(StmTankMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<StmTank> タンクマスタ
+	 */
 	public static List<StmTank> select(final SqlSession session, final StmTankExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(TANKNO_COLUMN_NAME);

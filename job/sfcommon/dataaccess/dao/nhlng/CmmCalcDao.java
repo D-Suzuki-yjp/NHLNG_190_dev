@@ -1,17 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmCalc;
-import job.sfcommon.dataaccess.entity.nhlng.CmmCalcExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmCalcMapper;
-
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -24,6 +11,15 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmCalcMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmCalc;
+import job.sfcommon.dataaccess.entity.nhlng.CmmCalcExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmCalcMapper;
+
+/** 計算マスタDAO */
 public class CmmCalcDao {
 
 	/*--------------------------------------------
@@ -76,11 +72,21 @@ public class CmmCalcDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmCalcExample example) {
 		CmmCalcMapper mapper = session.getMapper(CmmCalcMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmCalc> 計算マスタリスト
+	 */
 	public static List<CmmCalc> select(final SqlSession session, final CmmCalcExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(REPORTKIND_COLUMN_NAME);

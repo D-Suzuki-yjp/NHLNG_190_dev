@@ -1,14 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.ExmLgsSnd;
-import job.sfcommon.dataaccess.entity.nhlng.ExmLgsSndExample;
-import job.sfcommon.dataaccess.mapper.nhlng.ExmLgsSndMapper;
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -21,6 +11,15 @@ import job.sfcommon.dataaccess.mapper.nhlng.ExmLgsSndMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.ExmLgsSnd;
+import job.sfcommon.dataaccess.entity.nhlng.ExmLgsSndExample;
+import job.sfcommon.dataaccess.mapper.nhlng.ExmLgsSndMapper;
+
+/** LGS送信マスタDAO */
 public class ExmLgsSndDao {
 
 	/*--------------------------------------------
@@ -69,11 +68,21 @@ public class ExmLgsSndDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final ExmLgsSndExample example) {
 		ExmLgsSndMapper mapper = session.getMapper(ExmLgsSndMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<ExmLgsSnd> LGS送信マスタ
+	 */
 	public static List<ExmLgsSnd> select(final SqlSession session, final ExmLgsSndExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CONFNO_COLUMN_NAME);

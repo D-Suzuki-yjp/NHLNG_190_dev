@@ -1,17 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmScreen;
-import job.sfcommon.dataaccess.entity.nhlng.CmmScreenExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmScreenMapper;
-
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -23,7 +10,15 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmScreenMapper;
  * CmmScreenDao 画面マスタDAO
  * @author D.Suzuki
  */
+import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmScreen;
+import job.sfcommon.dataaccess.entity.nhlng.CmmScreenExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmScreenMapper;
+
+/** 画面マスタ */
 public class CmmScreenDao {
 
 	/*--------------------------------------------
@@ -70,11 +65,21 @@ public class CmmScreenDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmScreenExample example) {
 		CmmScreenMapper mapper = session.getMapper(CmmScreenMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmScreen> 画面マスタ
+	 */
 	public static List<CmmScreen> select(final SqlSession session, final CmmScreenExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(SCREENID_COLUMN_NAME);

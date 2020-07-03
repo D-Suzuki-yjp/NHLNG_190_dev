@@ -1,15 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-import java.util.Objects;
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmTagMasterV;
-import job.sfcommon.dataaccess.entity.nhlng.CmmTagMasterVExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmTagMasterVMapper;
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -22,6 +11,16 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmTagMasterVMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+import java.util.Objects;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmTagMasterV;
+import job.sfcommon.dataaccess.entity.nhlng.CmmTagMasterVExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmTagMasterVMapper;
+
+/** NHタグマスタ(ビュー)DAO */
 public class CmmTagMasterVDao {
 
 	/*--------------------------------------------
@@ -118,14 +117,19 @@ public class CmmTagMasterVDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmTagMasterVExample example) {
 		CmmTagMasterVMapper mapper = session.getMapper(CmmTagMasterVMapper.class);
 		return mapper.countByExample(example);
 	}
 
 	/**
-	 * @param session
-	 * @param tagNoList
+	 * @param session SqlSession
+	 * @param logicName タグ論理名
 	 * @return List<CmmTagMaster>
 	 */
 	public static List<CmmTagMasterV> selectBylogicNameList(final SqlSession session, final String[] logicName) {
@@ -146,8 +150,8 @@ public class CmmTagMasterVDao {
 	}
 
 	/**
-	 * @param session
-	 * @param tagNoList
+	 * @param session SqlSession
+	 * @param repDivList 帳票区分リスト
 	 * @return List<CmmTagMaster>
 	 */
 	public static List<CmmTagMasterV> selectCmtTagMasterForPrint(final SqlSession session, final List<String> repDivList) {
@@ -156,6 +160,11 @@ public class CmmTagMasterVDao {
 		return select(session, example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmTagMasterV> NHタグマスタ(ビュー)
+	 */
 	public static List<CmmTagMasterV> select(final SqlSession session, final CmmTagMasterVExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CLOSEDTIME_COLUMN_NAME);

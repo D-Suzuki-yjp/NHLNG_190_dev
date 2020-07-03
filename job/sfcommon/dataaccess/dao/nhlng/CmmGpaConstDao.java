@@ -1,17 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmGpaConst;
-import job.sfcommon.dataaccess.entity.nhlng.CmmGpaConstExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmGpaConstMapper;
-
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -24,6 +11,15 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmGpaConstMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmGpaConst;
+import job.sfcommon.dataaccess.entity.nhlng.CmmGpaConstExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmGpaConstMapper;
+
+/** GPA定数DAO */
 public class CmmGpaConstDao {
 
 	/*--------------------------------------------
@@ -74,11 +70,21 @@ public class CmmGpaConstDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmGpaConstExample example) {
 		CmmGpaConstMapper mapper = session.getMapper(CmmGpaConstMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmGpaConst> GPA定数マスタリスト
+	 */
 	public static List<CmmGpaConst> select(final SqlSession session, final CmmGpaConstExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CMPNT_COLUMN_NAME);

@@ -1,15 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.StmDensCorr;
-import job.sfcommon.dataaccess.entity.nhlng.StmDensCorrExample;
-import job.sfcommon.dataaccess.mapper.nhlng.StmDensCorrMapper;
-
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -22,6 +11,15 @@ import job.sfcommon.dataaccess.mapper.nhlng.StmDensCorrMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.StmDensCorr;
+import job.sfcommon.dataaccess.entity.nhlng.StmDensCorrExample;
+import job.sfcommon.dataaccess.mapper.nhlng.StmDensCorrMapper;
+
+/** 液密度補正量マスタDAO */
 public class StmDensCorrDao {
 
 	/*--------------------------------------------
@@ -72,11 +70,21 @@ public class StmDensCorrDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final StmDensCorrExample example) {
 		StmDensCorrMapper mapper = session.getMapper(StmDensCorrMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<StmDensCorr> 液密度補正量マスタ
+	 */
 	public static List<StmDensCorr> select(final SqlSession session, final StmDensCorrExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(DENSFROM_COLUMN_NAME);

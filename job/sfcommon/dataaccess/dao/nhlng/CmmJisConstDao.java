@@ -1,17 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmJisConst;
-import job.sfcommon.dataaccess.entity.nhlng.CmmJisConstExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmJisConstMapper;
-
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -24,6 +11,15 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmJisConstMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmJisConst;
+import job.sfcommon.dataaccess.entity.nhlng.CmmJisConstExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmJisConstMapper;
+
+/** JIS定数マスタDAO */
 public class CmmJisConstDao {
 
 	/*--------------------------------------------
@@ -74,11 +70,21 @@ public class CmmJisConstDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmJisConstExample example) {
 		CmmJisConstMapper mapper = session.getMapper(CmmJisConstMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmJisConst> JIS定数マスタリスト
+	 */
 	public static List<CmmJisConst> select(final SqlSession session, final CmmJisConstExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CMPNT_COLUMN_NAME);

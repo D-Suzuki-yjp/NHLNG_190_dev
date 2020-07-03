@@ -1,22 +1,4 @@
 package job.sfcommon.dataaccess.dao.looponexcore;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-
-
-import org.apache.ibatis.session.SqlSession;
-
-import biz.grandsight.ex.util.Validator;
-import job.sfcommon.dataaccess.entity.looponexcore.SlgCurrentData;
-import job.sfcommon.dataaccess.entity.looponexcore.SlgCurrentDataExample;
-import job.sfcommon.dataaccess.mapper.looponexcore.SlgCurrentDataMapper;
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -29,6 +11,18 @@ import job.sfcommon.dataaccess.mapper.looponexcore.SlgCurrentDataMapper;
  * @author D.Suzuki
  */
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.looponexcore.SlgCurrentData;
+import job.sfcommon.dataaccess.entity.looponexcore.SlgCurrentDataExample;
+import job.sfcommon.dataaccess.mapper.looponexcore.SlgCurrentDataMapper;
+
+/** 瞬時データDAO */
 public class SlgCurrentDataDao {
 
 	/*--------------------------------------------
@@ -88,7 +82,7 @@ public class SlgCurrentDataDao {
 			objectList.add(object);
 		}
 	}
-	*/
+
 	private static void convertMapToModel(final Map<COLUMNS, Object> map, final SlgCurrentData object) {
 		if (map == null) { return; }
 		object.setLcode((String) map.get(COLUMNS.LCODE));
@@ -96,10 +90,16 @@ public class SlgCurrentDataDao {
 		object.setQuality((Integer) map.get(COLUMNS.QUALITY));
 		object.setCollectDate((Date) map.get(COLUMNS.COLLECT_DATE));
 	}
+	*/
 
-
+	/**
+	 * @param objectList List<SlgCurrentData>
+	 * @param mapList List<Map<COLUMNS, Object>>
+	 */
 	private static void convertModelListToMapList(final List<SlgCurrentData> objectList, final List<Map<COLUMNS, Object>> mapList) {
-		if (objectList == null) { return; }
+		if (objectList == null) {
+			return;
+		}
 		for (SlgCurrentData object : objectList) {
 			Map<COLUMNS, Object> map = new HashMap<>();
 			convertModelToMap(object, map);
@@ -107,8 +107,16 @@ public class SlgCurrentDataDao {
 		}
 	}
 
+	/**
+	 * @param object
+	 *            SlgCurrentData
+	 * @param data
+	 *            Map<COLUMNS, Object>
+	 */
 	private static void convertModelToMap(final SlgCurrentData object, final Map<COLUMNS, Object> data) {
-		if (object == null) { return; }
+		if (object == null) {
+			return;
+		}
 		if (object.getLcode() != null) {
 			data.put(COLUMNS.LCODE, object.getLcode());
 		}
@@ -123,87 +131,22 @@ public class SlgCurrentDataDao {
 		}
 	}
 
-
-	private static SlgCurrentDataExample makeEqualToMatchingExample(final Map<COLUMNS, Object> searchingOption) {
-		// WHERE clause
-		SlgCurrentDataExample example = new SlgCurrentDataExample();
-		if (searchingOption.size() > 0) {
-			Date value1 = (Date) searchingOption.get(COLUMNS.COLLECT_DATE);
-			String value2 = (String) searchingOption.get(COLUMNS.LCODE);
-			if(Objects.nonNull(value1) && Objects.nonNull(value2)){
-				example.createCriteria().andCollectDateEqualTo(value1).andLcodeEqualTo(value2);
-			}
-			else if (Objects.nonNull(value1)) {
-				example.createCriteria().andCollectDateEqualTo(value1);
-			}
-			else if (Objects.nonNull(value2)) {
-				example.createCriteria().andLcodeEqualTo(value2);
-			}
-		}
-		return example;
-	}
-
-	private static SlgCurrentDataExample selectFromToMatchingExample(final Map<COLUMNS, Object> searchingOption, final Date toDate) {
-		// WHERE clause
-		SlgCurrentDataExample example = new SlgCurrentDataExample();
-		if (searchingOption.size() > 0) {
-			Date value1 = (Date) searchingOption.get(COLUMNS.COLLECT_DATE);
-			String value2 = (String) searchingOption.get(COLUMNS.LCODE);
-			if(Objects.nonNull(value1) && Objects.nonNull(value2)){
-				example.createCriteria().andCollectDateBetween(value1, toDate).andLcodeEqualTo(value2);
-			}
-			else if (Objects.isNull(value2)) {
-				example.createCriteria().andCollectDateBetween(value1, toDate);
-			}
-		}
-		return example;
-	}
-
 	/**
-	 * @param session
-	 * @param id
-	 * @return
+	 * @param session SqlSession
+	 * @param example SlgCurrentData
+	 * @return long 件数
 	 */
-	public static long countByPrimaryKey(final SqlSession session, final String lcode) {
-		SlgCurrentDataExample example = new SlgCurrentDataExample();
-		example.createCriteria().andLcodeEqualTo(lcode);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param id
-	 * @return
-	 */
-	public static long countEqualToMatching(final SqlSession session, final Map<SlgCurrentDataDao.COLUMNS, Object> searchingOption) {
-		SlgCurrentDataExample example = makeEqualToMatchingExample(searchingOption);
-		return count(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @return
-	 */
-	public static long countAllRecord(final SqlSession session) {
-		SlgCurrentDataExample example = new SlgCurrentDataExample();
-		return count(session, example);
-	}
-
-	private static long count(final SqlSession session, final SlgCurrentDataExample example) {
+	public static long count(final SqlSession session, final SlgCurrentDataExample example) {
 		SlgCurrentDataMapper mapper = session.getMapper(SlgCurrentDataMapper.class);
 		return mapper.countByExample(example);
 	}
 
 	/**
-	 * @param session
-	 * @return
+	 * @param session SqlSession
+	 * @param example SlgCurrentData
+	 * @return List<Map<COLUMNS, Object>>
 	 */
-	public static List<Map<SlgCurrentDataDao.COLUMNS, Object>> selectAllRecord(final SqlSession session) {
-		SlgCurrentDataExample example = new SlgCurrentDataExample();
-		return select(session, example);
-	}
-
-	private static List<Map<COLUMNS, Object>> select(final SqlSession session, final SlgCurrentDataExample example) {
+	public static List<Map<COLUMNS, Object>> select(final SqlSession session, final SlgCurrentDataExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(CLOSEDTIME_COLUMN_NAME);
 
@@ -215,46 +158,5 @@ public class SlgCurrentDataDao {
 		List<Map<COLUMNS, Object>> result = new ArrayList<>();
 		convertModelListToMapList(recordList, result);
 		return result;
-	}
-
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	public static List<Map<SlgCurrentDataDao.COLUMNS, Object>> selectEqualToMatching(final SqlSession session, final Map<SlgCurrentDataDao.COLUMNS, Object> searchingOption) {
-		SlgCurrentDataExample example = makeEqualToMatchingExample(searchingOption);
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param searchingOption
-	 * @return
-	 */
-	public static List<Map<SlgCurrentDataDao.COLUMNS, Object>> selectFromToMatching(final SqlSession session, final Map<SlgCurrentDataDao.COLUMNS, Object> searchingOption, Date toDate) {
-		SlgCurrentDataExample example = selectFromToMatchingExample(searchingOption, toDate);
-		return select(session, example);
-	}
-
-	/**
-	 * @param session
-	 * @param data
-	 * @return int
-	 */
-	public static int updateByPrimaryKey(final SqlSession session, final Map<SlgCurrentDataDao.COLUMNS, Object> data) {
-		// Validate.
-		Validator.requireNonNull(data, "data");
-		String lcode = data.get(COLUMNS.LCODE).toString();
-		Validator.requireNonNullAndNonEmpty(lcode, "lcode");
-
-		// Make data.
-		SlgCurrentData record = new SlgCurrentData();
-		convertMapToModel(data, record);
-
-		// Update.
-		SlgCurrentDataMapper mapper = session.getMapper(SlgCurrentDataMapper.class);
-		return mapper.updateByPrimaryKeySelective(record);
 	}
 }

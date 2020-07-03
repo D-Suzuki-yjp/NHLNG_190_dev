@@ -1,15 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmInput;
-import job.sfcommon.dataaccess.entity.nhlng.CmmInputExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmInputMapper;
-
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -22,6 +11,15 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmInputMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmInput;
+import job.sfcommon.dataaccess.entity.nhlng.CmmInputExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmInputMapper;
+
+/** 入力データマスタDAO */
 public class CmmInputDao {
 
 	/*--------------------------------------------
@@ -74,11 +72,21 @@ public class CmmInputDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmInputExample example) {
 		CmmInputMapper mapper = session.getMapper(CmmInputMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmInput> 入力データマスタリスト
+	 */
 	public static List<CmmInput> select(final SqlSession session, final CmmInputExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(SEQNO_COLUMN_NAME);
@@ -89,7 +97,12 @@ public class CmmInputDao {
 		return result;
 	}
 
-	public static List<CmmInput> ExSelect(final SqlSession session,
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmInput> 入力データマスタリスト
+	 */
+	public static List<CmmInput> exSelect(final SqlSession session,
 			final CmmInputExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(SEQNO_COLUMN_NAME);

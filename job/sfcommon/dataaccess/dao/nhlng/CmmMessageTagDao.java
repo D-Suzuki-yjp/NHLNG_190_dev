@@ -1,14 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-
-import job.sfcommon.dataaccess.entity.nhlng.CmmMessageTag;
-import job.sfcommon.dataaccess.entity.nhlng.CmmMessageTagExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageTagMapper;
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -20,7 +10,15 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageTagMapper;
  * CmmMessageTagDao メッセージタグ出力マスタDAO
  * @author D.Suzuki
  */
+import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
+import job.sfcommon.dataaccess.entity.nhlng.CmmMessageTag;
+import job.sfcommon.dataaccess.entity.nhlng.CmmMessageTagExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmmMessageTagMapper;
+
+/** メッセージタグ出力マスタDAO */
 public class CmmMessageTagDao {
 
 	/*--------------------------------------------
@@ -115,11 +113,22 @@ public class CmmMessageTagDao {
 		}
 	}
 	*/
+
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmmMessageTagExample example) {
 		CmmMessageTagMapper mapper = session.getMapper(CmmMessageTagMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmmMessageTag> メッセージタグ出力マスタ
+	 */
 	public static List<CmmMessageTag> select(final SqlSession session, final CmmMessageTagExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(MSGID_COLUMN_NAME);

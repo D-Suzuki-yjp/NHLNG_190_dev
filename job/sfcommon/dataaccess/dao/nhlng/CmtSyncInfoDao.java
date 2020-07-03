@@ -1,15 +1,4 @@
 package job.sfcommon.dataaccess.dao.nhlng;
-
-import java.util.List;
-
-import org.apache.ibatis.session.SqlSession;
-
-import biz.grandsight.ex.util.Validator;
-import job.sfcommon.dataaccess.entity.nhlng.CmtSyncInfo;
-import job.sfcommon.dataaccess.entity.nhlng.CmtSyncInfoExample;
-import job.sfcommon.dataaccess.mapper.nhlng.CmtSyncInfoMapper;
-
-
 /**
  * ========================== MODIFICATION HISTORY ==========================
  * Release  Date       ID/Name                   Comment
@@ -22,6 +11,16 @@ import job.sfcommon.dataaccess.mapper.nhlng.CmtSyncInfoMapper;
  * @author D.Suzuki
  */
 
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import biz.grandsight.ex.util.Validator;
+import job.sfcommon.dataaccess.entity.nhlng.CmtSyncInfo;
+import job.sfcommon.dataaccess.entity.nhlng.CmtSyncInfoExample;
+import job.sfcommon.dataaccess.mapper.nhlng.CmtSyncInfoMapper;
+
+/** 等値化情報DAO */
 public class CmtSyncInfoDao {
 
 	/*--------------------------------------------
@@ -72,11 +71,21 @@ public class CmtSyncInfoDao {
 	|               M E T H O D S               |
 	============================================*/
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return long 件数
+	 */
 	public static long count(final SqlSession session, final CmtSyncInfoExample example) {
 		CmtSyncInfoMapper mapper = session.getMapper(CmtSyncInfoMapper.class);
 		return mapper.countByExample(example);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return List<CmtSyncInfo> 等値化情報
+	 */
 	public static List<CmtSyncInfo> select(final SqlSession session, final CmtSyncInfoExample example) {
 		// ORDER BY clause
 		example.setOrderByClause(TABLENAME_COLUMN_NAME);
@@ -87,6 +96,11 @@ public class CmtSyncInfoDao {
 		return result;
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param data 等値化情報
+	 * @return int 件数
+	 */
 	public static int insert(final SqlSession session, final CmtSyncInfo data) {
 		// Validate.
 		Validator.requireNonNull(data, "data");
@@ -98,6 +112,12 @@ public class CmtSyncInfoDao {
 		return mapper.insertSelective(data);
 	}
 
+	/**
+	 * @param session SqlSession
+	 * @param dataList 等値化情報
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
 	public static int updateByExampleSelective(final SqlSession session, final List<CmtSyncInfo> dataList, final CmtSyncInfoExample example) {
 
 		// Update.
@@ -111,7 +131,12 @@ public class CmtSyncInfoDao {
 		return results;
 	}
 
-	public static int deleteByPrimaryKey(final SqlSession session, final CmtSyncInfoExample example) {
+	/**
+	 * @param session SqlSession
+	 * @param example 絞り込み条件
+	 * @return int 件数
+	 */
+	public static int delete(final SqlSession session, final CmtSyncInfoExample example) {
 		CmtSyncInfoMapper mapper = session.getMapper(CmtSyncInfoMapper.class);
 		return mapper.deleteByExample(example);
 	}
